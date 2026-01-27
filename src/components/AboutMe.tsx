@@ -1,4 +1,6 @@
-import { Brain, Users, Briefcase, Target, Cpu, Database } from 'lucide-react';
+import { Brain, Users, Target, Cpu, Database, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const AboutMe = () => {
   const focusAreas = [
@@ -6,80 +8,155 @@ const AboutMe = () => {
       icon: <Brain className="w-6 h-6" />,
       title: 'Full-cycle AI Execution',
       description: 'Led and delivered 5+ AI projects across NLP, RAG systems, process automation and HR analytics',
-      gradient: 'from-accent-blue to-purple-500'
+      color: 'accent-blue',
+      glow: 'shadow-glow-blue'
     },
     {
       icon: <Cpu className="w-6 h-6" />,
       title: 'Multi-Agent Systems',
       description: 'Expert in LangChain, LangGraph, HuggingFace, and LLM agent orchestration',
-      gradient: 'from-accent-gold to-orange-500'
+      color: 'accent-purple',
+      glow: 'shadow-glow-purple'
     },
     {
       icon: <Users className="w-6 h-6" />,
       title: 'Mentorship & Training',
       description: 'Trained 50+ professionals on GenAI, helped 5+ transition into AI product roles',
-      gradient: 'from-emerald-500 to-teal-600'
+      color: 'accent-cyan',
+      glow: 'neon-glow-blue'
     },
     {
       icon: <Target className="w-6 h-6" />,
       title: 'Company Transformation',
       description: 'Consulted 5+ companies to architect and modernize solutions with AI',
-      gradient: 'from-primary to-primary/70'
+      color: 'accent-gold',
+      glow: 'shadow-glow-gold'
     }
   ];
 
   const tools = [
-    'Python', 'SQL', 'Power BI', 'R', 'MATLAB', 'SpaCy', 'Streamlit', 
-    'LangGraph', 'HuggingFace', 'LangChain', 'Qdrant', 'Azure OpenAI'
+    { name: 'Python', category: 'core' },
+    { name: 'SQL', category: 'core' },
+    { name: 'Power BI', category: 'data' },
+    { name: 'R', category: 'data' },
+    { name: 'MATLAB', category: 'data' },
+    { name: 'SpaCy', category: 'nlp' },
+    { name: 'Streamlit', category: 'dev' },
+    { name: 'LangGraph', category: 'ai' },
+    { name: 'HuggingFace', category: 'ai' },
+    { name: 'LangChain', category: 'ai' },
+    { name: 'Qdrant', category: 'ai' },
+    { name: 'Azure OpenAI', category: 'cloud' },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <section id="about" className="py-24 bg-surface">
-      <div className="container mx-auto px-6">
+    <section id="about" className="py-24 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[128px]" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-cyan/10 rounded-full blur-[128px]" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-display font-bold text-primary mb-6">About & Focus</h2>
+          <ScrollAnimationWrapper className="text-center mb-16">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
+            >
+              <Zap className="w-4 h-4 text-accent-cyan" />
+              <span className="text-sm font-medium text-text-secondary">About & Focus</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+              Building the Future with <span className="text-gradient-neon">AI</span>
+            </h2>
             <p className="text-xl text-text-secondary max-w-3xl mx-auto">
               Passionate about making AI accessible and responsible, from discovery to deployment. 
-              Using my skills to uplift peers and juniors starting their tech journey through education and mentoring.
+              Using my skills to uplift peers and juniors starting their tech journey.
             </p>
-          </div>
+          </ScrollAnimationWrapper>
 
-          {/* Focus Areas Grid */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {/* Bento Grid */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {focusAreas.map((area, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="card-interactive p-8 group slide-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                variants={itemVariants}
+                className={`bento-item group ${index === 0 ? 'lg:col-span-2' : ''}`}
+                whileHover={{ y: -5 }}
               >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${area.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 mb-6`}>
+                <div className={`w-14 h-14 rounded-2xl bg-${area.color}/20 flex items-center justify-center text-${area.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   {area.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-primary mb-3">{area.title}</h3>
+                <h3 className="text-xl font-display font-semibold text-foreground mb-3">{area.title}</h3>
                 <p className="text-text-secondary leading-relaxed">{area.description}</p>
-              </div>
+                
+                {/* Decorative corner */}
+                <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className={`absolute top-4 right-4 w-8 h-[2px] bg-${area.color}`} />
+                  <div className={`absolute top-4 right-4 w-[2px] h-8 bg-${area.color}`} />
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Tools & Technologies */}
-          <div className="card-premium p-8 slide-up">
-            <div className="flex items-center mb-6">
-              <Database className="w-8 h-8 text-accent-blue mr-3" />
-              <h3 className="text-2xl font-semibold text-primary">Languages & Tools</h3>
+          <ScrollAnimationWrapper delay={0.2}>
+            <div className="glass-card-elevated rounded-3xl p-8">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-xl bg-accent-blue/20 flex items-center justify-center">
+                  <Database className="w-6 h-6 text-accent-blue" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-display font-semibold text-foreground">Languages & Tools</h3>
+                  <p className="text-sm text-text-muted">Technologies I work with daily</p>
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap gap-3">
+                {tools.map((tool, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05 }}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-default
+                      ${tool.category === 'ai' ? 'bg-accent-purple/20 text-accent-purple hover:bg-accent-purple hover:text-white' :
+                        tool.category === 'core' ? 'bg-accent-cyan/20 text-accent-cyan hover:bg-accent-cyan hover:text-white' :
+                        tool.category === 'cloud' ? 'bg-accent-blue/20 text-accent-blue hover:bg-accent-blue hover:text-white' :
+                        'bg-accent-gold/20 text-accent-gold hover:bg-accent-gold hover:text-white'
+                      }`}
+                  >
+                    {tool.name}
+                  </motion.span>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              {tools.map((tool, index) => (
-                <span
-                  key={index}
-                  className="px-4 py-2 bg-accent-blue-soft text-accent-blue rounded-full text-sm font-medium hover:bg-accent-blue hover:text-white transition-colors cursor-default"
-                >
-                  {tool}
-                </span>
-              ))}
-            </div>
-          </div>
+          </ScrollAnimationWrapper>
         </div>
       </div>
     </section>

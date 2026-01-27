@@ -1,4 +1,6 @@
-import { Mail, Linkedin, ExternalLink, Github } from 'lucide-react';
+import { Mail, Linkedin, ExternalLink, Github, Send } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Contact = () => {
   const contactMethods = [
@@ -7,7 +9,7 @@ const Contact = () => {
       handle: 'linkedin.com/in/harisrujanc',
       url: 'https://linkedin.com/in/harisrujanc',
       icon: <Linkedin className="w-6 h-6" />,
-      color: 'from-blue-500 to-blue-600',
+      color: 'accent-blue',
       description: 'Connect for professional discussions'
     },
     {
@@ -15,7 +17,7 @@ const Contact = () => {
       handle: 'github.com/harisrujanc',
       url: 'https://github.com/harisrujanc',
       icon: <Github className="w-6 h-6" />,
-      color: 'from-gray-700 to-gray-900',
+      color: 'accent-purple',
       description: 'Check out my projects and code'
     },
     {
@@ -23,76 +25,103 @@ const Contact = () => {
       handle: 'harisrujan2605@gmail.com',
       url: 'mailto:harisrujan2605@gmail.com',
       icon: <Mail className="w-6 h-6" />,
-      color: 'from-accent-gold to-orange-500',
+      color: 'accent-gold',
       description: 'For collaborations and opportunities'
     }
   ];
 
   return (
-    <section id="contact" className="py-24 bg-background">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/10 rounded-full blur-[128px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-gold/10 rounded-full blur-[128px]" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-display font-bold text-primary mb-6">Let's Connect</h2>
+          <ScrollAnimationWrapper className="text-center mb-16">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
+            >
+              <Send className="w-4 h-4 text-accent-cyan" />
+              <span className="text-sm font-medium text-text-secondary">Contact</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+              Let's <span className="text-gradient-neon">Connect</span>
+            </h2>
             <p className="text-xl text-text-secondary max-w-3xl mx-auto">
               Open to AI product leadership roles, consulting engagements, and research collaborations
             </p>
-          </div>
+          </ScrollAnimationWrapper>
 
           <div className="max-w-4xl mx-auto">
             {/* Contact Methods */}
-            <div className="slide-up">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                {contactMethods.map((method, index) => (
-                  <a
-                    key={index}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              {contactMethods.map((method, index) => (
+                <ScrollAnimationWrapper key={index} delay={index * 0.1} direction="scale">
+                  <motion.a
                     href={method.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="card-interactive p-6 group block"
+                    className="bento-item group block text-center h-full"
+                    whileHover={{ y: -5 }}
                   >
-                    <div className="text-center">
-                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300 mx-auto mb-4`}>
-                        {method.icon}
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center mb-2">
-                          <h4 className="text-lg font-semibold text-primary group-hover:text-accent-blue transition-colors mr-2">
-                            {method.name}
-                          </h4>
-                          <ExternalLink className="w-4 h-4 text-text-muted group-hover:text-accent-blue group-hover:translate-x-1 transition-all" />
-                        </div>
-                        <p className="text-accent-blue text-sm font-medium mb-2 break-all">{method.handle}</p>
-                        <p className="text-text-muted text-sm">{method.description}</p>
-                      </div>
+                    <motion.div
+                      className={`w-16 h-16 bg-${method.color}/20 rounded-2xl flex items-center justify-center text-${method.color} mx-auto mb-4`}
+                      whileHover={{ rotate: 10, scale: 1.1 }}
+                    >
+                      {method.icon}
+                    </motion.div>
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <h4 className="text-lg font-display font-semibold text-foreground group-hover:text-accent-cyan transition-colors">
+                        {method.name}
+                      </h4>
+                      <ExternalLink className="w-4 h-4 text-text-muted group-hover:text-accent-cyan group-hover:translate-x-1 transition-all" />
                     </div>
-                  </a>
-                ))}
-              </div>
+                    <p className={`text-${method.color} text-sm font-medium mb-2 break-all`}>{method.handle}</p>
+                    <p className="text-text-muted text-sm">{method.description}</p>
+                  </motion.a>
+                </ScrollAnimationWrapper>
+              ))}
+            </div>
 
-              {/* Interests Section */}
-              <div className="card-premium p-8">
-                <h4 className="text-lg font-semibold text-primary mb-4">Currently Open To</h4>
+            {/* Interests Section */}
+            <ScrollAnimationWrapper delay={0.2}>
+              <div className="glass-card-elevated rounded-3xl p-8">
+                <h4 className="text-xl font-display font-semibold text-foreground mb-6 text-center">Currently Open To</h4>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-accent-blue-soft rounded-xl text-center">
-                    <p className="font-medium text-accent-blue">AI Product Leadership</p>
+                  <motion.div 
+                    className="p-6 rounded-2xl bg-accent-cyan/10 border border-accent-cyan/20 text-center group"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <p className="font-semibold text-accent-cyan text-lg">AI Product Leadership</p>
                     <p className="text-xs text-text-muted mt-1">Full-time roles</p>
-                  </div>
-                  <div className="p-4 bg-accent-gold-soft rounded-xl text-center">
-                    <p className="font-medium text-accent-gold">Consulting</p>
+                  </motion.div>
+                  <motion.div 
+                    className="p-6 rounded-2xl bg-accent-gold/10 border border-accent-gold/20 text-center group"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <p className="font-semibold text-accent-gold text-lg">Consulting</p>
                     <p className="text-xs text-text-muted mt-1">GenAI integration</p>
-                  </div>
-                  <div className="p-4 bg-primary-soft rounded-xl text-center">
-                    <p className="font-medium text-primary">Research</p>
+                  </motion.div>
+                  <motion.div 
+                    className="p-6 rounded-2xl bg-accent-purple/10 border border-accent-purple/20 text-center group"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <p className="font-semibold text-accent-purple text-lg">Research</p>
                     <p className="text-xs text-text-muted mt-1">Multi-agent systems</p>
-                  </div>
+                  </motion.div>
                 </div>
-                <p className="text-text-muted text-sm mt-6 text-center">
+                <p className="text-text-muted text-sm mt-8 text-center">
                   For speaking opportunities, partnerships, or detailed discussions, reach out via email
                 </p>
               </div>
-            </div>
+            </ScrollAnimationWrapper>
           </div>
         </div>
       </div>
