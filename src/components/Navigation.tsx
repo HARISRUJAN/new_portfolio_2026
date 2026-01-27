@@ -17,8 +17,8 @@ const Navigation = () => {
     { name: 'About', href: '#hero' },
     { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Writing', href: '#writing' },
-    { name: 'Speaking', href: '#speaking' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Mentorship', href: '#speaking' },
     { name: 'Book', href: '#book' },
     { name: 'Testimonials', href: '#testimonials' },
     { name: 'Contact', href: '#contact' },
@@ -41,10 +41,10 @@ const Navigation = () => {
           {/* Logo */}
           <div className="group cursor-pointer" onClick={() => scrollToSection('#hero')}>
             <h3 className="text-xl font-semibold text-primary group-hover:text-gradient transition-all duration-300">
-              Anjali Sharma
+              Harisrujan C
             </h3>
             <p className="text-xs text-text-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              AI Product Manager
+              AI Product Architect
             </p>
           </div>
 

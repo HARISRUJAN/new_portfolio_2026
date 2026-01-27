@@ -1,93 +1,96 @@
-import { Brain, Search, ExternalLink, Tag, Rocket, Chrome, Trophy } from 'lucide-react';
+import { Brain, Search, ExternalLink, Tag, Rocket, Bot, BarChart3, MessageSquare } from 'lucide-react';
+
 const Projects = () => {
-  const projects = [{
-    name: 'Land Better Jobs',
-    description: 'AI Career Copilot - SheBuilds Hackathon Winner',
-    longDescription: 'Award-winning AI-powered career platform built in 48 hours. Features Job Hunter AI Agent, mock interviews with VAPI, and personalized career guidance powered by Gemini API with fine-tuned models.',
-    tags: ['AI Career', 'Hackathon Winner', 'Full-Stack', 'AI Agent'],
-    icon: <Rocket className="w-8 h-8" />,
-    gradient: 'from-emerald-500 to-teal-600',
-    metrics: '25K organic traffic • 950+ users in 3 months',
-    status: 'Live Product',
-    link: 'https://landbetterjobs.com/',
-    features: ['Job Hunter AI Agent (Cursor + Playwright)', 'Mock Interviews (VAPI)', 'AI Copilot (Gemini API)'],
-    techStack: 'Lovable, Supabase, Cursor, Playwright, VAPI, Gemini API',
-    highlight: true,
-    award: 'SheBuilds Hackathon Winner • Built in 48 hours'
-  }, {
-    name: 'Land Better Jobs Extension',
-    description: 'Chrome Extension for instant job hunting',
-    longDescription: 'Powerful Chrome extension to access and find all job URLs and resume from any page on the internet in just one click. Published on Chrome Web Store for seamless job hunting experience.',
-    tags: ['Chrome Extension', 'Productivity', 'Job Search', 'Browser Tool'],
-    icon: <Chrome className="w-8 h-8" />,
-    gradient: 'from-blue-500 to-indigo-600',
-    metrics: 'Published on Chrome Web Store',
-    status: 'Live Product',
-    link: 'https://chromewebstore.google.com/detail/land-better-jobs-launcher/nhdijcgjdanbcpajkifdmljcjgcbedph',
-    features: ['One-click URL extraction', 'Resume finder', 'Works on any webpage'],
-    techStack: 'Cursor',
-    highlight: false
-  }, {
-    name: 'Neuwriter.ai',
-    description: 'AI copywriter trained in neuromarketing principles for high-converting content',
-    longDescription: 'Advanced AI platform that combines neuromarketing psychology with GPT models to generate copy that converts. Used by 500+ marketers worldwide.',
-    tags: ['AI SaaS', 'Neuromarketing', 'Content AI', 'B2B'],
-    icon: <Brain className="w-8 h-8" />,
-    gradient: 'from-accent-blue to-purple-500',
-    metrics: 'Lovable, Framer, Cursor, Firebase',
-    status: 'Live Product',
-    link: 'https://app.neuwriter.ai/',
-    features: ['Psychology-based prompts', 'A/B testing insights', 'Industry templates']
-  }, {
-    name: 'MarketLens',
-    description: 'AI agent for competitive analysis and market intelligence',
-    longDescription: 'Intelligent market research tool that automatically tracks competitors, analyzes pricing strategies, and identifies market opportunities using AI.',
-    tags: ['Market Intelligence', 'AI Agent', 'Analytics', 'Enterprise'],
-    icon: <Search className="w-8 h-8" />,
-    gradient: 'from-accent-gold to-orange-500',
-    metrics: 'Lovable, Cursor, Firebase, Vercel',
-    status: 'Live Product',
-    link: 'https://github.com/theanjalisharmaaa/MarketLens',
-    features: ['Real-time monitoring', 'Competitive insights', 'Market trends']
-  }];
-  const sideProjects = [{
-    name: 'PM Masterclass',
-    description: 'Product management curriculum for aspiring PMs',
-    tags: ['Education', 'Product', 'Community']
-  }, {
-    name: 'AI Product Playbook',
-    description: 'Strategic framework for building AI products',
-    tags: ['AI Strategy', 'Framework', 'Guide']
-  }];
-  return <section id="projects" className="py-24 bg-surface">
+  const projects = [
+    {
+      name: 'Multi-Agent SRS Validation System',
+      description: 'LLM-powered requirement validation with digital twins',
+      longDescription: 'Built at GPT-Lab to automate software requirement reviews using large language models, retrieval-augmented generation, and digital twins. Simulates Developer, Scrum Master, and PM personas for stakeholder-like reviews.',
+      tags: ['Multi-Agent', 'LLM', 'RAG', 'Digital Twins'],
+      icon: <Bot className="w-8 h-8" />,
+      gradient: 'from-accent-blue to-purple-500',
+      metrics: '85% validation accuracy • 70% time savings',
+      status: 'Active Research',
+      link: '#',
+      features: ['ISO/IEC/IEEE-based assessment', 'Automated scoring system', 'Real-time Streamlit dashboard'],
+      techStack: 'LangChain, LangGraph, Streamlit, Azure OpenAI, Qdrant',
+      highlight: true
+    },
+    {
+      name: 'AI Profile-Job Matching Engine',
+      description: 'NLP-powered recruitment automation tool',
+      longDescription: 'Designed an internal profile-job matching tool using SpaCy and semantic similarity techniques. Streamlined talent acquisition with NLP pipelines and intelligent candidate search.',
+      tags: ['NLP', 'SpaCy', 'HR Tech', 'Semantic Search'],
+      icon: <Search className="w-8 h-8" />,
+      gradient: 'from-accent-gold to-orange-500',
+      metrics: '25% accuracy improvement • 40% faster shortlisting',
+      status: 'Production',
+      link: '#',
+      features: ['Semantic similarity matching', 'Natural language queries', 'Rule-based filtering'],
+      techStack: 'Python, SpaCy, SQL, Power BI',
+      highlight: true
+    },
+    {
+      name: 'Analytics Dashboards & Pipelines',
+      description: 'Data visualization for HR metrics and KPIs',
+      longDescription: 'Built comprehensive data visualization tools in Streamlit and Power BI to track HR metrics, process efficiency, and product KPIs for cross-functional teams.',
+      tags: ['Data Viz', 'Power BI', 'Streamlit', 'Analytics'],
+      icon: <BarChart3 className="w-8 h-8" />,
+      gradient: 'from-emerald-500 to-teal-600',
+      metrics: 'Cross-functional impact',
+      status: 'Production',
+      link: '#',
+      features: ['Real-time metrics tracking', 'Interactive visualizations', 'Automated reporting']
+    },
+    {
+      name: 'GenAI Product Consulting',
+      description: 'AI integration for enterprise clients',
+      longDescription: 'Consulted for multiple companies to integrate generative AI into existing products, focusing on chatbots, content generation, analytics dashboards, and agent-oriented automation workflows.',
+      tags: ['GenAI', 'Consulting', 'Chatbots', 'Automation'],
+      icon: <MessageSquare className="w-8 h-8" />,
+      gradient: 'from-primary to-primary/70',
+      metrics: '5+ companies transformed',
+      status: 'Consulting',
+      link: '#',
+      features: ['Chatbot development', 'Content generation pipelines', 'Agent-oriented systems']
+    }
+  ];
+
+  return (
+    <section id="projects" className="py-24 bg-surface">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16 fade-in">
             <h2 className="text-display font-bold text-primary mb-6">Projects & Ventures</h2>
-            <p className="text-xl text-text-secondary max-w-3xl mx-auto">Building AI-powered solutions that bridge technology and business impact using vibe coding tools - Lovable, Cursor, Firebase, Vercel, and Framer</p>
+            <p className="text-xl text-text-secondary max-w-3xl mx-auto">
+              Building AI-powered solutions across NLP, multi-agent systems, and enterprise automation
+            </p>
           </div>
 
           {/* Main Projects */}
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            {projects.map((project, index) => <div key={index} className="card-premium p-8 group slide-up" style={{
-            animationDelay: `${index * 0.2}s`
-          }}>
+            {projects.map((project, index) => (
+              <div
+                key={index}
+                className="card-premium p-8 group slide-up"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-6">
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                     {project.icon}
                   </div>
                   <div className="text-right space-y-2">
-                    <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${project.status === 'Live Product' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>
+                    <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
+                      project.status === 'Active Research' 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : project.status === 'Production'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-amber-100 text-amber-800'
+                    }`}>
                       {project.status}
                     </span>
-                    {project.award && (
-                      <div className="flex items-center space-x-1 text-xs font-medium text-accent-gold">
-                        <Trophy className="w-3 h-3" />
-                        <span>{project.award}</span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
@@ -98,8 +101,8 @@ const Projects = () => {
 
                   {/* Metrics highlight for featured projects */}
                   {project.highlight && (
-                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 rounded-xl p-4 mb-4 border border-emerald-200 dark:border-emerald-800">
-                      <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{project.metrics}</p>
+                    <div className="bg-gradient-to-r from-accent-blue/10 to-purple-500/10 rounded-xl p-4 mb-4 border border-accent-blue/20">
+                      <p className="text-sm font-semibold text-accent-blue">{project.metrics}</p>
                     </div>
                   )}
 
@@ -112,35 +115,34 @@ const Projects = () => {
 
                   {/* Features */}
                   <div className="space-y-2 mb-6">
-                    {project.features.map((feature, fIndex) => <div key={fIndex} className="flex items-center space-x-2 text-sm text-text-muted">
+                    {project.features.map((feature, fIndex) => (
+                      <div key={fIndex} className="flex items-center space-x-2 text-sm text-text-muted">
                         <div className="w-1.5 h-1.5 bg-accent-blue rounded-full"></div>
                         <span>{feature}</span>
-                      </div>)}
+                      </div>
+                    ))}
                   </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map((tag, tagIndex) => <span key={tagIndex} className="inline-flex items-center px-3 py-1 text-xs font-medium bg-primary-soft text-primary rounded-full cursor-pointer hover:bg-accent-blue-soft hover:text-accent-blue transition-colors">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="inline-flex items-center px-3 py-1 text-xs font-medium bg-primary-soft text-primary rounded-full cursor-pointer hover:bg-accent-blue-soft hover:text-accent-blue transition-colors"
+                      >
                         <Tag className="w-3 h-3 mr-1" />
                         {tag}
-                      </span>)}
+                      </span>
+                    ))}
                   </div>
                 </div>
-
-                {/* Actions */}
-                <div className="flex">
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex-1 btn-secondary text-center group/btn">
-                    View Project
-                    <ExternalLink className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </a>
-                </div>
-              </div>)}
+              </div>
+            ))}
           </div>
-
-          {/* Side Projects Grid */}
-          
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Projects;
