@@ -1,38 +1,44 @@
-import { Star, ArrowRight, Quote } from 'lucide-react';
+import { Star, ArrowRight, Quote, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Testimonials = () => {
   const testimonials = [
     {
-      text: "Harisrujan's GenAI training was incredibly practical. He explained complex concepts like RAG and multi-agent systems in ways that made them actionable for my work.",
-      author: "AI Product Manager",
-      role: "Tech Company"
+      text: "Harisrujan quickly understands new tasks and is incredibly attentive and supportive. He's both technically adept and genuinely kind.",
+      author: "Ruchira Liyanage",
+      role: "Doctoral Researcher, Marketing & Communication Lead",
+      linkedin: true
     },
     {
-      text: "The mentorship sessions helped me transition from data science to AI product management. His guidance on portfolio building was invaluable.",
-      author: "Career Transitioner",
-      role: "Former Data Scientist"
+      text: "Deep technical expertise with clear communication. Delivers precise, business-aligned AI solutions with confidence.",
+      author: "Sameer Chakravarthy",
+      role: "Group Account Director, Business & AI Consultant",
+      linkedin: true
     },
     {
-      text: "Working with Harisrujan on our AI integration project was transformative. His expertise in LangChain and agent systems accelerated our development significantly.",
-      author: "Engineering Lead",
-      role: "Startup Founder"
+      text: "Exceptional ability to design scalable AI systems with advanced frameworks and guide teams in delivering production-ready solutions.",
+      author: "Lokesh Eeranala",
+      role: "Associate Director",
+      linkedin: true
     },
     {
-      text: "His training on prompt engineering and model fine-tuning gave our team the skills we needed to build production-ready AI features.",
-      author: "Senior Developer",
-      role: "Enterprise Company"
+      text: "His supportive guidance during my internship was invaluable. His insights were key to the success of our RAG-based AI projects.",
+      author: "Gurunadh Malli",
+      role: "AI & Backend Engineer",
+      linkedin: true
     },
     {
-      text: "The career transition guidance was exactly what I needed. From resume optimization to interview prep, Harisrujan's support was comprehensive.",
-      author: "New AI PM",
-      role: "Recently Transitioned"
+      text: "Harisrujan's mentorship provided invaluable insights at every stage, greatly enhancing project execution and understanding.",
+      author: "Jyothi Swaroop K",
+      role: "GenAI Intern & Associate AI/ML Engineer",
+      linkedin: true
     },
     {
-      text: "Harisrujan's consulting helped us modernize our legacy systems with AI. The chatbot solution he architected improved our customer satisfaction scores.",
-      author: "Product Director",
-      role: "B2B SaaS"
+      text: "Exceptional technical expertise and innovative problem-solving skills. Consistently contributes high-quality work.",
+      author: "Uma Somanapalli",
+      role: "Technology Lead & Data Scientist",
+      linkedin: true
     }
   ];
 
@@ -41,17 +47,17 @@ const Testimonials = () => {
 
   const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
     <motion.div 
-      className="glass-card-elevated rounded-2xl p-6 flex-shrink-0 w-80 h-64 mx-3 flex flex-col group"
+      className="glass-card-elevated rounded-2xl p-6 flex-shrink-0 w-80 h-56 mx-3 flex flex-col group"
       whileHover={{ y: -5, scale: 1.02 }}
     >
       <div className="flex-1 flex flex-col">
-        <Quote className="w-8 h-8 text-accent-purple/40 mb-3" />
-        <div className="flex items-center mb-3">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} className="w-4 h-4 text-accent-gold fill-accent-gold" />
-          ))}
+        <div className="flex items-center justify-between mb-3">
+          <Quote className="w-6 h-6 text-accent-blue/40" />
+          {testimonial.linkedin && (
+            <Linkedin className="w-4 h-4 text-accent-blue" />
+          )}
         </div>
-        <p className="text-text-secondary text-sm leading-relaxed line-clamp-4 flex-1">
+        <p className="text-text-secondary text-sm leading-relaxed line-clamp-3 flex-1">
           "{testimonial.text}"
         </p>
       </div>
@@ -66,8 +72,8 @@ const Testimonials = () => {
     <section id="testimonials" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent-cyan/10 rounded-full blur-[128px]" />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-blue/5 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[128px]" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -80,14 +86,14 @@ const Testimonials = () => {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
             >
-              <Star className="w-4 h-4 text-accent-gold" />
-              <span className="text-sm font-medium text-text-secondary">Testimonials</span>
+              <Linkedin className="w-4 h-4 text-accent-blue" />
+              <span className="text-sm font-medium text-text-secondary">LinkedIn Recommendations</span>
             </motion.div>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-              Trusted by <span className="text-gradient-neon">50+ Professionals</span>
+              What <span className="text-gradient">Colleagues Say</span>
             </h2>
             <p className="text-xl text-text-secondary max-w-3xl mx-auto">
-              See what people are saying about their AI learning journey
+              Real testimonials from professionals I've worked with and mentored
             </p>
           </ScrollAnimationWrapper>
 
@@ -96,7 +102,7 @@ const Testimonials = () => {
             {/* First Row - Scroll Right */}
             <div className="relative overflow-hidden py-4">
               <div className="flex animate-scroll-right hover:pause-animation">
-                {[...firstRow, ...firstRow].map((testimonial, index) => (
+                {[...firstRow, ...firstRow, ...firstRow].map((testimonial, index) => (
                   <TestimonialCard key={`row1-${index}`} testimonial={testimonial} />
                 ))}
               </div>
@@ -105,7 +111,7 @@ const Testimonials = () => {
             {/* Second Row - Scroll Left */}
             <div className="relative overflow-hidden py-4">
               <div className="flex animate-scroll-left hover:pause-animation">
-                {[...secondRow, ...secondRow].map((testimonial, index) => (
+                {[...secondRow, ...secondRow, ...secondRow].map((testimonial, index) => (
                   <TestimonialCard key={`row2-${index}`} testimonial={testimonial} />
                 ))}
               </div>
@@ -120,7 +126,7 @@ const Testimonials = () => {
               transition={{ duration: 0.3 }}
             >
               {/* Gradient Background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-accent-purple via-accent-cyan to-accent-blue opacity-90" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent-blue to-primary opacity-90" />
               
               {/* Animated Pattern */}
               <div className="absolute inset-0 opacity-20">
