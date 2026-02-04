@@ -4,8 +4,10 @@ import AboutMe from "../components/AboutMe";
 import Experience from "../components/Experience";
 import Projects from "../components/Projects";
 import Writing from "../components/Writing";
+import Blog from "../components/Blog";
 import Speaking from "../components/Speaking";
 import Testimonials from "../components/Testimonials";
+import Gallery from "../components/Gallery";
 import Contact from "../components/Contact";
 import FloatingParticles from "../components/FloatingParticles";
 import ChatbotWidget from "../components/ChatbotWidget";
@@ -34,8 +36,10 @@ const Index = () => {
         <Experience />
         <Projects />
         <Writing />
+        <Blog />
         <Speaking />
         <Testimonials />
+        <Gallery />
         <Contact />
       </main>
 
