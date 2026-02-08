@@ -68,18 +68,10 @@ const Hero = () => {
               {/* Name */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-4"
+                className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6"
               >
                 <span className="text-gradient-neon">Harisrujan</span>
               </motion.h1>
-              
-              {/* Sub-line */}
-              <motion.p 
-                variants={itemVariants}
-                className="text-sm md:text-base text-text-muted tracking-widest uppercase mb-6"
-              >
-                Consulting • GenAI Systems • Practical AI Education
-              </motion.p>
 
               {/* Titles */}
               <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
