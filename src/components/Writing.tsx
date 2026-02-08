@@ -1,6 +1,11 @@
-import { Code, Brain, Cloud, Terminal, Cpu, Database, Layers, FileCode, BarChart3, Calculator, Sparkles, Link2, Search, Workflow, Bot, Server, Rocket, Users, Target, Lightbulb } from 'lucide-react';
+import { Code, Brain, Cloud, Terminal, Cpu, Database, Layers, Lightbulb } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
+import { SiPython, SiR, SiStreamlit, SiHuggingface, SiLangchain } from 'react-icons/si';
+import { TbSql, TbApi, TbVectorTriangle } from 'react-icons/tb';
+import { GiSpiderWeb } from 'react-icons/gi';
+import { FaProjectDiagram, FaUsers, FaBullseye, FaMicrosoft, FaChartBar, FaRobot } from 'react-icons/fa';
+import { MdOutlineScience } from 'react-icons/md';
 
 const Writing = () => {
   const skillCategories = [
@@ -8,11 +13,11 @@ const Writing = () => {
       title: 'Programming & Data',
       icon: <Code className="w-6 h-6" />,
       skills: [
-        { name: 'Python', icon: <FileCode className="w-5 h-5" /> },
-        { name: 'R', icon: <BarChart3 className="w-5 h-5" /> },
-        { name: 'SQL', icon: <Database className="w-5 h-5" /> },
-        { name: 'Power BI', icon: <BarChart3 className="w-5 h-5" /> },
-        { name: 'MATLAB', icon: <Calculator className="w-5 h-5" /> },
+        { name: 'Python', icon: <SiPython className="w-5 h-5" /> },
+        { name: 'R', icon: <SiR className="w-5 h-5" /> },
+        { name: 'SQL', icon: <TbSql className="w-5 h-5" /> },
+        { name: 'Power BI', icon: <FaChartBar className="w-5 h-5" /> },
+        { name: 'MATLAB', icon: <MdOutlineScience className="w-5 h-5" /> },
       ],
       color: 'accent-cyan'
     },
@@ -20,11 +25,11 @@ const Writing = () => {
       title: 'AI & NLP',
       icon: <Brain className="w-6 h-6" />,
       skills: [
-        { name: 'HuggingFace', icon: <Sparkles className="w-5 h-5" /> },
-        { name: 'LangChain', icon: <Link2 className="w-5 h-5" /> },
-        { name: 'Qdrant', icon: <Search className="w-5 h-5" /> },
-        { name: 'SpaCy', icon: <Workflow className="w-5 h-5" /> },
-        { name: 'Ollama', icon: <Bot className="w-5 h-5" /> },
+        { name: 'HuggingFace', icon: <SiHuggingface className="w-5 h-5" /> },
+        { name: 'LangChain', icon: <SiLangchain className="w-5 h-5" /> },
+        { name: 'Qdrant', icon: <TbVectorTriangle className="w-5 h-5" /> },
+        { name: 'SpaCy', icon: <GiSpiderWeb className="w-5 h-5" /> },
+        { name: 'Ollama', icon: <FaRobot className="w-5 h-5" /> },
         { name: 'RAG', icon: <Layers className="w-5 h-5" /> },
       ],
       color: 'accent-purple'
@@ -33,10 +38,10 @@ const Writing = () => {
       title: 'Cloud & DevOps',
       icon: <Cloud className="w-6 h-6" />,
       skills: [
-        { name: 'Azure OpenAI', icon: <Cloud className="w-5 h-5" /> },
-        { name: 'Azure ML', icon: <Server className="w-5 h-5" /> },
-        { name: 'Streamlit', icon: <Rocket className="w-5 h-5" /> },
-        { name: 'API Integration', icon: <Link2 className="w-5 h-5" /> },
+        { name: 'Azure OpenAI', icon: <FaMicrosoft className="w-5 h-5" /> },
+        { name: 'Azure ML', icon: <FaMicrosoft className="w-5 h-5" /> },
+        { name: 'Streamlit', icon: <SiStreamlit className="w-5 h-5" /> },
+        { name: 'API Integration', icon: <TbApi className="w-5 h-5" /> },
       ],
       color: 'accent-blue'
     },
@@ -44,9 +49,9 @@ const Writing = () => {
       title: 'Project Management',
       icon: <Terminal className="w-6 h-6" />,
       skills: [
-        { name: 'Agile/Scrum', icon: <Workflow className="w-5 h-5" /> },
-        { name: 'Stakeholder Collaboration', icon: <Users className="w-5 h-5" /> },
-        { name: 'Cross-functional Leadership', icon: <Target className="w-5 h-5" /> },
+        { name: 'Agile/Scrum', icon: <FaProjectDiagram className="w-5 h-5" /> },
+        { name: 'Stakeholder Collaboration', icon: <FaUsers className="w-5 h-5" /> },
+        { name: 'Cross-functional Leadership', icon: <FaBullseye className="w-5 h-5" /> },
       ],
       color: 'accent-gold'
     }
