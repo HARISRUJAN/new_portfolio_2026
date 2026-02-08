@@ -1,4 +1,4 @@
-import { Brain, Users, Target, Cpu, Database, Zap } from 'lucide-react';
+import { Brain, Users, Target, Cpu, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
@@ -32,21 +32,6 @@ const AboutMe = () => {
       color: 'accent-gold',
       glow: 'shadow-glow-gold'
     }
-  ];
-
-  const tools = [
-    { name: 'Python', category: 'core' },
-    { name: 'SQL', category: 'core' },
-    { name: 'Power BI', category: 'data' },
-    { name: 'R', category: 'data' },
-    { name: 'MATLAB', category: 'data' },
-    { name: 'SpaCy', category: 'nlp' },
-    { name: 'Streamlit', category: 'dev' },
-    { name: 'LangGraph', category: 'ai' },
-    { name: 'HuggingFace', category: 'ai' },
-    { name: 'LangChain', category: 'ai' },
-    { name: 'Qdrant', category: 'ai' },
-    { name: 'Azure OpenAI', category: 'cloud' },
   ];
 
   const containerVariants = {
@@ -122,41 +107,6 @@ const AboutMe = () => {
             ))}
           </motion.div>
 
-          {/* Tools & Technologies */}
-          <ScrollAnimationWrapper delay={0.2}>
-            <div className="glass-card-elevated rounded-3xl p-8">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-accent-blue/20 flex items-center justify-center">
-                  <Database className="w-6 h-6 text-accent-blue" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-display font-semibold text-foreground">Languages & Tools</h3>
-                  <p className="text-sm text-text-muted">Technologies I work with daily</p>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-3">
-                {tools.map((tool, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-default
-                      ${tool.category === 'ai' ? 'bg-accent-purple/20 text-accent-purple hover:bg-accent-purple hover:text-white' :
-                        tool.category === 'core' ? 'bg-accent-cyan/20 text-accent-cyan hover:bg-accent-cyan hover:text-white' :
-                        tool.category === 'cloud' ? 'bg-accent-blue/20 text-accent-blue hover:bg-accent-blue hover:text-white' :
-                        'bg-accent-gold/20 text-accent-gold hover:bg-accent-gold hover:text-white'
-                      }`}
-                  >
-                    {tool.name}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          </ScrollAnimationWrapper>
         </div>
       </div>
     </section>
