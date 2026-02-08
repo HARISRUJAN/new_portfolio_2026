@@ -1,180 +1,188 @@
-import { Code, Brain, Cloud, Terminal, Cpu, Database, Layers, Lightbulb } from 'lucide-react';
+import { Layers, Lightbulb, GitBranch, Users, Target, Workflow } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
-import { SiPython, SiR, SiStreamlit, SiHuggingface, SiLangchain } from 'react-icons/si';
+import { SiPython, SiR, SiStreamlit, SiHuggingface, SiLangchain, SiOpenai, SiGithub } from 'react-icons/si';
 import { TbSql, TbApi, TbVectorTriangle } from 'react-icons/tb';
 import { GiSpiderWeb } from 'react-icons/gi';
-import { FaProjectDiagram, FaUsers, FaBullseye, FaMicrosoft, FaChartBar, FaRobot } from 'react-icons/fa';
+import { FaMicrosoft, FaChartBar, FaRobot } from 'react-icons/fa';
 import { MdOutlineScience } from 'react-icons/md';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const Writing = () => {
-  const skillCategories = [
+  const toolCategories = [
     {
-      title: 'Programming & Data',
-      icon: <Code className="w-6 h-6" />,
-      skills: [
-        { name: 'Python', icon: <SiPython className="w-5 h-5" /> },
-        { name: 'R', icon: <SiR className="w-5 h-5" /> },
-        { name: 'SQL', icon: <TbSql className="w-5 h-5" /> },
-        { name: 'Power BI', icon: <FaChartBar className="w-5 h-5" /> },
-        { name: 'MATLAB', icon: <MdOutlineScience className="w-5 h-5" /> },
+      title: 'Core Programming & Data',
+      tools: [
+        { name: 'Python', icon: <SiPython className="w-8 h-8" />, tooltip: 'Primary language for ML & automation' },
+        { name: 'SQL', icon: <TbSql className="w-8 h-8" />, tooltip: 'Data querying & pipeline design' },
+        { name: 'R', icon: <SiR className="w-8 h-8" />, tooltip: 'Statistical analysis & modeling' },
+        { name: 'MATLAB', icon: <MdOutlineScience className="w-8 h-8" />, tooltip: 'Scientific computing & simulation' },
       ],
-      color: 'accent-cyan'
     },
     {
-      title: 'AI & NLP',
-      icon: <Brain className="w-6 h-6" />,
-      skills: [
-        { name: 'HuggingFace', icon: <SiHuggingface className="w-5 h-5" /> },
-        { name: 'LangChain', icon: <SiLangchain className="w-5 h-5" /> },
-        { name: 'Qdrant', icon: <TbVectorTriangle className="w-5 h-5" /> },
-        { name: 'SpaCy', icon: <GiSpiderWeb className="w-5 h-5" /> },
-        { name: 'Ollama', icon: <FaRobot className="w-5 h-5" /> },
-        { name: 'RAG', icon: <Layers className="w-5 h-5" /> },
+      title: 'GenAI / LLM Stack',
+      tools: [
+        { name: 'Hugging Face', icon: <SiHuggingface className="w-8 h-8" />, tooltip: 'Model experimentation & fine-tuning' },
+        { name: 'LangChain', icon: <SiLangchain className="w-8 h-8" />, tooltip: 'LLM orchestration & agent workflows' },
+        { name: 'SpaCy', icon: <GiSpiderWeb className="w-8 h-8" />, tooltip: 'Industrial-strength NLP pipelines' },
+        { name: 'Qdrant', icon: <TbVectorTriangle className="w-8 h-8" />, tooltip: 'Vector search for RAG pipelines' },
+        { name: 'Ollama', icon: <FaRobot className="w-8 h-8" />, tooltip: 'Local LLM deployment & testing' },
+        { name: 'OpenAI', icon: <SiOpenai className="w-8 h-8" />, tooltip: 'GPT models & embeddings' },
+        { name: 'RAG', icon: <Layers className="w-8 h-8" />, tooltip: 'Retrieval-augmented generation systems', isText: true },
       ],
-      color: 'accent-purple'
     },
     {
-      title: 'Cloud & DevOps',
-      icon: <Cloud className="w-6 h-6" />,
-      skills: [
-        { name: 'Azure OpenAI', icon: <FaMicrosoft className="w-5 h-5" /> },
-        { name: 'Azure ML', icon: <FaMicrosoft className="w-5 h-5" /> },
-        { name: 'Streamlit', icon: <SiStreamlit className="w-5 h-5" /> },
-        { name: 'API Integration', icon: <TbApi className="w-5 h-5" /> },
+      title: 'Cloud & Deployment',
+      tools: [
+        { name: 'Microsoft Azure', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'Cloud infrastructure & services' },
+        { name: 'Azure OpenAI', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'Enterprise-grade GenAI deployment' },
+        { name: 'Azure ML', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'MLOps & model management' },
+        { name: 'Streamlit', icon: <SiStreamlit className="w-8 h-8" />, tooltip: 'Rapid AI app prototyping' },
       ],
-      color: 'accent-blue'
     },
     {
-      title: 'Project Management',
-      icon: <Terminal className="w-6 h-6" />,
-      skills: [
-        { name: 'Agile/Scrum', icon: <FaProjectDiagram className="w-5 h-5" /> },
-        { name: 'Stakeholder Collaboration', icon: <FaUsers className="w-5 h-5" /> },
-        { name: 'Cross-functional Leadership', icon: <FaBullseye className="w-5 h-5" /> },
+      title: 'Visualization & BI',
+      tools: [
+        { name: 'Power BI', icon: <FaChartBar className="w-8 h-8" />, tooltip: 'Business intelligence dashboards' },
       ],
-      color: 'accent-gold'
-    }
+    },
+    {
+      title: 'Dev & Integration',
+      tools: [
+        { name: 'REST APIs', icon: <TbApi className="w-8 h-8" />, tooltip: 'API design & integration' },
+        { name: 'Git / GitHub', icon: <SiGithub className="w-8 h-8" />, tooltip: 'Version control & collaboration' },
+      ],
+    },
   ];
 
-  const impactAreas = [
-    { area: 'Requirement Engineering', icon: <Database className="w-5 h-5" /> },
-    { area: 'HR Tech', icon: <Cpu className="w-5 h-5" /> },
-    { area: 'Healthcare', icon: <Brain className="w-5 h-5" /> },
-    { area: 'Process Automation', icon: <Terminal className="w-5 h-5" /> }
+  const waysOfWorking = [
+    { name: 'Agile / Scrum', icon: <Workflow className="w-6 h-6" />, tooltip: 'Sprint planning & iterative delivery' },
+    { name: 'Stakeholder Collaboration', icon: <Users className="w-6 h-6" />, tooltip: 'Cross-team alignment & communication' },
+    { name: 'Cross-functional Leadership', icon: <Target className="w-6 h-6" />, tooltip: 'Driving outcomes across disciplines' },
   ];
 
   return (
-    <section id="skills" className="py-16 sm:py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-blue/10 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent-gold/10 rounded-full blur-[128px]" />
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <ScrollAnimationWrapper className="text-center mb-12 sm:mb-16">
-            <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
-            >
-              <Lightbulb className="w-4 h-4 text-accent-gold" />
-              <span className="text-sm font-medium text-text-secondary">Skills & Tools</span>
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-4 sm:mb-6">
-              Technical <span className="text-gradient">Expertise</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-text-secondary max-w-3xl mx-auto">
-              Spanning AI/ML, cloud platforms, and product management
-            </p>
-          </ScrollAnimationWrapper>
-
-          {/* Skills Grid - Icon Based */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 sm:mb-16">
-            {skillCategories.map((category, index) => (
-              <ScrollAnimationWrapper
-                key={index}
-                delay={index * 0.1}
-                direction={index % 2 === 0 ? 'left' : 'right'}
-              >
-                <motion.div
-                  className="bento-item group h-full"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="flex items-center gap-4 mb-6">
-                    <motion.div
-                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-${category.color}/20 flex items-center justify-center text-${category.color}`}
-                      whileHover={{ rotate: 10, scale: 1.1 }}
-                    >
-                      {category.icon}
-                    </motion.div>
-                    <h3 className="text-lg sm:text-xl font-display font-semibold text-foreground">{category.title}</h3>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.div
-                        key={skillIndex}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: skillIndex * 0.05 }}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        className={`flex flex-col items-center gap-2 p-3 sm:p-4 rounded-xl bg-${category.color}/10 border border-${category.color}/20 hover:bg-${category.color}/20 transition-all cursor-default group/skill`}
-                      >
-                        <div className={`text-${category.color} group-hover/skill:scale-110 transition-transform`}>
-                          {skill.icon}
-                        </div>
-                        <span className={`text-xs sm:text-sm font-medium text-${category.color} text-center`}>
-                          {skill.name}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Decorative Corner */}
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className={`w-8 h-[2px] bg-${category.color} ml-auto`} />
-                    <div className={`w-[2px] h-8 bg-${category.color} ml-auto -mt-[2px]`} />
-                  </div>
-                </motion.div>
-              </ScrollAnimationWrapper>
-            ))}
-          </div>
-
-          {/* Impact Areas */}
-          <ScrollAnimationWrapper delay={0.2}>
-            <div className="glass-card-elevated rounded-3xl p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-display font-semibold text-foreground mb-6 sm:mb-8 text-center">
-                Impact <span className="text-gradient-neon">Areas</span>
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                {impactAreas.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    className="text-center p-4 sm:p-6 rounded-2xl bg-surface/50 hover:bg-accent-purple/10 transition-colors group"
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-accent-gold/20 rounded-2xl flex items-center justify-center text-accent-gold mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
-                      {item.icon}
-                    </div>
-                    <p className="text-xs sm:text-sm font-medium text-text-secondary">{item.area}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </ScrollAnimationWrapper>
+    <TooltipProvider delayDuration={200}>
+      <section id="skills" className="py-16 sm:py-24 relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-blue/5 rounded-full blur-[128px]" />
+          <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent-purple/5 rounded-full blur-[128px]" />
         </div>
-      </div>
-    </section>
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <ScrollAnimationWrapper className="text-center mb-12 sm:mb-16">
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6"
+              >
+                <Lightbulb className="w-4 h-4 text-accent-gold" />
+                <span className="text-sm font-medium text-text-secondary">Technology Stack</span>
+              </motion.div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-4 sm:mb-6">
+                Tools I <span className="text-gradient">Build With</span>
+              </h2>
+            </ScrollAnimationWrapper>
+
+            {/* Tools Grid by Category */}
+            <div className="space-y-10 sm:space-y-12 mb-12">
+              {toolCategories.map((category, catIndex) => (
+                <ScrollAnimationWrapper key={catIndex} delay={catIndex * 0.1}>
+                  <div>
+                    <h3 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-6">
+                      {category.title}
+                    </h3>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
+                      {category.tools.map((tool, toolIndex) => (
+                        <Tooltip key={toolIndex}>
+                          <TooltipTrigger asChild>
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: toolIndex * 0.05 }}
+                              whileHover={{ y: -4 }}
+                              className="flex flex-col items-center gap-3 p-4 sm:p-5 rounded-2xl bg-surface/30 hover:bg-surface/60 border border-border/50 hover:border-border transition-all cursor-default group"
+                            >
+                              <div className="text-text-secondary group-hover:text-foreground transition-colors">
+                                {tool.isText ? (
+                                  <span className="text-lg font-mono font-semibold">{tool.name}</span>
+                                ) : (
+                                  tool.icon
+                                )}
+                              </div>
+                              {!tool.isText && (
+                                <span className="text-xs sm:text-sm text-text-muted group-hover:text-text-secondary text-center transition-colors">
+                                  {tool.name}
+                                </span>
+                              )}
+                            </motion.div>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="max-w-[200px]">
+                            <p className="text-sm">{tool.tooltip}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </div>
+                  </div>
+                </ScrollAnimationWrapper>
+              ))}
+            </div>
+
+            {/* Ways of Working */}
+            <ScrollAnimationWrapper delay={0.3}>
+              <div className="border-t border-border/50 pt-10 sm:pt-12">
+                <h3 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-6 text-center">
+                  Ways of Working
+                </h3>
+                <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+                  {waysOfWorking.map((item, index) => (
+                    <Tooltip key={index}>
+                      <TooltipTrigger asChild>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ y: -2 }}
+                          className="flex items-center gap-3 px-5 py-3 rounded-full bg-surface/30 hover:bg-surface/60 border border-border/50 hover:border-border transition-all cursor-default group"
+                        >
+                          <div className="text-text-secondary group-hover:text-foreground transition-colors">
+                            {item.icon}
+                          </div>
+                          <span className="text-sm text-text-secondary group-hover:text-foreground transition-colors">
+                            {item.name}
+                          </span>
+                        </motion.div>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p className="text-sm">{item.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              </div>
+            </ScrollAnimationWrapper>
+
+            {/* Tagline */}
+            <ScrollAnimationWrapper delay={0.4} className="mt-12 sm:mt-16">
+              <p className="text-center text-text-secondary text-lg sm:text-xl font-light italic">
+                From experimentation to production-ready GenAI systems.
+              </p>
+            </ScrollAnimationWrapper>
+          </div>
+        </div>
+      </section>
+    </TooltipProvider>
   );
 };
 
