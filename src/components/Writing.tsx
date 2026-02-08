@@ -101,7 +101,7 @@ const Writing = () => {
                     <h3 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-6">
                       {category.title}
                     </h3>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
+                    <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                       {category.tools.map((tool, toolIndex) => (
                         <Tooltip key={toolIndex}>
                           <TooltipTrigger asChild>
