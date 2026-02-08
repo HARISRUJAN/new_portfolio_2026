@@ -98,7 +98,7 @@ const Writing = () => {
               {toolCategories.map((category, catIndex) => (
                 <ScrollAnimationWrapper key={catIndex} delay={catIndex * 0.1}>
                   <div>
-                    <h3 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-6">
+                    <h3 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-6 text-center">
                       {category.title}
                     </h3>
                     <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
