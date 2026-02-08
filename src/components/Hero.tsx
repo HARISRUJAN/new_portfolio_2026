@@ -68,11 +68,18 @@ const Hero = () => {
               {/* Name */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6"
+                className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-4"
               >
-                <span className="block">Harisrujan</span>
-                <span className="text-gradient-neon">C</span>
+                <span className="text-gradient-neon">Harisrujan</span>
               </motion.h1>
+              
+              {/* Sub-line */}
+              <motion.p 
+                variants={itemVariants}
+                className="text-sm md:text-base text-text-muted tracking-widest uppercase mb-6"
+              >
+                Consulting • GenAI Systems • Practical AI Education
+              </motion.p>
 
               {/* Titles */}
               <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
@@ -92,9 +99,9 @@ const Hero = () => {
                 variants={itemVariants}
                 className="text-lg text-text-secondary mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed"
               >
-                AI‑driven product leader with 2+ years building data‑centric solutions. 
-                Expert in multi‑agent systems, NLP, RAG, and helping 50+ professionals 
-                transition into AI product roles.
+                I help teams adopt Generative AI without breaking their products—and help 
+                professionals transition into real GenAI roles. Consulting for AI-powered 
+                products, plus practical GenAI training for people who want to build, not just learn.
               </motion.p>
 
               {/* CTA Buttons */}
