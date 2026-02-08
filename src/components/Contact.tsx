@@ -1,4 +1,4 @@
-import { Mail, Linkedin, ExternalLink, Github, Send } from 'lucide-react';
+import { Mail, Linkedin, ExternalLink, Github, Send, Twitter } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
@@ -6,19 +6,27 @@ const Contact = () => {
   const contactMethods = [
     {
       name: 'LinkedIn',
-      handle: 'linkedin.com/in/harisrujanc',
-      url: 'https://linkedin.com/in/harisrujanc',
+      handle: 'linkedin.com/in/harisrujan2605',
+      url: 'https://www.linkedin.com/in/harisrujan2605/',
       icon: <Linkedin className="w-6 h-6" />,
       color: 'accent-blue',
       description: 'Connect for professional discussions'
     },
     {
       name: 'GitHub',
-      handle: 'github.com/harisrujanc',
-      url: 'https://github.com/harisrujanc',
+      handle: 'github.com/HARISRUJAN',
+      url: 'https://github.com/HARISRUJAN',
       icon: <Github className="w-6 h-6" />,
       color: 'accent-purple',
       description: 'Check out my projects and code'
+    },
+    {
+      name: 'Twitter',
+      handle: 'twitter.com/bannu2605',
+      url: 'https://twitter.com/bannu2605',
+      icon: <Twitter className="w-6 h-6" />,
+      color: 'accent-cyan',
+      description: 'Follow for AI insights'
     },
     {
       name: 'Email',
