@@ -1,10 +1,10 @@
-import { Layers, Lightbulb, GitBranch, Users, Target, Workflow } from 'lucide-react';
+import { Layers, Lightbulb, Users, Target, Workflow } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 import { SiPython, SiR, SiStreamlit, SiHuggingface, SiLangchain, SiOpenai, SiGithub } from 'react-icons/si';
 import { TbSql, TbApi, TbVectorTriangle } from 'react-icons/tb';
 import { GiSpiderWeb } from 'react-icons/gi';
-import { FaMicrosoft, FaChartBar, FaRobot } from 'react-icons/fa';
+import { FaMicrosoft, FaRobot } from 'react-icons/fa';
 import { MdOutlineScience } from 'react-icons/md';
 import {
   Tooltip,
@@ -37,23 +37,12 @@ const Writing = () => {
       ],
     },
     {
-      title: 'Cloud & Deployment',
+      title: 'Cloud, Deployment & Integration',
       tools: [
         { name: 'Microsoft Azure', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'Cloud infrastructure & services' },
         { name: 'Azure OpenAI', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'Enterprise-grade GenAI deployment' },
         { name: 'Azure ML', icon: <FaMicrosoft className="w-8 h-8" />, tooltip: 'MLOps & model management' },
         { name: 'Streamlit', icon: <SiStreamlit className="w-8 h-8" />, tooltip: 'Rapid AI app prototyping' },
-      ],
-    },
-    {
-      title: 'Visualization & BI',
-      tools: [
-        { name: 'Power BI', icon: <FaChartBar className="w-8 h-8" />, tooltip: 'Business intelligence dashboards' },
-      ],
-    },
-    {
-      title: 'Dev & Integration',
-      tools: [
         { name: 'REST APIs', icon: <TbApi className="w-8 h-8" />, tooltip: 'API design & integration' },
         { name: 'Git / GitHub', icon: <SiGithub className="w-8 h-8" />, tooltip: 'Version control & collaboration' },
       ],

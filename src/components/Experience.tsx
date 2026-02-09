@@ -69,28 +69,28 @@ const Experience = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16 fade-in">
-            <h2 className="text-display font-bold text-primary mb-6">Experience Highlights</h2>
-            <p className="text-xl text-text-secondary max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6 tracking-tight">Experience Highlights</h2>
+            <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
               2+ years of building AI-powered products across NLP, multi-agent systems, and HR tech
             </p>
           </div>
 
           {/* Experience Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className="card-interactive p-8 group slide-up"
+                className="card-interactive p-8 lg:p-10 group slide-up relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-6">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${exp.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="w-16 h-16 rounded-2xl bg-surface border-2 border-border flex items-center justify-center text-primary shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
                     {exp.icon}
                   </div>
                   <div className="text-right">
-                    <span className="text-sm text-text-muted">{exp.period}</span>
-                    <div className={`text-2xl font-bold text-transparent bg-gradient-to-r ${exp.gradient} bg-clip-text`}>
+                    <span className="text-sm font-medium text-text-muted tracking-wide">{exp.period}</span>
+                    <div className="text-2xl font-bold text-primary mt-1 font-display">
                       {exp.metrics}
                     </div>
                   </div>
@@ -98,23 +98,20 @@ const Experience = () => {
 
                 {/* Content */}
                 <div>
-                  <h3 className="text-xl font-semibold text-primary mb-1">{exp.company}</h3>
-                  <p className="text-accent-blue font-medium mb-3">{exp.role}</p>
-                  <p className="text-text-secondary mb-6 leading-relaxed">{exp.description}</p>
+                  <h3 className="text-xl font-display font-bold text-primary mb-2 tracking-tight">{exp.company}</h3>
+                  <p className="text-accent-blue font-semibold mb-4 text-base tracking-wide">{exp.role}</p>
+                  <p className="text-text-secondary mb-6 leading-relaxed text-[15px]">{exp.description}</p>
 
                   {/* Achievements */}
                   <div className="space-y-3">
                     {exp.achievements.map((achievement, achIndex) => (
                       <div key={achIndex} className="flex items-start space-x-3 group/item">
-                        <ArrowRight className="w-4 h-4 text-accent-blue mt-1 flex-shrink-0 group-hover/item:translate-x-1 transition-transform" />
-                        <span className="text-sm text-text-secondary">{achievement}</span>
+                        <ArrowRight className="w-4 h-4 text-accent-blue mt-0.5 flex-shrink-0 group-hover/item:translate-x-1 transition-transform" />
+                        <span className="text-sm text-text-secondary leading-relaxed">{achievement}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-
-                {/* Hover Effect Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${exp.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`}></div>
               </div>
             ))}
           </div>

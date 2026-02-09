@@ -32,6 +32,16 @@ import bannu2 from '../assets/gallery/bannu2.jpg';
 import bannu3 from '../assets/gallery/bannu3.jpg';
 import bannu4 from '../assets/gallery/bannu4.jpg';
 import bannu5 from '../assets/gallery/bannu5.jpg';
+import bannu6 from '../assets/gallery/bannu6.png';
+import bannu7 from '../assets/gallery/bannu7.png';
+import bannu8 from '../assets/gallery/bannu8.png';
+import bannu9 from '../assets/gallery/bannu9.png';
+import bannu10 from '../assets/gallery/bannu10.png';
+import bannu11 from '../assets/gallery/bannu11.png';
+import bannu12 from '../assets/gallery/bannu12.png';
+import bannu13 from '../assets/gallery/bannu13.png';
+import bannu14 from '../assets/gallery/bannu14.png';
+import bannu15 from '../assets/gallery/bannu15.png';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -40,11 +50,21 @@ const Gallery = () => {
 
   // Gallery photos array - using images from src/assets/gallery/
   const photos: Photo[] = [
-    { id: '1', src: bannu1, title: 'Wappu 2025', category: 'Events', location: 'Tampere' },
-    { id: '2', src: bannu2, title: 'Northern Lights', category: 'Nature', location: 'Hervanta' },
-    { id: '3', src: bannu3, title: 'Junction Hackathon', category: 'Events', location: 'Helsinki' },
-    { id: '4', src: bannu4, title: 'Junction Hackathon', category: 'Events', location: 'Helsinki' },
-    { id: '5', src: bannu5, title: 'AIESEC MKT Discussion', category: 'Events', location: 'Tampere' },
+    { id: '1', src: bannu1, title: 'Wappu 2025', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '2', src: bannu2, title: 'Northern Lights', category: 'Nature', location: 'Dubrovnik, Croatia' },
+    { id: '3', src: bannu3, title: 'Junction Hackathon', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '4', src: bannu4, title: 'Junction Hackathon', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '5', src: bannu5, title: 'AIESEC MKT Discussion', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '6', src: bannu6, title: 'Gallery Photo 6', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '7', src: bannu7, title: 'Gallery Photo 7', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '8', src: bannu8, title: 'Gallery Photo 8', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '9', src: bannu9, title: 'Gallery Photo 9', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '10', src: bannu10, title: 'Gallery Photo 10', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '11', src: bannu11, title: 'Gallery Photo 11', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '12', src: bannu12, title: 'Gallery Photo 12', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '13', src: bannu13, title: 'Gallery Photo 13', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '14', src: bannu14, title: 'Gallery Photo 14', category: 'Events', location: 'Dubrovnik, Croatia' },
+    { id: '15', src: bannu15, title: 'Gallery Photo 15', category: 'Events', location: 'Dubrovnik, Croatia' },
   ];
 
   const categories = ['All', 'Nature', 'Events', 'Urban'];
