@@ -1,27 +1,13 @@
-# Harisrujan C – Portfolio
+# Portfolio
 
-AI Product Architect & GenAI Mentor portfolio site.
+Personal portfolio website built with React, TypeScript, and Tailwind CSS.
 
-## Tech Stack
-
-- Vite
-- TypeScript
-- React
-- shadcn/ui
-- Tailwind CSS
-- Framer Motion
-
-## Local Development
+## Setup
 
 ```sh
-# Install dependencies
 npm install
-
-# Start dev server
 npm run dev
 ```
-
-The app runs at [http://localhost:8080](http://localhost:8080).
 
 ## Build
 
@@ -29,28 +15,6 @@ The app runs at [http://localhost:8080](http://localhost:8080).
 npm run build
 ```
 
-## Deploy to GitHub Pages
+## Deploy
 
-### Automatic Deployment (Recommended)
-
-The project is configured with GitHub Actions for automatic deployment. Simply:
-
-1. **Enable GitHub Pages** in your repository settings:
-   - Go to your repository on GitHub
-   - Navigate to **Settings** → **Pages**
-   - Under **Source**, select **GitHub Actions**
-   - Save the changes
-
-2. **Push to main branch**: Every push to the `main` branch will automatically build and deploy your site.
-
-Your site will be available at: `https://harisrujan.github.io/new_portfolio_2026/`
-
-### Manual Deployment
-
-Alternatively, you can deploy manually:
-
-```sh
-npm run deploy
-```
-
-This will build the project and push it to the `gh-pages` branch.
+The site is configured for GitHub Pages. Enable GitHub Actions in repository Settings → Pages.
