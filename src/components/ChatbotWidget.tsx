@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Sparkles, User, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, User } from 'lucide-react';
+import profileImage from '../assets/harisrujan-profile_2.jpg';
 
 interface Message {
   id: number;
@@ -14,7 +15,7 @@ const ChatbotWidget = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hi! I'm Harisrujan's AI assistant. I can help you learn about his experience, projects, or book a mentorship call. What would you like to know?",
+      text: "Hi! I'm Srujan's Digital Twin. I embody his knowledge, experience, and personality. Think of me as an intelligent extension of Srujan himself—ready to help you learn about his work, projects, or connect for mentorship opportunities. What would you like to know?",
       isBot: true,
       timestamp: new Date(),
     },
@@ -58,7 +59,7 @@ const ChatbotWidget = () => {
     }
     
     if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('reach')) {
-      return "You can reach me at harisrujan2605@gmail.com or connect on LinkedIn at linkedin.com/in/harisrujanc. I'm open to AI product leadership roles, consulting, and research collaborations!";
+      return "You can reach me at harisrujan2605@gmail.com or connect on LinkedIn at linkedin.com/in/harisrujan2605. I'm open to AI product leadership roles, consulting, and research collaborations!";
     }
 
     return "That's a great question! For detailed discussions about AI product management, multi-agent systems, or mentorship opportunities, feel free to email me at harisrujan2605@gmail.com. I'd love to connect!";
@@ -132,12 +133,12 @@ const ChatbotWidget = () => {
             <div className="relative p-4 bg-gradient-to-r from-accent-purple to-accent-blue">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center overflow-hidden border-2 border-white/30">
+                    <img src={profileImage} alt="Srujan's Digital Twin" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold">AI Assistant</h3>
-                    <p className="text-white/70 text-xs">Ask me anything!</p>
+                    <h3 className="text-white font-semibold">Srujan's Digital Twin</h3>
+                    <p className="text-white/70 text-xs">Your digital twin · Always learning</p>
                   </div>
                 </div>
                 <button
@@ -159,14 +160,14 @@ const ChatbotWidget = () => {
                   className={`flex gap-2 ${message.isBot ? '' : 'flex-row-reverse'}`}
                 >
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                       message.isBot
                         ? 'bg-gradient-to-r from-accent-purple to-accent-blue'
                         : 'bg-accent-gold'
                     }`}
                   >
                     {message.isBot ? (
-                      <Bot className="w-4 h-4 text-white" />
+                      <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
                     ) : (
                       <User className="w-4 h-4 text-white" />
                     )}
@@ -185,8 +186,8 @@ const ChatbotWidget = () => {
               
               {isTyping && (
                 <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent-purple to-accent-blue flex items-center justify-center">
-                    <Bot className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent-purple to-accent-blue flex items-center justify-center overflow-hidden">
+                    <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
                   </div>
                   <div className="bg-surface p-3 rounded-2xl rounded-tl-sm">
                     <div className="flex gap-1">

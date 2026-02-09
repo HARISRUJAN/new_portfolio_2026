@@ -51,7 +51,7 @@ const Index = () => {
               © 2025 Harisrujan C. Crafted with passion for AI and product excellence.
             </p>
             <p className="text-xs text-text-muted/60">
-              Built with React, Tailwind CSS & Framer Motion
+              I use AI as a copilot, not autopilot
             </p>
           </div>
         </div>

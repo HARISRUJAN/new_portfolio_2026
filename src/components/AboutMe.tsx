@@ -8,29 +8,29 @@ const AboutMe = () => {
       icon: <Brain className="w-6 h-6" />,
       title: 'Full-cycle AI Execution',
       description: 'Led and delivered 5+ AI projects across NLP, RAG systems, process automation and HR analytics',
-      color: 'accent-blue',
-      glow: 'shadow-glow-blue'
+      iconClass: 'bg-accent-blue/20 text-accent-blue',
+      cornerClass: 'bg-accent-blue'
     },
     {
       icon: <Cpu className="w-6 h-6" />,
       title: 'Multi-Agent Systems',
       description: 'Expert in LangChain, LangGraph, HuggingFace, and LLM agent orchestration',
-      color: 'accent-purple',
-      glow: 'shadow-glow-purple'
+      iconClass: 'bg-accent-purple/20 text-accent-purple',
+      cornerClass: 'bg-accent-purple'
     },
     {
       icon: <Users className="w-6 h-6" />,
       title: 'Mentorship & Training',
       description: 'Trained 50+ professionals on GenAI, helped 5+ transition into AI product roles',
-      color: 'accent-cyan',
-      glow: 'neon-glow-blue'
+      iconClass: 'bg-accent-cyan/20 text-accent-cyan',
+      cornerClass: 'bg-accent-cyan'
     },
     {
       icon: <Target className="w-6 h-6" />,
       title: 'Company Transformation',
       description: 'Consulted 5+ companies to architect and modernize solutions with AI',
-      color: 'accent-gold',
-      glow: 'shadow-glow-gold'
+      iconClass: 'bg-accent-gold/20 text-accent-gold',
+      cornerClass: 'bg-accent-gold'
     }
   ];
 
@@ -92,7 +92,7 @@ const AboutMe = () => {
                 className={`bento-item group ${index === 0 ? 'lg:col-span-2' : ''}`}
                 whileHover={{ y: -5 }}
               >
-                <div className={`w-14 h-14 rounded-2xl bg-${area.color}/20 flex items-center justify-center text-${area.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ${area.iconClass}`}>
                   {area.icon}
                 </div>
                 <h3 className="text-xl font-display font-semibold text-foreground mb-3">{area.title}</h3>
@@ -100,8 +100,8 @@ const AboutMe = () => {
                 
                 {/* Decorative corner */}
                 <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className={`absolute top-4 right-4 w-8 h-[2px] bg-${area.color}`} />
-                  <div className={`absolute top-4 right-4 w-[2px] h-8 bg-${area.color}`} />
+                  <div className={`absolute top-4 right-4 w-8 h-[2px] ${area.cornerClass}`} />
+                  <div className={`absolute top-4 right-4 w-[2px] h-8 ${area.cornerClass}`} />
                 </div>
               </motion.div>
             ))}

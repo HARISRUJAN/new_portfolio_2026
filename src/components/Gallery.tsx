@@ -11,25 +11,43 @@ interface Photo {
   location?: string;
 }
 
+// ============================================
+// HOW TO ADD GALLERY IMAGES:
+// ============================================
+// 1. Upload your images to: src/assets/gallery/
+// 2. Import them below (uncomment and add your image filenames)
+// 3. Add them to the photos array with title, category, and location
+//
+// Example:
+// import gallery1 from '../assets/gallery/my-photo-1.jpg';
+// import gallery2 from '../assets/gallery/my-photo-2.jpg';
+//
+// Then in the photos array:
+// { id: '1', src: gallery1, title: 'My Photo Title', category: 'Nature', location: 'Location Name' },
+// ============================================
+
+// Import your gallery images here
+import bannu1 from '../assets/gallery/bannu1.jpg';
+import bannu2 from '../assets/gallery/bannu2.jpg';
+import bannu3 from '../assets/gallery/bannu3.jpg';
+import bannu4 from '../assets/gallery/bannu4.jpg';
+import bannu5 from '../assets/gallery/bannu5.jpg';
+
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Placeholder photos - user will replace with actual photography
+  // Gallery photos array - using images from src/assets/gallery/
   const photos: Photo[] = [
-    { id: '1', src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800', title: 'Mountain Sunrise', category: 'Nature', location: 'Swiss Alps' },
-    { id: '2', src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800', title: 'City Lights', category: 'Urban', location: 'Tokyo' },
-    { id: '3', src: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800', title: 'Ocean Waves', category: 'Nature', location: 'Maldives' },
-    { id: '4', src: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800', title: 'Urban Architecture', category: 'Urban', location: 'New York' },
-    { id: '5', src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800', title: 'Forest Path', category: 'Nature', location: 'Black Forest' },
-    { id: '6', src: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800', title: 'Street Photography', category: 'Urban', location: 'London' },
-    { id: '7', src: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800', title: 'Waterfall', category: 'Nature', location: 'Iceland' },
-    { id: '8', src: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800', title: 'Skyline', category: 'Urban', location: 'Singapore' },
-    { id: '9', src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800', title: 'Lake Reflection', category: 'Nature', location: 'Norway' },
+    { id: '1', src: bannu1, title: 'Wappu 2025', category: 'Events', location: 'Tampere' },
+    { id: '2', src: bannu2, title: 'Northern Lights', category: 'Nature', location: 'Hervanta' },
+    { id: '3', src: bannu3, title: 'Junction Hackathon', category: 'Events', location: 'Helsinki' },
+    { id: '4', src: bannu4, title: 'Junction Hackathon', category: 'Events', location: 'Helsinki' },
+    { id: '5', src: bannu5, title: 'AIESEC MKT Discussion', category: 'Events', location: 'Tampere' },
   ];
 
-  const categories = ['All', 'Nature', 'Urban'];
+  const categories = ['All', 'Nature', 'Events', 'Urban'];
 
   const filteredPhotos = selectedCategory === 'All' 
     ? photos 

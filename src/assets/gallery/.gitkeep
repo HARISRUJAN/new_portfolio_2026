@@ -1,0 +1,5 @@
+# Gallery Images Folder
+
+Upload your gallery images here. Supported formats: .jpg, .jpeg, .png, .webp
+
+After adding images, update the photos array in `src/components/Gallery.tsx` to include your new images.

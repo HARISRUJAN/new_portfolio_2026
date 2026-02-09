@@ -1,6 +1,6 @@
 import { ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
-import profileImage from '../assets/harisrujan-profile.jpg';
+import profileImage from '../assets/harisrujan-profile_2.jpg';
 
 const Hero = () => {
   const containerVariants = {
@@ -99,7 +99,7 @@ const Hero = () => {
               {/* CTA Buttons */}
               <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <motion.a
-                  href="https://linkedin.com/in/harisrujanc"
+                  href="https://www.linkedin.com/in/harisrujan2605/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-neon group"

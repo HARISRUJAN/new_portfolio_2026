@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,7 +15,7 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'About', href: '#hero' },
+    { name: 'About', href: '#about' },
     { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
@@ -63,13 +64,16 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Theme Toggle & Mobile Menu */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-2 rounded-xl hover:bg-hover transition-colors"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}

@@ -9,7 +9,8 @@ const Contact = () => {
       handle: 'linkedin.com/in/harisrujan2605',
       url: 'https://www.linkedin.com/in/harisrujan2605/',
       icon: <Linkedin className="w-6 h-6" />,
-      color: 'accent-blue',
+      bgClass: 'bg-accent-blue/20',
+      textClass: 'text-accent-blue',
       description: 'Connect for professional discussions'
     },
     {
@@ -17,7 +18,8 @@ const Contact = () => {
       handle: 'github.com/HARISRUJAN',
       url: 'https://github.com/HARISRUJAN',
       icon: <Github className="w-6 h-6" />,
-      color: 'accent-purple',
+      bgClass: 'bg-accent-purple/20',
+      textClass: 'text-accent-purple',
       description: 'Check out my projects and code'
     },
     {
@@ -25,7 +27,8 @@ const Contact = () => {
       handle: 'twitter.com/bannu2605',
       url: 'https://twitter.com/bannu2605',
       icon: <Twitter className="w-6 h-6" />,
-      color: 'accent-cyan',
+      bgClass: 'bg-accent-cyan/20',
+      textClass: 'text-accent-cyan',
       description: 'Follow for AI insights'
     },
     {
@@ -33,7 +36,8 @@ const Contact = () => {
       handle: 'harisrujan2605@gmail.com',
       url: 'mailto:harisrujan2605@gmail.com',
       icon: <Mail className="w-6 h-6" />,
-      color: 'accent-gold',
+      bgClass: 'bg-accent-gold/20',
+      textClass: 'text-accent-gold',
       description: 'For collaborations and opportunities'
     }
   ];
@@ -80,7 +84,7 @@ const Contact = () => {
                     whileHover={{ y: -5 }}
                   >
                     <motion.div
-                      className={`w-16 h-16 bg-${method.color}/20 rounded-2xl flex items-center justify-center text-${method.color} mx-auto mb-4`}
+                      className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${method.bgClass} ${method.textClass}`}
                       whileHover={{ rotate: 10, scale: 1.1 }}
                     >
                       {method.icon}
@@ -91,7 +95,7 @@ const Contact = () => {
                       </h4>
                       <ExternalLink className="w-4 h-4 text-text-muted group-hover:text-accent-cyan group-hover:translate-x-1 transition-all" />
                     </div>
-                    <p className={`text-${method.color} text-sm font-medium mb-2 break-all`}>{method.handle}</p>
+                    <p className={`${method.textClass} text-sm font-medium mb-2 break-all`}>{method.handle}</p>
                     <p className="text-text-muted text-sm">{method.description}</p>
                   </motion.a>
                 </ScrollAnimationWrapper>
