@@ -155,10 +155,10 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f4f1e8] text-[#171717] selection:bg-[#171717] selection:text-[#f4f1e8] dark:bg-[#0d0d0d] dark:text-[#f5f1e8]">
+    <div className="min-h-screen bg-white text-[#171717] selection:bg-[#171717] selection:text-white dark:bg-[#0d0d0d] dark:text-[#f5f1e8]">
       <div className="pointer-events-none fixed inset-0 z-0 bg-[linear-gradient(rgba(23,23,23,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(23,23,23,0.055)_1px,transparent_1px)] bg-[size:36px_36px] dark:bg-[linear-gradient(rgba(245,241,232,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(245,241,232,0.045)_1px,transparent_1px)]" />
       <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
-        <header className="sticky top-0 z-40 -mx-5 border-b border-black/10 bg-[#f4f1e8]/85 px-5 py-4 backdrop-blur-xl dark:border-white/10 dark:bg-[#0d0d0d]/82 sm:-mx-8 sm:px-8">
+        <header className="sticky top-0 z-40 -mx-5 border-b border-black/10 bg-white/85 px-5 py-4 backdrop-blur-xl dark:border-white/10 dark:bg-[#0d0d0d]/82 sm:-mx-8 sm:px-8">
           <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4">
             <a href="#top" className="font-mono text-sm font-semibold tracking-[0.18em]">
               HARISRUJAN.C
@@ -233,7 +233,7 @@ const Index = () => {
               transition={{ delay: 0.25, duration: 0.6 }}
               className="relative"
             >
-              <div className="relative overflow-hidden rounded-[2rem] border border-black/10 bg-[#ebe5d7] p-4 shadow-2xl shadow-black/10 dark:border-white/10 dark:bg-[#151515] dark:shadow-black/30">
+              <div className="relative overflow-hidden rounded-[2rem] border border-black/10 bg-white p-4 shadow-2xl shadow-black/10 dark:border-white/10 dark:bg-[#151515] dark:shadow-black/30">
                 <img
                   src={profileImage}
                   alt="Harisrujan C"
