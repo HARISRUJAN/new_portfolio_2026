@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, User } from 'lucide-react';
+import { X, Send, User, Sparkles, Brain, Briefcase, Layers, Mail } from 'lucide-react';
 import profileImage from '../assets/harisrujan-profile_2.jpg';
 
 interface Message {
@@ -10,12 +10,24 @@ interface Message {
   timestamp: Date;
 }
 
-const ChatbotWidget = () => {
+export interface ChatbotRef {
+  open: () => void;
+  close: () => void;
+}
+
+const quickTopics = [
+  { label: 'Experience', icon: <Briefcase className="w-4 h-4" />, query: 'Tell me about your experience' },
+  { label: 'Projects', icon: <Brain className="w-4 h-4" />, query: 'What projects have you worked on?' },
+  { label: 'Skills', icon: <Layers className="w-4 h-4" />, query: 'What are your technical skills?' },
+  { label: 'Contact', icon: <Mail className="w-4 h-4" />, query: 'How can I reach you?' },
+];
+
+const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hi! I'm Srujan's Digital Twin. I embody his knowledge, experience, and personality. Think of me as an intelligent extension of Srujan himself—ready to help you learn about his work, projects, or connect for mentorship opportunities. What would you like to know?",
+      text: "Hey! I'm Srujan's Digital Twin — an intelligent extension of his knowledge and personality. Ask me anything about his work, projects, or mentorship opportunities.",
       isBot: true,
       timestamp: new Date(),
     },
@@ -24,12 +36,10 @@ const ChatbotWidget = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const quickReplies = [
-    "Tell me about your experience",
-    "What projects have you worked on?",
-    "Book a mentorship call",
-    "What's your book about?",
-  ];
+  useImperativeHandle(ref, () => ({
+    open: () => setIsOpen(true),
+    close: () => setIsOpen(false),
+  }));
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,30 +49,43 @@ const ChatbotWidget = () => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => { document.body.style.overflow = 'auto'; };
+  }, [isOpen]);
+
   const getBotResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
 
     if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
-      return "I've worked as a Thesis Worker at GPT-Lab (Tampere University) building multi-agent SRS validation systems, and previously as a Data Science Engineer at Ignitz Solutions where I built AI-powered HR tech solutions. My expertise spans NLP, RAG, and multi-agent architectures.";
+      return "I've worked as a Thesis Worker at GPT-Lab (Tampere University) building multi-agent SRS validation systems, and previously as a Data Science Engineer at Ignitz Solutions where I built AI-powered HR tech solutions. My expertise spans NLP, RAG, and multi-agent architectures. Currently also mentoring 50+ professionals in GenAI.";
     }
     
     if (lowerMessage.includes('project')) {
-      return "My key projects include: 1) Multi-Agent SRS Validation System using LLMs and digital twins (85% accuracy), 2) AI Profile-Job Matching Engine that improved accuracy by 25%, and 3) GenAI consulting for 5+ companies integrating chatbots and automation.";
+      return "My key projects include:\n\n• **Multi-Agent SRS Validation** — LLMs + digital twins for requirement reviews (85% accuracy)\n• **AI Profile-Job Matching** — NLP-powered recruitment tool (25% accuracy boost, 40% faster)\n• **GenAI Consulting** — Helped 5+ companies integrate chatbots, content generation, and automation";
     }
     
     if (lowerMessage.includes('book') || lowerMessage.includes('mentor')) {
-      return "I'd love to connect! For mentorship sessions or to learn about my upcoming book on AI Product Strategy, please email me at harisrujan2605@gmail.com. I've trained 50+ professionals and helped 5+ transition into AI PM roles.";
+      return "I offer hands-on GenAI mentorship! I've trained 50+ professionals and helped 5+ transition into AI PM roles. Topics include prompt engineering, model fine-tuning, RAG, multi-agent systems, and AI product strategy. Reach out at harisrujan2605@gmail.com to book a session.";
     }
     
-    if (lowerMessage.includes('skill') || lowerMessage.includes('tool')) {
-      return "I specialize in: Python, LangChain/LangGraph, HuggingFace, Qdrant, Azure OpenAI, and Streamlit. For PM skills: Agile/Scrum, stakeholder management, and B2B SaaS experience.";
+    if (lowerMessage.includes('skill') || lowerMessage.includes('tool') || lowerMessage.includes('tech')) {
+      return "My tech stack:\n\n• **AI/ML:** LangChain, LangGraph, HuggingFace, Qdrant, OpenAI, SpaCy\n• **Languages:** Python, SQL, R\n• **Cloud:** Azure OpenAI, Azure ML\n• **Tools:** Streamlit, Power BI, Git\n• **Methods:** Agile/Scrum, stakeholder collaboration, cross-functional leadership";
     }
     
-    if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('reach')) {
-      return "You can reach me at harisrujan2605@gmail.com or connect on LinkedIn at linkedin.com/in/harisrujan2605. I'm open to AI product leadership roles, consulting, and research collaborations!";
+    if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('reach') || lowerMessage.includes('hire')) {
+      return "I'm open to AI product leadership roles, consulting, and research collaborations!\n\n📧 harisrujan2605@gmail.com\n🔗 linkedin.com/in/harisrujan2605\n🐙 github.com/HARISRUJAN";
     }
 
-    return "That's a great question! For detailed discussions about AI product management, multi-agent systems, or mentorship opportunities, feel free to email me at harisrujan2605@gmail.com. I'd love to connect!";
+    if (lowerMessage.includes('education') || lowerMessage.includes('study') || lowerMessage.includes('university')) {
+      return "I'm currently pursuing my Master's at Tampere University (Finland), working on my thesis at GPT-Lab on multi-agent SRS validation systems. My research combines LLMs, RAG, and digital twins for automated software requirement reviews.";
+    }
+
+    return "Great question! I can tell you about Srujan's experience, projects, technical skills, mentorship programs, or how to get in touch. What interests you most?";
   };
 
   const handleSend = (text?: string) => {
@@ -80,7 +103,6 @@ const ChatbotWidget = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate typing delay
     setTimeout(() => {
       const botResponse: Message = {
         id: Date.now() + 1,
@@ -90,158 +112,182 @@ const ChatbotWidget = () => {
       };
       setMessages((prev) => [...prev, botResponse]);
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    }, 800 + Math.random() * 800);
   };
 
   return (
     <>
-      {/* Chat Button */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-accent-purple to-accent-blue text-white shadow-lg ${
-          isOpen ? 'hidden' : 'flex'
-        }`}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-        style={{
-          boxShadow: '0 0 30px rgba(138, 43, 226, 0.5), 0 0 60px rgba(0, 200, 255, 0.3)',
-        }}
-      >
-        <MessageCircle className="w-6 h-6" />
-        <span className="absolute -top-1 -right-1 w-3 h-3 bg-accent-gold rounded-full animate-pulse" />
-      </motion.button>
+      {/* Floating Chat Button (when closed) */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            onClick={() => setIsOpen(true)}
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-primary-foreground shadow-xl"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
+            <Sparkles className="w-6 h-6" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
-      {/* Chat Window */}
+      {/* Full-Screen Chat Modal */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] h-[520px] rounded-3xl overflow-hidden"
-            style={{
-              background: 'hsl(var(--card))',
-              border: '1px solid hsl(var(--border))',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(138, 43, 226, 0.2)',
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center"
           >
-            {/* Header */}
-            <div className="relative p-4 bg-gradient-to-r from-accent-purple to-accent-blue">
-              <div className="flex items-center justify-between">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Chat Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="relative w-full max-w-2xl h-[85vh] max-h-[700px] mx-4 rounded-3xl overflow-hidden flex flex-col"
+              style={{
+                background: 'hsl(var(--card))',
+                border: '1px solid hsl(var(--border))',
+                boxShadow: 'var(--shadow-xl)',
+              }}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-5 border-b border-border">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center overflow-hidden border-2 border-white/30">
-                    <img src={profileImage} alt="Srujan's Digital Twin" className="w-full h-full object-cover" />
+                  <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/20">
+                    <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold">Srujan's Digital Twin</h3>
-                    <p className="text-white/70 text-xs">Your digital twin · Always learning</p>
+                    <h3 className="font-semibold text-foreground text-sm">Srujan's Digital Twin</h3>
+                    <p className="text-xs text-text-muted">Ask me anything about Harisrujan</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-full hover:bg-white/20 transition-colors"
+                  className="p-2 rounded-xl hover:bg-hover transition-colors"
                 >
-                  <X className="w-5 h-5 text-white" />
+                  <X className="w-5 h-5 text-text-muted" />
                 </button>
               </div>
-            </div>
 
-            {/* Messages */}
-            <div className="h-[340px] overflow-y-auto p-4 space-y-4">
-              {messages.map((message) => (
-                <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex gap-2 ${message.isBot ? '' : 'flex-row-reverse'}`}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                      message.isBot
-                        ? 'bg-gradient-to-r from-accent-purple to-accent-blue'
-                        : 'bg-accent-gold'
-                    }`}
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex gap-3 ${message.isBot ? '' : 'flex-row-reverse'}`}
                   >
-                    {message.isBot ? (
-                      <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
-                    ) : (
-                      <User className="w-4 h-4 text-white" />
-                    )}
-                  </div>
-                  <div
-                    className={`max-w-[75%] p-3 rounded-2xl text-sm ${
-                      message.isBot
-                        ? 'bg-surface text-foreground rounded-tl-sm'
-                        : 'bg-gradient-to-r from-accent-purple to-accent-blue text-white rounded-tr-sm'
-                    }`}
-                  >
-                    {message.text}
-                  </div>
-                </motion.div>
-              ))}
-              
-              {isTyping && (
-                <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent-purple to-accent-blue flex items-center justify-center overflow-hidden">
-                    <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="bg-surface p-3 rounded-2xl rounded-tl-sm">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                        message.isBot ? 'ring-2 ring-primary/20' : 'bg-primary'
+                      }`}
+                    >
+                      {message.isBot ? (
+                        <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-4 h-4 text-primary-foreground" />
+                      )}
                     </div>
+                    <div
+                      className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
+                        message.isBot
+                          ? 'bg-surface text-foreground rounded-tl-md'
+                          : 'bg-primary text-primary-foreground rounded-tr-md'
+                      }`}
+                    >
+                      {message.text.split('\n').map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          {i < message.text.split('\n').length - 1 && <br />}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+                
+                {isTyping && (
+                  <div className="flex gap-3">
+                    <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
+                      <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="bg-surface p-4 rounded-2xl rounded-tl-md">
+                      <div className="flex gap-1.5">
+                        <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <span className="w-2 h-2 bg-text-muted rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Quick Topics (show only at start) */}
+              {messages.length <= 2 && (
+                <div className="px-5 pb-3">
+                  <div className="flex flex-wrap gap-2">
+                    {quickTopics.map((topic) => (
+                      <button
+                        key={topic.label}
+                        onClick={() => handleSend(topic.query)}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface border border-border text-sm text-text-secondary hover:text-primary hover:border-primary/30 transition-all"
+                      >
+                        {topic.icon}
+                        {topic.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}
-              
-              <div ref={messagesEndRef} />
-            </div>
 
-            {/* Quick Replies */}
-            {messages.length === 1 && (
-              <div className="px-4 pb-2 flex flex-wrap gap-2">
-                {quickReplies.map((reply, index) => (
+              {/* Input */}
+              <div className="p-4 border-t border-border">
+                <div className="flex gap-3 items-center">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                    placeholder="Ask me anything…"
+                    className="flex-1 px-5 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm"
+                    autoFocus
+                  />
                   <button
-                    key={index}
-                    onClick={() => handleSend(reply)}
-                    className="text-xs px-3 py-1.5 rounded-full bg-accent-purple-soft text-accent-purple hover:bg-accent-purple hover:text-white transition-colors"
+                    onClick={() => handleSend()}
+                    disabled={!inputValue.trim()}
+                    className="p-3 rounded-xl bg-primary text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                   >
-                    {reply}
+                    <Send className="w-5 h-5" />
                   </button>
-                ))}
+                </div>
               </div>
-            )}
-
-            {/* Input */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-card border-t border-border">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Type a message..."
-                  className="flex-1 px-4 py-2 rounded-xl bg-surface border border-border text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-purple/50 text-sm"
-                />
-                <button
-                  onClick={() => handleSend()}
-                  disabled={!inputValue.trim()}
-                  className="p-2 rounded-xl bg-gradient-to-r from-accent-purple to-accent-blue text-white disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-shadow"
-                >
-                  <Send className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
-};
+});
+
+ChatbotWidget.displayName = 'ChatbotWidget';
 
 export default ChatbotWidget;

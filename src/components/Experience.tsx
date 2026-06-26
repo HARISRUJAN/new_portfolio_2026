@@ -1,4 +1,6 @@
-import { Building2, Users, TrendingUp, Target, ArrowRight, GraduationCap } from 'lucide-react';
+import { Building2, Users, TrendingUp, ArrowRight, GraduationCap } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Experience = () => {
   const experiences = [
@@ -14,8 +16,7 @@ const Experience = () => {
         'Built real-time Streamlit dashboard with chat interface for feedback'
       ],
       metrics: '85% accuracy',
-      icon: <GraduationCap className="w-6 h-6" />,
-      gradient: 'from-accent-blue to-purple-500'
+      icon: <GraduationCap className="w-5 h-5" />,
     },
     {
       company: 'Ignitz Solutions',
@@ -29,8 +30,7 @@ const Experience = () => {
         'Collaborated with HR stakeholders to refine AI tools'
       ],
       metrics: '40% faster',
-      icon: <Building2 className="w-6 h-6" />,
-      gradient: 'from-accent-gold to-orange-500'
+      icon: <Building2 className="w-5 h-5" />,
     },
     {
       company: 'Ignitz Solutions',
@@ -43,8 +43,7 @@ const Experience = () => {
         'Built data pipelines for cross-functional teams'
       ],
       metrics: 'Foundation',
-      icon: <TrendingUp className="w-6 h-6" />,
-      gradient: 'from-primary to-primary/70'
+      icon: <TrendingUp className="w-5 h-5" />,
     },
     {
       company: 'GenAI Mentorship',
@@ -58,74 +57,77 @@ const Experience = () => {
         'Guest speaker at universities and tech communities'
       ],
       metrics: '50+ mentees',
-      icon: <Users className="w-6 h-6" />,
-      gradient: 'from-emerald-500 to-teal-600'
+      icon: <Users className="w-5 h-5" />,
     }
   ];
 
   return (
-    <section id="experience" className="py-24 bg-background">
+    <section id="experience" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6 tracking-tight">Experience Highlights</h2>
-            <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
+          <ScrollAnimationWrapper className="text-center mb-14">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight">
+              Experience <span className="text-gradient">Highlights</span>
+            </h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
               2+ years of building AI-powered products across NLP, multi-agent systems, and HR tech
             </p>
-          </div>
+          </ScrollAnimationWrapper>
 
-          {/* Experience Grid */}
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className="card-interactive p-8 lg:p-10 group slide-up relative"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-surface border-2 border-border flex items-center justify-center text-primary shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
-                    {exp.icon}
-                  </div>
-                  <div className="text-right">
-                    <span className="text-sm font-medium text-text-muted tracking-wide">{exp.period}</span>
-                    <div className="text-2xl font-bold text-primary mt-1 font-display">
-                      {exp.metrics}
+          {/* Timeline */}
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-6 top-0 bottom-0 w-px bg-border hidden md:block" />
+
+            <div className="space-y-8">
+              {experiences.map((exp, index) => (
+                <ScrollAnimationWrapper key={index} delay={index * 0.1}>
+                  <motion.div
+                    className="relative pl-0 md:pl-16 group"
+                    whileHover={{ x: 4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* Timeline Dot */}
+                    <div className="absolute left-4 top-8 w-5 h-5 rounded-full bg-primary/20 border-2 border-primary hidden md:flex items-center justify-center z-10">
+                      <div className="w-2 h-2 rounded-full bg-primary" />
                     </div>
-                  </div>
-                </div>
 
-                {/* Content */}
-                <div>
-                  <h3 className="text-xl font-display font-bold text-primary mb-2 tracking-tight">{exp.company}</h3>
-                  <p className="text-accent-blue font-semibold mb-4 text-base tracking-wide">{exp.role}</p>
-                  <p className="text-text-secondary mb-6 leading-relaxed text-[15px]">{exp.description}</p>
-
-                  {/* Achievements */}
-                  <div className="space-y-3">
-                    {exp.achievements.map((achievement, achIndex) => (
-                      <div key={achIndex} className="flex items-start space-x-3 group/item">
-                        <ArrowRight className="w-4 h-4 text-accent-blue mt-0.5 flex-shrink-0 group-hover/item:translate-x-1 transition-transform" />
-                        <span className="text-sm text-text-secondary leading-relaxed">{achievement}</span>
+                    {/* Card */}
+                    <div className="bg-card rounded-2xl border border-border p-6 lg:p-8 hover:border-primary/20 hover:shadow-lg transition-all duration-300">
+                      {/* Header Row */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                            {exp.icon}
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-display font-bold text-foreground">{exp.company}</h3>
+                            <p className="text-sm font-medium text-primary">{exp.role}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-text-muted bg-surface px-3 py-1 rounded-full">{exp.period}</span>
+                          <span className="text-sm font-bold text-primary">{exp.metrics}</span>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* CTA */}
-          <div className="text-center mt-16 slide-up">
-            <p className="text-text-secondary mb-6">Want to learn more about my AI journey?</p>
-            <a
-              href="mailto:harisrujan2605@gmail.com"
-              className="btn-accent group"
-            >
-              Let's Connect
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+                      <p className="text-text-secondary text-sm mb-4">{exp.description}</p>
+
+                      {/* Achievements */}
+                      <div className="grid sm:grid-cols-2 gap-2">
+                        {exp.achievements.map((achievement, achIndex) => (
+                          <div key={achIndex} className="flex items-start space-x-2 group/item">
+                            <ArrowRight className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0 opacity-60 group-hover/item:opacity-100 transition-opacity" />
+                            <span className="text-xs text-text-secondary leading-relaxed">{achievement}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                </ScrollAnimationWrapper>
+              ))}
+            </div>
           </div>
         </div>
       </div>
