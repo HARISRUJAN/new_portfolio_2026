@@ -120,7 +120,7 @@ const Hero = ({ onOpenChat }: { onOpenChat?: () => void }) => {
                   whileTap={{ scale: 0.97 }}
                 >
                   <MessageCircle className="w-5 h-5 mr-2" />
-                  Ask My AI
+                  Ask My Digital Twin
                   <Sparkles className="ml-2 w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
                 </motion.button>
 
