@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>From Idea to Execution — Building Software That Users Love</title>
+<title>Workshop: From Idea to Execution — Brainstorm Your Own Project</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -29,40 +29,35 @@
 
   body {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--gh-bg);
-    color: var(--gh-text);
-    overflow-x: hidden;
+    background: var(--gh-bg); color: var(--gh-text); overflow-x: hidden;
   }
 
   .slide {
-    min-height: 100vh;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 40px;
-    position: relative;
-    overflow: hidden;
+    min-height: 100vh; scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 60px 40px; position: relative; overflow: hidden;
   }
 
   .slide::before {
-    content: '';
-    position: absolute;
+    content: ''; position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background: radial-gradient(ellipse at 50% 0%, rgba(9,105,218,0.04) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  .slide.hero {
-    background: linear-gradient(180deg, var(--gh-bg) 0%, var(--gh-bg-secondary) 100%);
+  .slide.hero { background: linear-gradient(180deg, var(--gh-bg) 0%, var(--gh-bg-secondary) 100%); }
+
+  .slide.activity-slide {
+    background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+    border-left: 6px solid var(--gh-orange);
   }
 
-  .slide-content {
-    max-width: 1100px;
-    width: 100%;
-    z-index: 1;
+  .slide.activity-slide::before {
+    background: radial-gradient(ellipse at 50% 0%, rgba(154,103,0,0.06) 0%, transparent 60%);
   }
+
+  .slide-content { max-width: 1100px; width: 100%; z-index: 1; }
 
   h1 { font-size: 3.2rem; font-weight: 800; color: #000; margin-bottom: 16px; line-height: 1.2; }
   h2 { font-size: 2rem; font-weight: 700; color: #000; margin-bottom: 12px; }
@@ -71,26 +66,28 @@
   p, li { font-size: 1.05rem; line-height: 1.7; color: var(--gh-text-muted); }
 
   .section-num {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem; font-weight: 600;
-    color: var(--gh-blue);
-    background: rgba(9,105,218,0.08);
-    padding: 4px 12px; border-radius: 20px;
-    margin-bottom: 16px;
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 600; color: var(--gh-blue);
+    background: rgba(9,105,218,0.08); padding: 4px 12px;
+    border-radius: 20px; margin-bottom: 16px;
+  }
+
+  .activity-badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 600; color: var(--gh-orange);
+    background: rgba(154,103,0,0.12); padding: 4px 12px;
+    border-radius: 20px; margin-bottom: 16px;
   }
 
   .slide-divider {
     width: 60px; height: 4px;
-    background: var(--gh-gradient);
-    border-radius: 2px; margin-bottom: 24px;
+    background: var(--gh-gradient); border-radius: 2px; margin-bottom: 24px;
   }
 
   .nav-dots {
     position: fixed; right: 24px; top: 50%;
     transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 8px;
-    z-index: 1000;
+    display: flex; flex-direction: column; gap: 8px; z-index: 1000;
   }
 
   .nav-dot {
@@ -102,16 +99,11 @@
   .nav-dot.active { background: var(--gh-blue); transform: scale(1.3); }
 
   .card {
-    background: var(--gh-bg);
-    border: 1px solid var(--gh-border);
-    border-radius: 12px; padding: 24px;
-    transition: all 0.3s;
+    background: var(--gh-bg); border: 1px solid var(--gh-border);
+    border-radius: 12px; padding: 24px; transition: all 0.3s;
   }
 
-  .card:hover {
-    border-color: var(--gh-blue);
-    box-shadow: 0 4px 12px rgba(9,105,218,0.08);
-  }
+  .card:hover { border-color: var(--gh-blue); box-shadow: 0 4px 12px rgba(9,105,218,0.08); }
 
   .card-grid {
     display: grid;
@@ -121,18 +113,13 @@
 
   .card-icon { font-size: 2rem; display: block; margin-bottom: 12px; }
 
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px; align-items: start;
-  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
 
   .code-block {
     background: #161b22; color: #e6edf3;
     padding: 20px 24px; border-radius: 10px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem; line-height: 1.8;
-    overflow-x: auto;
+    font-size: 0.9rem; line-height: 1.8; overflow-x: auto;
   }
 
   .code-block .comment { color: #8b949e; }
@@ -159,33 +146,34 @@
   .arch-arrow { font-size: 1.5rem; color: var(--gh-border); font-weight: bold; }
 
   .arch-box {
-    background: var(--gh-bg-secondary);
-    border: 1px solid var(--gh-border);
+    background: var(--gh-bg-secondary); border: 1px solid var(--gh-border);
     border-radius: 12px; padding: 24px;
   }
 
-  .workflow-steps {
-    display: flex; align-items: stretch;
-    gap: 0; margin: 30px 0;
+  .prompt-box {
+    background: #fffbeb; border: 2px dashed var(--gh-orange);
+    border-radius: 12px; padding: 24px; margin-top: 20px;
   }
 
-  .workflow-step {
-    flex: 1; padding: 20px 16px;
-    text-align: center; position: relative;
-    border-top: 3px solid var(--gh-border);
+  .prompt-box h3 { color: var(--gh-orange); }
+
+  .fill-in {
+    display: block; width: 100%;
+    border: none; border-bottom: 2px dashed var(--gh-border);
+    padding: 8px 4px; margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem; background: transparent;
+    color: var(--gh-text);
   }
 
-  .workflow-step.active { border-top-color: var(--gh-blue); background: rgba(9,105,218,0.03); }
+  .fill-in::placeholder { color: var(--gh-text-muted); font-style: italic; }
 
-  .workflow-step .step-num {
-    display: inline-block; width: 28px; height: 28px;
-    line-height: 28px; border-radius: 50%;
-    background: var(--gh-blue); color: white;
-    font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;
+  .timer-box {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gh-red); color: white;
+    padding: 8px 16px; border-radius: 20px;
+    font-weight: 700; font-size: 1rem;
   }
-
-  .workflow-step h4 { font-size: 0.9rem; font-weight: 700; color: var(--gh-text); margin-bottom: 4px; }
-  .workflow-step p { font-size: 0.8rem; color: var(--gh-text-muted); }
 
   .checklist { list-style: none; padding: 0; }
   .checklist li {
@@ -207,64 +195,40 @@
   .badge-red { background: rgba(207,34,46,0.1); color: var(--gh-red); }
   .badge-orange { background: rgba(154,103,0,0.1); color: var(--gh-orange); }
 
+  .workflow-steps {
+    display: flex; align-items: stretch; gap: 0; margin: 30px 0;
+  }
+
+  .workflow-step {
+    flex: 1; padding: 20px 16px; text-align: center;
+    border-top: 3px solid var(--gh-border);
+  }
+
+  .workflow-step.active { border-top-color: var(--gh-blue); background: rgba(9,105,218,0.03); }
+
+  .workflow-step .step-num {
+    display: inline-block; width: 28px; height: 28px;
+    line-height: 28px; border-radius: 50%;
+    background: var(--gh-blue); color: white;
+    font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;
+  }
+
+  .workflow-step h4 { font-size: 0.9rem; font-weight: 700; color: var(--gh-text); margin-bottom: 4px; }
+  .workflow-step p { font-size: 0.8rem; color: var(--gh-text-muted); }
+
   .glow-blue { border-left: 3px solid var(--gh-blue); }
   .glow-purple { border-left: 3px solid var(--gh-purple); }
   .glow-green { border-left: 3px solid var(--gh-green); }
   .glow-red { border-left: 3px solid var(--gh-red); }
   .glow-orange { border-left: 3px solid var(--gh-orange); }
 
-  .compare-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  .compare-table td { padding: 10px 14px; border-bottom: 1px solid var(--gh-border); font-size: 0.9rem; }
-  .compare-table td:first-child { width: 160px; font-weight: 600; color: var(--gh-text); }
-
-  .persona-card {
-    background: var(--gh-bg); border: 1px solid var(--gh-border);
-    border-radius: 12px; padding: 24px; text-align: center;
+  .discussion-prompt {
+    background: rgba(130,80,223,0.06);
+    border: 1px solid rgba(130,80,223,0.2);
+    border-radius: 12px; padding: 20px; margin-top: 16px;
   }
 
-  .persona-card .avatar {
-    font-size: 3rem; margin-bottom: 12px; display: block;
-  }
-
-  .persona-card .name {
-    font-weight: 700; font-size: 1.1rem; color: var(--gh-text);
-  }
-
-  .persona-card .role {
-    font-size: 0.85rem; color: var(--gh-blue); font-weight: 600; margin-top: 4px;
-  }
-
-  .timeline { margin-top: 24px; }
-  .timeline-item {
-    display: flex; align-items: flex-start;
-    gap: 16px; margin-bottom: 20px;
-  }
-
-  .timeline-dot {
-    width: 14px; height: 14px; border-radius: 50%;
-    border: 3px solid; margin-top: 6px; flex-shrink: 0;
-  }
-
-  .timeline-content {
-    flex: 1; padding: 12px 16px;
-    border-left: 3px solid var(--gh-border);
-    background: var(--gh-bg-secondary);
-    border-radius: 0 8px 8px 0;
-  }
-
-  .metric-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 16px; margin-top: 20px;
-  }
-
-  .metric-box {
-    text-align: center; padding: 16px;
-    background: var(--gh-bg); border-radius: 8px;
-    border: 1px solid var(--gh-border);
-  }
-
-  .metric-value { font-size: 1.8rem; font-weight: 800; color: var(--gh-blue); }
-  .metric-label { font-size: 0.8rem; color: var(--gh-text-muted); margin-top: 4px; }
+  .discussion-prompt h3 { color: var(--gh-purple); }
 
   @media (max-width: 768px) {
     .two-col { grid-template-columns: 1fr; }
@@ -272,7 +236,6 @@
     h1 { font-size: 2.2rem; }
     .slide { padding: 40px 20px; }
     .workflow-steps { flex-direction: column; }
-    .metric-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -285,102 +248,71 @@
 <!-- ============================================ -->
 <section class="slide hero" id="slide-title">
   <div class="slide-content" style="text-align:center;">
-    <span class="section-num">Workshop · 1 Hour</span>
+    <span class="section-num">Interactive Workshop · 1 Hour</span>
     <h1 style="font-size:3.5rem;background:var(--gh-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">From Idea to Execution</h1>
-    <p class="subtitle" style="margin-top:8px;">Building Software That Users Actually Love</p>
+    <p class="subtitle" style="margin-top:8px;">Brainstorm, Plan & Build YOUR Project — Together</p>
     <div class="slide-divider" style="margin:20px auto 30px;"></div>
 
-    <div class="arch-flow" style="margin-top:40px;">
-      <div class="arch-node" style="border-color:var(--gh-blue);">
-        <span class="icon">💡</span>
-        <span class="label">Idea</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node" style="border-color:var(--gh-purple);">
-        <span class="icon">👥</span>
-        <span class="label">Users</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node" style="border-color:var(--gh-green);">
-        <span class="icon">📋</span>
-        <span class="label">Requirements</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node" style="border-color:var(--gh-orange);">
-        <span class="icon">🏗️</span>
-        <span class="label">Design</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node" style="border-color:var(--gh-red);">
-        <span class="icon">💻</span>
-        <span class="label">Build</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node" style="border-color:var(--gh-pink);">
-        <span class="icon">🚀</span>
-        <span class="label">Ship</span>
-      </div>
+    <div style="margin-top:30px;text-align:left;max-width:600px;margin-left:auto;margin-right:auto;">
+      <p style="font-size:1.1rem;color:var(--gh-text);margin-bottom:16px;"><strong>Today you will:</strong></p>
+      <ul class="checklist">
+        <li>Find a REAL problem worth solving</li>
+        <li>Define who your user is</li>
+        <li>Write your first requirements</li>
+        <li>Plan your MVP scope</li>
+        <li>Leave with an action plan you can start tomorrow</li>
+      </ul>
     </div>
 
     <div style="margin-top:40px;">
-      <span class="badge badge-blue" style="font-size:0.9rem;padding:8px 16px;">📝 Requirements</span>
-      <span class="badge badge-purple" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">👤 User Thinking</span>
-      <span class="badge badge-green" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🎯 Execution</span>
-      <span class="badge badge-orange" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🔄 Iteration</span>
+      <span class="badge badge-orange" style="font-size:0.9rem;padding:8px 16px;">⏱️ Timed Activities</span>
+      <span class="badge badge-purple" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">💬 Group Discussions</span>
+      <span class="badge badge-blue" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">✍️ Fill-In Exercises</span>
     </div>
   </div>
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 2: THE PROBLEM WITH MOST PROJECTS -->
+<!-- SLIDE 2: ICEBREAKER ACTIVITY -->
 <!-- ============================================ -->
-<section class="slide" id="slide-1">
+<section class="slide activity-slide" id="slide-1">
   <div class="slide-content">
-    <span class="section-num">01</span>
-    <h1>Why Most Projects Fail</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">It's not the code — it's the foundation.</p>
+    <span class="activity-badge">⚡ Activity · 5 min</span>
+    <h1>Icebreaker: What Annoys You?</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
 
     <div class="two-col">
       <div>
-        <div class="card glow-red" style="margin-bottom:16px;">
-          <span class="card-icon">💀</span>
-          <h3 style="color:var(--gh-red);">Common Failure Modes</h3>
-          <ul class="checklist" style="margin-top:12px;">
-            <li style="border-bottom-color:rgba(207,34,46,0.1);">Building something nobody asked for</li>
-            <li style="border-bottom-color:rgba(207,34,46,0.1);">Vague requirements → scope creep</li>
-            <li style="border-bottom-color:rgba(207,34,46,0.1);">Never talked to actual users</li>
-            <li style="border-bottom-color:rgba(207,34,46,0.1);">Jumped to code before thinking</li>
-            <li style="border-bottom-color:rgba(207,34,46,0.1);">No success metrics defined</li>
-          </ul>
+        <div class="prompt-box">
+          <h3>🎤 Share with the group:</h3>
+          <p style="margin-top:12px;font-size:1.1rem;color:var(--gh-text);">Think about your LAST WEEK. What's one thing that frustrated you — something you had to do that was <strong>annoying, slow, or broken?</strong></p>
+          <div style="margin-top:20px;">
+            <p style="font-size:0.9rem;font-weight:600;color:var(--gh-text);">Examples to get you started:</p>
+            <ul style="margin-top:8px;padding-left:20px;">
+              <li>"Finding an empty seat in the library"</li>
+              <li>"Coordinating a group project on WhatsApp"</li>
+              <li>"Figuring out which food places are open now"</li>
+              <li>"Tracking my expenses across 3 apps"</li>
+            </ul>
+          </div>
         </div>
       </div>
       <div>
-        <div class="arch-box">
-          <h3 style="color:#000;">📊 The Reality</h3>
-          <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);">
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-red);">70%</div>
-              <div class="metric-label">of software projects fail or are challenged</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-orange);">45%</div>
-              <div class="metric-label">of features built are never used</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-purple);">5×</div>
-              <div class="metric-label">cost to fix a requirements error in production</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-blue);">#1</div>
-              <div class="metric-label">cause of failure: poor requirements</div>
-            </div>
-          </div>
+        <div class="card" style="border-top:3px solid var(--gh-orange);">
+          <h3 style="color:#000;">📝 Instructions</h3>
+          <ol style="padding-left:20px;margin-top:12px;">
+            <li style="margin-bottom:8px;">Think for 30 seconds</li>
+            <li style="margin-bottom:8px;">Write it in the chat / Slido</li>
+            <li style="margin-bottom:8px;">We'll read out the top ones</li>
+            <li>Pick your FAVORITE frustration — you'll use it for the rest of the workshop!</li>
+          </ol>
         </div>
-
-        <div class="card" style="margin-top:16px;border-top:3px solid var(--gh-green);">
-          <p style="font-style:italic;color:var(--gh-text);">"Weeks of coding can save you hours of planning."</p>
-          <p style="font-size:0.85rem;margin-top:4px;">— Every senior engineer ever</p>
+        <div style="margin-top:20px;text-align:center;">
+          <div class="timer-box">⏱️ 2 min to think & type</div>
+        </div>
+        <div class="discussion-prompt" style="margin-top:16px;">
+          <h3>💡 Why this matters:</h3>
+          <p style="margin-top:8px;">Every great product started with someone saying "this sucks, I can build something better." Your frustration = your project idea.</p>
         </div>
       </div>
     </div>
@@ -388,119 +320,46 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 3: THE JOURNEY OVERVIEW -->
+<!-- SLIDE 3: PROBLEM FRAMING -->
 <!-- ============================================ -->
 <section class="slide" id="slide-2">
   <div class="slide-content">
-    <span class="section-num">02</span>
-    <h1>The Journey: Idea → Shipped Product</h1>
+    <span class="section-num">01</span>
+    <h1>From Complaint → Problem Statement</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">A practical framework you can use for any project</p>
-
-    <div class="workflow-steps">
-      <div class="workflow-step active" style="border-top-color:var(--gh-blue);">
-        <span class="step-num" style="background:var(--gh-blue);">1</span>
-        <h4>💡 Ideation</h4>
-        <p>Problem discovery & validation</p>
-      </div>
-      <div class="workflow-step active" style="border-top-color:var(--gh-purple);">
-        <span class="step-num" style="background:var(--gh-purple);">2</span>
-        <h4>👥 Users</h4>
-        <p>Who are you building for?</p>
-      </div>
-      <div class="workflow-step active" style="border-top-color:var(--gh-green);">
-        <span class="step-num" style="background:var(--gh-green);">3</span>
-        <h4>📋 Requirements</h4>
-        <p>What exactly to build</p>
-      </div>
-      <div class="workflow-step active" style="border-top-color:var(--gh-orange);">
-        <span class="step-num" style="background:var(--gh-orange);">4</span>
-        <h4>🏗️ Design</h4>
-        <p>Architecture & UX</p>
-      </div>
-      <div class="workflow-step active" style="border-top-color:var(--gh-red);">
-        <span class="step-num" style="background:var(--gh-red);">5</span>
-        <h4>💻 Build</h4>
-        <p>Sprint execution</p>
-      </div>
-      <div class="workflow-step active" style="border-top-color:var(--gh-pink);">
-        <span class="step-num" style="background:var(--gh-pink);">6</span>
-        <h4>🚀 Ship & Learn</h4>
-        <p>Deploy, measure, iterate</p>
-      </div>
-    </div>
-
-    <div class="arch-box" style="margin-top:24px;text-align:center;">
-      <p style="font-size:1.1rem;color:var(--gh-text);"><strong>Today's Workshop:</strong> We'll walk through this entire journey using a real example project — building a <strong style="color:var(--gh-blue);">Student Study Group Finder App</strong></p>
-      <p style="margin-top:8px;font-size:0.9rem;">By the end, you'll have a complete requirements doc & execution plan you can actually use.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================ -->
-<!-- SLIDE 4: IDEATION — FINDING THE PROBLEM -->
-<!-- ============================================ -->
-<section class="slide" id="slide-3">
-  <div class="slide-content">
-    <span class="section-num">03</span>
-    <h1>Step 1: Find a Real Problem</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">Don't start with a solution — start with a pain point.</p>
+    <p class="subtitle">A vague frustration isn't enough. Let's make it specific.</p>
 
     <div class="two-col">
       <div>
         <div class="card glow-red" style="margin-bottom:16px;">
-          <h3 style="color:var(--gh-red);">❌ Solution-First (Bad)</h3>
-          <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
-            <span class="comment">// "I want to build an app that uses<br>// AI and blockchain to..."</span><br><br>
-            <span class="keyword">Problem:</span> <span class="string">???</span><br>
-            <span class="keyword">Users:</span> <span class="string">???</span><br>
-            <span class="keyword">Why:</span> <span class="string">Because it sounds cool</span>
-          </div>
+          <h3 style="color:var(--gh-red);">❌ Vague Complaint</h3>
+          <p style="margin-top:8px;font-size:1.1rem;color:var(--gh-text);">"Group projects are annoying"</p>
         </div>
         <div class="card glow-green">
-          <h3 style="color:var(--gh-green);">✅ Problem-First (Good)</h3>
-          <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
-            <span class="comment">// "Students can't find study partners<br>// for the same course & schedule..."</span><br><br>
-            <span class="keyword">Problem:</span> <span class="tag">Isolation in large classes</span><br>
-            <span class="keyword">Users:</span> <span class="tag">University students</span><br>
-            <span class="keyword">Why:</span> <span class="tag">Better grades + social connection</span>
+          <h3 style="color:var(--gh-green);">✅ Clear Problem Statement</h3>
+          <p style="margin-top:8px;font-size:1.1rem;color:var(--gh-text);"><strong>[University students]</strong> struggle to <strong>[find compatible study partners]</strong> because <strong>[large class sizes make it hard to connect]</strong>, which leads to <strong>[studying alone and lower grades]</strong>.</p>
+        </div>
+
+        <div class="arch-box" style="margin-top:20px;">
+          <h3 style="color:#000;">🧩 The Formula</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.95rem;">
+            <span class="keyword">[WHO]</span> struggles to <span class="keyword">[DO WHAT]</span><br>
+            because <span class="keyword">[WHY/BARRIER]</span>,<br>
+            which leads to <span class="keyword">[NEGATIVE OUTCOME]</span>.
           </div>
         </div>
       </div>
       <div>
-        <div class="arch-box">
-          <h3 style="color:#000;">🔍 Problem Discovery Techniques</h3>
-          <div class="timeline" style="margin-top:16px;">
-            <div class="timeline-item">
-              <div class="timeline-dot" style="border-color:var(--gh-blue);"></div>
-              <div class="timeline-content" style="border-left-color:var(--gh-blue);">
-                <h3 style="font-size:1rem;">👂 Listen</h3>
-                <p>What do people complain about daily?</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot" style="border-color:var(--gh-purple);"></div>
-              <div class="timeline-content" style="border-left-color:var(--gh-purple);">
-                <h3 style="font-size:1rem;">🔎 Observe</h3>
-                <p>What workarounds do people use? (spreadsheets, WhatsApp groups, sticky notes)</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot" style="border-color:var(--gh-green);"></div>
-              <div class="timeline-content" style="border-left-color:var(--gh-green);">
-                <h3 style="font-size:1rem;">❓ Ask "Why?" 5 Times</h3>
-                <p>Dig to the root cause, not the symptom</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot" style="border-color:var(--gh-orange);"></div>
-              <div class="timeline-content" style="border-left-color:var(--gh-orange);">
-                <h3 style="font-size:1rem;">📊 Validate</h3>
-                <p>Talk to 5+ potential users. Do they have this problem?</p>
-              </div>
-            </div>
-          </div>
+        <div class="card" style="border-top:3px solid var(--gh-blue);">
+          <h3 style="color:#000;">🔍 Sharpening Questions</h3>
+          <p style="margin-top:12px;">Ask yourself these to go deeper:</p>
+          <ul style="margin-top:12px;padding-left:20px;">
+            <li style="margin-bottom:12px;"><strong style="color:var(--gh-text);">Who exactly?</strong><br>Not "people" — be specific. Students? Which year? Which major?</li>
+            <li style="margin-bottom:12px;"><strong style="color:var(--gh-text);">When does this happen?</strong><br>Every day? Only during exams? Only in the morning?</li>
+            <li style="margin-bottom:12px;"><strong style="color:var(--gh-text);">What do they do today?</strong><br>Workarounds = proof the problem is real</li>
+            <li style="margin-bottom:12px;"><strong style="color:var(--gh-text);">How bad is it?</strong><br>Mild annoyance or "I'd pay to fix this"?</li>
+            <li><strong style="color:var(--gh-text);">Why hasn't someone solved it?</strong><br>Maybe they have — go check!</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -508,258 +367,187 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 5: THINK ABOUT YOUR USERS -->
+<!-- SLIDE 4: ACTIVITY — WRITE YOUR PROBLEM -->
 <!-- ============================================ -->
-<section class="slide" id="slide-4">
+<section class="slide activity-slide" id="slide-3">
   <div class="slide-content">
-    <span class="section-num">04</span>
-    <h1>Step 2: Know Your Users</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">If you don't know WHO you're building for, you'll build for nobody.</p>
+    <span class="activity-badge">✍️ Activity · 5 min</span>
+    <h1>Your Turn: Write Your Problem Statement</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
 
-    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
-      <div class="persona-card">
-        <span class="avatar">👩‍💻</span>
-        <span class="name">Sarah</span>
-        <span class="role">2nd Year CS Student</span>
-        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
-          • Struggles with Data Structures<br>
-          • Wants study partners for exam prep<br>
-          • Available evenings & weekends<br>
-          • Prefers in-person study groups<br>
-          • <strong style="color:var(--gh-red);">Pain:</strong> "I don't know anyone in my 200-person lecture"
-        </p>
-      </div>
-      <div class="persona-card">
-        <span class="avatar">👨‍🎓</span>
-        <span class="name">Marcus</span>
-        <span class="role">3rd Year, Working Part-Time</span>
-        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
-          • Limited schedule (works 20hrs/week)<br>
-          • Needs flexible, async study options<br>
-          • Strong in some subjects, weak in others<br>
-          • Would tutor in exchange for help<br>
-          • <strong style="color:var(--gh-red);">Pain:</strong> "My schedule never matches anyone else's"
-        </p>
-      </div>
-      <div class="persona-card">
-        <span class="avatar">👩‍🏫</span>
-        <span class="name">Prof. Chen</span>
-        <span class="role">Course Instructor</span>
-        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
-          • Wants students to collaborate more<br>
-          • Can't manually matchmake 200 students<br>
-          • Needs to see engagement metrics<br>
-          • Would promote tool if it works<br>
-          • <strong style="color:var(--gh-red);">Pain:</strong> "I know groups help, but I can't facilitate them"
-        </p>
+    <div class="prompt-box" style="max-width:800px;margin:0 auto;">
+      <h3>📝 Fill this in (use the chat / shared doc):</h3>
+      <div style="margin-top:20px;font-size:1.1rem;">
+        <p style="color:var(--gh-text);margin-bottom:8px;"><strong>My frustration from the icebreaker:</strong></p>
+        <input class="fill-in" placeholder="e.g., Finding people to study with for my CS course..." readonly>
+
+        <p style="color:var(--gh-text);margin-top:20px;margin-bottom:8px;"><strong>Problem Statement:</strong></p>
+        <div class="code-block" style="background:#2d1f00;font-size:1rem;">
+          <span class="keyword">[_______]</span> struggles to <span class="keyword">[_______]</span><br>
+          because <span class="keyword">[_______]</span>,<br>
+          which leads to <span class="keyword">[_______]</span>.
+        </div>
+
+        <p style="color:var(--gh-text);margin-top:20px;margin-bottom:8px;"><strong>How do people solve this today? (workaround)</strong></p>
+        <input class="fill-in" placeholder="e.g., WhatsApp groups, asking friends, random class announcements..." readonly>
       </div>
     </div>
 
-    <div class="arch-box" style="margin-top:24px;">
-      <h3 style="color:#000;">🎯 User Persona Template</h3>
-      <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
-        <span class="keyword">Name:</span> <span class="string">[Give them a real name]</span><br>
-        <span class="keyword">Role:</span> <span class="string">[Who are they?]</span><br>
-        <span class="keyword">Goal:</span> <span class="string">[What are they trying to achieve?]</span><br>
-        <span class="keyword">Pain:</span> <span class="string">[What frustrates them today?]</span><br>
-        <span class="keyword">Context:</span> <span class="string">[When/where/how do they encounter this problem?]</span><br>
-        <span class="keyword">Quote:</span> <span class="string">"[Something they'd actually say]"</span>
-      </div>
+    <div style="text-align:center;margin-top:24px;">
+      <div class="timer-box">⏱️ 5 min — write it down, then share with a partner</div>
+    </div>
+
+    <div class="discussion-prompt" style="max-width:800px;margin:16px auto 0;">
+      <h3>💬 Pair Share:</h3>
+      <p style="margin-top:8px;">Read your problem statement to the person next to you. Do THEY have this problem too? Ask them: <em>"On a scale of 1–10, how annoying is this for you?"</em></p>
     </div>
   </div>
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 6: USER STORIES -->
+<!-- SLIDE 5: THINK ABOUT USERS -->
 <!-- ============================================ -->
-<section class="slide" id="slide-5">
+<section class="slide" id="slide-4">
   <div class="slide-content">
-    <span class="section-num">05</span>
-    <h1>Step 3: Write User Stories</h1>
+    <span class="section-num">02</span>
+    <h1>Who Is Your User?</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">Describe features from the user's perspective — not the developer's.</p>
+    <p class="subtitle">You are NOT your user. Even if you have the problem, others experience it differently.</p>
 
     <div class="two-col">
       <div>
         <div class="arch-box">
-          <h3 style="color:#000;">📝 User Story Format</h3>
-          <div class="code-block" style="margin-top:12px;font-size:0.9rem;">
+          <h3 style="color:#000;">👤 User Persona = A Character Sheet</h3>
+          <p style="margin-top:8px;">Give your user a name, a face, a story. It makes every design decision easier.</p>
+          <div class="code-block" style="margin-top:16px;font-size:0.9rem;">
+            <span class="keyword">Name:</span> <span class="string">[A real first name]</span><br>
+            <span class="keyword">Who:</span> <span class="string">[Age, role, context]</span><br>
+            <span class="keyword">Goal:</span> <span class="string">[What they want to achieve]</span><br>
+            <span class="keyword">Frustration:</span> <span class="string">[What blocks them]</span><br>
+            <span class="keyword">Behavior:</span> <span class="string">[How they act today]</span><br>
+            <span class="keyword">Quote:</span> <span class="string">"[Something they'd say]"</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-purple);margin-bottom:16px;">
+          <h3 style="color:#000;">🤔 Key Questions to Ask</h3>
+          <ul style="padding-left:20px;margin-top:12px;">
+            <li style="margin-bottom:8px;">How tech-savvy are they?</li>
+            <li style="margin-bottom:8px;">When & where do they face this problem?</li>
+            <li style="margin-bottom:8px;">What have they already tried?</li>
+            <li style="margin-bottom:8px;">Would they use a phone, laptop, or both?</li>
+            <li style="margin-bottom:8px;">What would make them STOP using your solution?</li>
+            <li>Would they pay for this? Or does it need to be free?</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-green);">
+          <h3 style="color:#000;">💡 Pro Tip: Find 2 Personas</h3>
+          <p style="margin-top:8px;">Your <strong style="color:var(--gh-blue);">primary user</strong> (who uses it most) and a <strong style="color:var(--gh-purple);">secondary user</strong> (who benefits differently). Building for both = wider impact.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: ACTIVITY — CREATE YOUR PERSONA -->
+<!-- ============================================ -->
+<section class="slide activity-slide" id="slide-5">
+  <div class="slide-content">
+    <span class="activity-badge">✍️ Activity · 7 min</span>
+    <h1>Your Turn: Create Your User Persona</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
+
+    <div class="two-col">
+      <div>
+        <div class="prompt-box">
+          <h3>📝 Fill in YOUR persona:</h3>
+          <div style="margin-top:16px;">
+            <p style="font-weight:600;color:var(--gh-text);">Name:</p>
+            <input class="fill-in" placeholder="Give them a real name..." readonly>
+            <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">Who are they?</p>
+            <input class="fill-in" placeholder="e.g., 2nd year student, works part-time..." readonly>
+            <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">What's their goal?</p>
+            <input class="fill-in" placeholder="e.g., Pass their exams while having a social life..." readonly>
+            <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">What frustrates them?</p>
+            <input class="fill-in" placeholder="e.g., Can't find study partners with same schedule..." readonly>
+            <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">Their quote:</p>
+            <input class="fill-in" placeholder='"I wish I could just..."' readonly>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-purple);margin-bottom:16px;">
+          <h3 style="color:#000;">🎯 Think About</h3>
+          <ul style="padding-left:20px;margin-top:12px;">
+            <li style="margin-bottom:12px;">Is this person REAL? (Think of someone you know)</li>
+            <li style="margin-bottom:12px;">Would they actually download/use your thing?</li>
+            <li style="margin-bottom:12px;">What's the FIRST thing they'd want to do?</li>
+            <li>What would make them tell a friend about it?</li>
+          </ul>
+        </div>
+        <div style="text-align:center;margin-top:16px;">
+          <div class="timer-box">⏱️ 5 min write + 2 min share</div>
+        </div>
+        <div class="discussion-prompt" style="margin-top:16px;">
+          <h3>💬 Group Discussion:</h3>
+          <p style="margin-top:8px;">Share your persona with your group. Does everyone agree this person exists? Can anyone ADD details from their own experience?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: USER STORIES INTRO -->
+<!-- ============================================ -->
+<section class="slide" id="slide-6">
+  <div class="slide-content">
+    <span class="section-num">03</span>
+    <h1>What Should It Actually DO?</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">User Stories = describing features from your user's perspective, not yours.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📝 The Format</h3>
+          <div class="code-block" style="margin-top:12px;font-size:1rem;">
             <span class="keyword">As a</span> <span class="string">[type of user]</span><br>
             <span class="keyword">I want to</span> <span class="string">[do something]</span><br>
             <span class="keyword">So that</span> <span class="string">[I get this benefit]</span>
           </div>
+          <p style="margin-top:16px;font-size:0.9rem;">This forces you to think: <em>WHO wants this, WHAT do they want, and WHY?</em></p>
+        </div>
 
-          <div style="margin-top:20px;">
-            <p style="margin-bottom:12px;"><strong style="color:var(--gh-text);">Examples for our Study Group App:</strong></p>
-            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-blue);">
-              <p style="font-size:0.9rem;"><strong>As a</strong> student, <strong>I want to</strong> search for study groups by course, <strong>so that</strong> I can find people studying the same material.</p>
-            </div>
-            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-purple);">
-              <p style="font-size:0.9rem;"><strong>As a</strong> student, <strong>I want to</strong> see available time slots, <strong>so that</strong> I can join groups that fit my schedule.</p>
-            </div>
-            <div class="card" style="padding:12px;border-left:3px solid var(--gh-green);">
-              <p style="font-size:0.9rem;"><strong>As an</strong> instructor, <strong>I want to</strong> see how many students formed groups, <strong>so that</strong> I know the tool is helping my class.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="card" style="border-top:3px solid var(--gh-orange);margin-bottom:16px;">
-          <h3 style="color:#000;">✅ Acceptance Criteria</h3>
-          <p style="margin-top:8px;margin-bottom:12px;">How do you know a story is DONE?</p>
-          <div class="code-block" style="font-size:0.8rem;">
-            <span class="comment">// Story: Search for study groups by course</span><br><br>
-            <span class="keyword">GIVEN</span> <span class="string">I'm logged in</span><br>
-            <span class="keyword">WHEN</span> <span class="string">I type "CS201" in the search bar</span><br>
-            <span class="keyword">THEN</span> <span class="string">I see all groups for CS201</span><br>
-            <span class="keyword">AND</span> <span class="string">results show group name, members, time</span><br>
-            <span class="keyword">AND</span> <span class="string">I can filter by day of week</span><br>
-            <span class="keyword">AND</span> <span class="string">empty state shows "No groups yet"</span>
-          </div>
-        </div>
-        <div class="card" style="border-top:3px solid var(--gh-red);">
-          <h3 style="color:#000;">🚫 What's NOT a User Story</h3>
-          <ul class="checklist">
-            <li style="color:var(--gh-red);">"Use React and PostgreSQL" — that's a tech choice</li>
-            <li style="color:var(--gh-red);">"Make it fast" — too vague, no criteria</li>
-            <li style="color:var(--gh-red);">"Add a database" — that's an implementation task</li>
+        <div class="card" style="margin-top:16px;border-top:3px solid var(--gh-red);">
+          <h3 style="color:var(--gh-red);">🚫 These are NOT user stories:</h3>
+          <ul style="padding-left:20px;margin-top:8px;">
+            <li>"Use React and Firebase" (tech choice)</li>
+            <li>"Make it responsive" (too vague)</li>
+            <li>"Add a database" (implementation detail)</li>
+            <li>"The system shall..." (robot speak)</li>
           </ul>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================ -->
-<!-- SLIDE 7: REQUIREMENTS DOCUMENT -->
-<!-- ============================================ -->
-<section class="slide" id="slide-6">
-  <div class="slide-content">
-    <span class="section-num">06</span>
-    <h1>Step 4: Requirements Document</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">The blueprint before you write a single line of code.</p>
-
-    <div class="two-col">
       <div>
-        <div class="arch-box">
-          <h3 style="color:#000;">📄 Requirements Doc Structure</h3>
-          <table class="compare-table">
-            <tbody>
-              <tr><td>🎯 Problem Statement</td><td>What pain are we solving?</td></tr>
-              <tr><td>👥 Target Users</td><td>Personas & their needs</td></tr>
-              <tr><td>✅ Functional Reqs</td><td>What the system DOES</td></tr>
-              <tr><td>⚡ Non-Functional Reqs</td><td>Performance, security, scale</td></tr>
-              <tr><td>🚫 Out of Scope</td><td>What we're NOT building (v1)</td></tr>
-              <tr><td>📊 Success Metrics</td><td>How we measure success</td></tr>
-              <tr><td>📅 Timeline</td><td>Milestones & deadlines</td></tr>
-            </tbody>
-          </table>
+        <div class="card glow-green" style="margin-bottom:12px;">
+          <p style="color:var(--gh-text);"><strong>As a</strong> student, <strong>I want to</strong> search for study groups by course, <strong>so that</strong> I find people studying the same thing.</p>
         </div>
-      </div>
-      <div>
-        <div class="card glow-blue" style="margin-bottom:16px;">
-          <h3 style="color:#000;">✅ Functional Requirements (Example)</h3>
-          <ul class="checklist" style="font-size:0.9rem;">
-            <li>Students can create an account with university email</li>
-            <li>Students can create or join study groups</li>
-            <li>Groups are linked to specific courses</li>
-            <li>Schedule matching shows compatible times</li>
-            <li>In-app messaging for group members</li>
-          </ul>
+        <div class="card glow-blue" style="margin-bottom:12px;">
+          <p style="color:var(--gh-text);"><strong>As a</strong> busy student, <strong>I want to</strong> set my available times, <strong>so that</strong> I only see groups that fit my schedule.</p>
         </div>
-        <div class="card glow-purple">
-          <h3 style="color:#000;">⚡ Non-Functional Requirements</h3>
-          <ul class="checklist" style="font-size:0.9rem;">
-            <li>Page load < 2 seconds</li>
-            <li>Support 1,000 concurrent users</li>
-            <li>Mobile-responsive design</li>
-            <li>Data encrypted at rest & in transit</li>
-            <li>99.9% uptime during exam season</li>
-          </ul>
+        <div class="card glow-purple" style="margin-bottom:12px;">
+          <p style="color:var(--gh-text);"><strong>As a</strong> group creator, <strong>I want to</strong> set a max group size, <strong>so that</strong> the study session stays productive.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================ -->
-<!-- SLIDE 8: MVP & PRIORITIZATION -->
-<!-- ============================================ -->
-<section class="slide" id="slide-7">
-  <div class="slide-content">
-    <span class="section-num">07</span>
-    <h1>Step 5: Define Your MVP</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">The smallest thing you can build to test your idea with real users.</p>
-
-    <div class="two-col">
-      <div>
-        <div class="arch-box">
-          <h3 style="color:#000;">🎯 MoSCoW Prioritization</h3>
-          <table class="compare-table" style="margin-top:8px;">
-            <tbody>
-              <tr>
-                <td><span class="badge badge-red">Must Have</span></td>
-                <td>Without this, the product doesn't work</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-orange">Should Have</span></td>
-                <td>Important but app works without it</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-blue">Could Have</span></td>
-                <td>Nice to have, if time allows</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-purple">Won't Have</span></td>
-                <td>Explicitly not in this version</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card glow-orange">
+          <p style="color:var(--gh-text);"><strong>As a</strong> new user, <strong>I want to</strong> sign up with my university email, <strong>so that</strong> I know everyone is a real student.</p>
         </div>
 
         <div class="card" style="margin-top:16px;border-top:3px solid var(--gh-green);">
-          <h3 style="color:#000;">💡 MVP Mindset</h3>
-          <p style="margin-top:8px;font-style:italic;color:var(--gh-text);">"If you're not embarrassed by the first version of your product, you've launched too late."</p>
-          <p style="font-size:0.85rem;margin-top:4px;">— Reid Hoffman, LinkedIn founder</p>
-        </div>
-      </div>
-      <div>
-        <h3 style="color:#000;margin-bottom:12px;">Study Group App: MVP vs Full Product</h3>
-        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-red);">
-          <strong style="color:var(--gh-red);">Must Have (MVP - Week 1–2)</strong>
-          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
-            <li>Sign up / log in</li>
-            <li>Browse groups by course</li>
-            <li>Create a group</li>
-            <li>Join a group</li>
-          </ul>
-        </div>
-        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-orange);">
-          <strong style="color:var(--gh-orange);">Should Have (Week 3–4)</strong>
-          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
-            <li>Schedule matching</li>
-            <li>Group messaging</li>
-            <li>Notifications</li>
-          </ul>
-        </div>
-        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-blue);">
-          <strong style="color:var(--gh-blue);">Could Have (Week 5+)</strong>
-          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
-            <li>AI-powered matching</li>
-            <li>Instructor dashboard</li>
-            <li>Rating system</li>
-          </ul>
-        </div>
-        <div class="card" style="padding:16px;border-left:3px solid var(--gh-purple);">
-          <strong style="color:var(--gh-purple);">Won't Have (v1)</strong>
-          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
-            <li>Video chat integration</li>
-            <li>Payment system for tutors</li>
-            <li>Multi-university support</li>
-          </ul>
+          <h3 style="color:#000;">💡 Tip: Start with the FIRST thing</h3>
+          <p style="margin-top:8px;">What does your user do the VERY FIRST time they open your app? That's user story #1.</p>
         </div>
       </div>
     </div>
@@ -767,128 +555,90 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 9: ARCHITECTURE & DESIGN -->
+<!-- SLIDE 8: ACTIVITY — WRITE USER STORIES -->
+<!-- ============================================ -->
+<section class="slide activity-slide" id="slide-7">
+  <div class="slide-content">
+    <span class="activity-badge">✍️ Activity · 8 min</span>
+    <h1>Your Turn: Write 5 User Stories</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
+
+    <div class="prompt-box" style="max-width:900px;margin:0 auto;">
+      <h3>📝 Write 5 user stories for YOUR project idea:</h3>
+      <p style="margin-top:8px;color:var(--gh-text);">Think: What does your persona NEED to do? Start with the basics.</p>
+
+      <div style="margin-top:20px;">
+        <p style="font-weight:600;color:var(--gh-text);">1. (The first thing they do)</p>
+        <input class="fill-in" placeholder="As a _____, I want to _____, so that _____" readonly>
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">2. (The core action)</p>
+        <input class="fill-in" placeholder="As a _____, I want to _____, so that _____" readonly>
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">3. (Finding/discovering something)</p>
+        <input class="fill-in" placeholder="As a _____, I want to _____, so that _____" readonly>
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">4. (Getting a result/outcome)</p>
+        <input class="fill-in" placeholder="As a _____, I want to _____, so that _____" readonly>
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">5. (Coming back / retention)</p>
+        <input class="fill-in" placeholder="As a _____, I want to _____, so that _____" readonly>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;max-width:900px;margin:20px auto 0;flex-wrap:wrap;">
+      <div class="timer-box">⏱️ 5 min write</div>
+      <div class="discussion-prompt" style="flex:1;margin:0;">
+        <h3>💬 Then: Read your #1 story aloud to the group. Does everyone understand what the feature IS?</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: MVP THINKING -->
 <!-- ============================================ -->
 <section class="slide" id="slide-8">
   <div class="slide-content">
-    <span class="section-num">08</span>
-    <h1>Step 6: Architecture & Tech Choices</h1>
+    <span class="section-num">04</span>
+    <h1>What's Your MVP?</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">Choose technology based on requirements — not hype.</p>
-
-    <div class="arch-flow" style="margin:20px 0;">
-      <div class="arch-node" style="border-color:var(--gh-blue);">
-        <span class="icon">🌐</span>
-        <span class="label">Frontend</span>
-        <span class="sub">React / Next.js</span>
-      </div>
-      <span class="arch-arrow">↔</span>
-      <div class="arch-node" style="border-color:var(--gh-purple);">
-        <span class="icon">⚡</span>
-        <span class="label">API</span>
-        <span class="sub">REST / GraphQL</span>
-      </div>
-      <span class="arch-arrow">↔</span>
-      <div class="arch-node" style="border-color:var(--gh-green);">
-        <span class="icon">🗄️</span>
-        <span class="label">Database</span>
-        <span class="sub">PostgreSQL</span>
-      </div>
-      <span class="arch-arrow">↔</span>
-      <div class="arch-node" style="border-color:var(--gh-orange);">
-        <span class="icon">🔐</span>
-        <span class="label">Auth</span>
-        <span class="sub">OAuth / JWT</span>
-      </div>
-      <span class="arch-arrow">↔</span>
-      <div class="arch-node" style="border-color:var(--gh-red);">
-        <span class="icon">☁️</span>
-        <span class="label">Deploy</span>
-        <span class="sub">Vercel / Railway</span>
-      </div>
-    </div>
-
-    <div class="two-col" style="margin-top:20px;">
-      <div class="arch-box">
-        <h3 style="color:#000;">🤔 Decision Framework</h3>
-        <table class="compare-table">
-          <tbody>
-            <tr><td>Team knows it?</td><td>Don't pick tech nobody knows for a deadline</td></tr>
-            <tr><td>Fits scale needs?</td><td>Don't over-engineer for 100 users</td></tr>
-            <tr><td>Community/docs?</td><td>Good docs = faster development</td></tr>
-            <tr><td>Cost?</td><td>Students budget ≈ free tier friendly</td></tr>
-            <tr><td>Hiring pool?</td><td>Can future team members use this?</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="arch-box">
-        <h3 style="color:#000;">🆓 Free-Tier Stack (Student Friendly)</h3>
-        <ul class="checklist">
-          <li><strong style="color:var(--gh-text);">Vercel</strong> — Frontend hosting + serverless functions</li>
-          <li><strong style="color:var(--gh-text);">Supabase</strong> — PostgreSQL + Auth + Realtime</li>
-          <li><strong style="color:var(--gh-text);">GitHub</strong> — Version control + CI/CD actions</li>
-          <li><strong style="color:var(--gh-text);">Resend</strong> — Transactional emails (free tier)</li>
-          <li><strong style="color:var(--gh-text);">Figma</strong> — UI/UX design (free for students)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================ -->
-<!-- SLIDE 10: EXECUTION — SPRINT PLANNING -->
-<!-- ============================================ -->
-<section class="slide" id="slide-9">
-  <div class="slide-content">
-    <span class="section-num">09</span>
-    <h1>Step 7: Sprint Planning & Execution</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">Break it down. Ship in small increments. Get feedback fast.</p>
+    <p class="subtitle">MVP = The smallest version that PROVES your idea works.</p>
 
     <div class="two-col">
       <div>
         <div class="arch-box">
-          <h3 style="color:#000;">📅 2-Week Sprint Example</h3>
-          <div style="margin-top:12px;">
-            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-blue);">
-              <strong style="color:#000;">Sprint 1: Foundation</strong>
-              <p style="font-size:0.85rem;">Auth + basic UI + database schema + deploy pipeline</p>
-              <span class="badge badge-green" style="margin-top:6px;">Goal: User can sign up & see empty dashboard</span>
-            </div>
-            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-purple);">
-              <strong style="color:#000;">Sprint 2: Core Feature</strong>
-              <p style="font-size:0.85rem;">Create group + browse groups + join group</p>
-              <span class="badge badge-green" style="margin-top:6px;">Goal: User can find & join a study group</span>
-            </div>
-            <div class="card" style="padding:12px;border-left:3px solid var(--gh-green);">
-              <strong style="color:#000;">Sprint 3: Polish & Launch</strong>
-              <p style="font-size:0.85rem;">Schedule matching + notifications + testing + launch</p>
-              <span class="badge badge-green" style="margin-top:6px;">Goal: MVP live with 10 beta users</span>
-            </div>
-          </div>
+          <h3 style="color:#000;">🎯 The Rules of MVP</h3>
+          <ul class="checklist" style="margin-top:12px;">
+            <li><strong style="color:var(--gh-text);">Solves ONE core problem well</strong> — not 10 problems poorly</li>
+            <li><strong style="color:var(--gh-text);">Can be built in 2–4 weeks</strong> — not 6 months</li>
+            <li><strong style="color:var(--gh-text);">Someone can USE it end-to-end</strong> — not just see a landing page</li>
+            <li><strong style="color:var(--gh-text);">You can measure if it works</strong> — did users achieve their goal?</li>
+            <li><strong style="color:var(--gh-text);">It's OK to be ugly</strong> — function > aesthetics for v1</li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:16px;background:#fffbeb;border-color:var(--gh-orange);">
+          <p style="font-style:italic;color:var(--gh-text);font-size:1.1rem;">"If you're not embarrassed by v1, you launched too late."</p>
+          <p style="margin-top:4px;font-size:0.85rem;">— Reid Hoffman</p>
         </div>
       </div>
       <div>
-        <div class="card" style="border-top:3px solid var(--gh-orange);margin-bottom:16px;">
-          <h3 style="color:#000;">📋 Task Breakdown (Sprint 1)</h3>
-          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
-            <span class="comment">## Sprint 1 Tasks (GitHub Issues)</span><br><br>
-            <span class="tag">□</span> Set up Next.js project + Tailwind<br>
-            <span class="tag">□</span> Configure Supabase + schema<br>
-            <span class="tag">□</span> Implement OAuth login (Google)<br>
-            <span class="tag">□</span> Build navigation component<br>
-            <span class="tag">□</span> Create dashboard page (empty state)<br>
-            <span class="tag">□</span> Set up CI/CD with GitHub Actions<br>
-            <span class="tag">□</span> Deploy to Vercel<br>
-            <span class="tag">□</span> Write README with setup instructions<br><br>
-            <span class="comment">Estimated: 15 story points (~2 weeks)</span>
-          </div>
+        <div class="card" style="border-top:3px solid var(--gh-red);margin-bottom:12px;">
+          <h3 style="color:var(--gh-red);">🔴 Must Have</h3>
+          <p style="margin-top:4px;">Without this, the app is useless. These are your MVP.</p>
         </div>
-        <div class="card" style="border-top:3px solid var(--gh-green);">
-          <h3 style="color:#000;">🏃 Daily Standup (2 min each)</h3>
-          <p style="margin-top:8px;font-size:0.9rem;">1. What did I finish yesterday?</p>
-          <p style="font-size:0.9rem;">2. What am I doing today?</p>
-          <p style="font-size:0.9rem;">3. Any blockers?</p>
+        <div class="card" style="border-top:3px solid var(--gh-orange);margin-bottom:12px;">
+          <h3 style="color:var(--gh-orange);">🟡 Should Have</h3>
+          <p style="margin-top:4px;">Important but app works without it. Add in Week 3–4.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-blue);margin-bottom:12px;">
+          <h3 style="color:var(--gh-blue);">🔵 Could Have</h3>
+          <p style="margin-top:4px;">Nice to have. Only if you have extra time.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-purple);">
+          <h3 style="color:var(--gh-purple);">⚪ Won't Have (v1)</h3>
+          <p style="margin-top:4px;">Explicitly NOT building this now. Write it down so you don't creep.</p>
+        </div>
+
+        <div class="card" style="margin-top:16px;border-left:3px solid var(--gh-green);">
+          <h3 style="color:#000;">💡 The Test</h3>
+          <p style="margin-top:4px;">For each story ask: <em>"Can my persona achieve their MAIN goal without this?"</em> If yes → it's NOT a Must Have.</p>
         </div>
       </div>
     </div>
@@ -896,82 +646,91 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 11: BUILDING & BEST PRACTICES -->
+<!-- SLIDE 10: ACTIVITY — PRIORITIZE YOUR MVP -->
+<!-- ============================================ -->
+<section class="slide activity-slide" id="slide-9">
+  <div class="slide-content">
+    <span class="activity-badge">✍️ Activity · 7 min</span>
+    <h1>Your Turn: Prioritize YOUR Features</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
+
+    <div class="prompt-box" style="max-width:900px;margin:0 auto;">
+      <h3>📝 Take your 5 user stories. Sort them:</h3>
+      <div style="margin-top:20px;">
+        <p style="font-weight:700;color:var(--gh-red);font-size:1.1rem;">🔴 MUST HAVE (your MVP — the 2–3 stories you build first):</p>
+        <input class="fill-in" placeholder="Story #___: ..." readonly>
+        <input class="fill-in" placeholder="Story #___: ..." readonly>
+
+        <p style="font-weight:700;color:var(--gh-orange);font-size:1.1rem;margin-top:20px;">🟡 SHOULD HAVE (add after MVP works):</p>
+        <input class="fill-in" placeholder="Story #___: ..." readonly>
+
+        <p style="font-weight:700;color:var(--gh-blue);font-size:1.1rem;margin-top:20px;">🔵 COULD HAVE (if time allows):</p>
+        <input class="fill-in" placeholder="Story #___: ..." readonly>
+
+        <p style="font-weight:700;color:var(--gh-purple);font-size:1.1rem;margin-top:20px;">⚪ WON'T HAVE in v1 (ideas for the future):</p>
+        <input class="fill-in" placeholder="Things like: AI features, payments, multi-language..." readonly>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;max-width:900px;margin:20px auto 0;flex-wrap:wrap;">
+      <div class="timer-box">⏱️ 5 min sort + 2 min discuss</div>
+      <div class="discussion-prompt" style="flex:1;margin:0;">
+        <h3>💬 Challenge each other: Is your "Must Have" really essential, or could you launch without it?</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: PLANNING EXECUTION -->
 <!-- ============================================ -->
 <section class="slide" id="slide-10">
   <div class="slide-content">
-    <span class="section-num">10</span>
-    <h1>Step 8: Building — Best Practices</h1>
+    <span class="section-num">05</span>
+    <h1>Plan the Build</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">Ship code you won't hate in 3 months.</p>
+    <p class="subtitle">Break it into 1-week sprints. Each sprint ships something usable.</p>
 
-    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
-      <div class="card glow-blue">
-        <span class="card-icon">🌿</span>
-        <h3 style="color:#000;">Git Workflow</h3>
-        <ul class="checklist" style="font-size:0.85rem;">
-          <li>Feature branches per task</li>
-          <li>Pull requests for all changes</li>
-          <li>At least 1 code review</li>
-          <li>Meaningful commit messages</li>
-          <li>Never commit to main directly</li>
-        </ul>
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📅 Sprint Thinking</h3>
+          <div style="margin-top:12px;">
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-blue);">
+              <strong style="color:#000;">Week 1: Skeleton</strong>
+              <p style="font-size:0.85rem;">Project setup + auth + basic UI + deploy to a URL you can share</p>
+              <p style="font-size:0.8rem;margin-top:4px;color:var(--gh-green);font-weight:600;">✅ End goal: Someone can sign up and see SOMETHING</p>
+            </div>
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-purple);">
+              <strong style="color:#000;">Week 2: Core Feature</strong>
+              <p style="font-size:0.85rem;">Build the #1 "Must Have" user story end-to-end</p>
+              <p style="font-size:0.8rem;margin-top:4px;color:var(--gh-green);font-weight:600;">✅ End goal: User can do THE THING your app is for</p>
+            </div>
+            <div class="card" style="padding:12px;border-left:3px solid var(--gh-green);">
+              <strong style="color:#000;">Week 3: Polish + Launch</strong>
+              <p style="font-size:0.85rem;">2nd Must Have + error handling + mobile + share with 10 people</p>
+              <p style="font-size:0.8rem;margin-top:4px;color:var(--gh-green);font-weight:600;">✅ End goal: Real people using it and giving feedback</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card glow-green">
-        <span class="card-icon">🧪</span>
-        <h3 style="color:#000;">Testing</h3>
-        <ul class="checklist" style="font-size:0.85rem;">
-          <li>Write tests before complex features</li>
-          <li>Unit tests for business logic</li>
-          <li>Integration tests for APIs</li>
-          <li>Manual testing for UI flows</li>
-          <li>Tests run on every PR (CI)</li>
-        </ul>
-      </div>
-      <div class="card glow-purple">
-        <span class="card-icon">📐</span>
-        <h3 style="color:#000;">Code Quality</h3>
-        <ul class="checklist" style="font-size:0.85rem;">
-          <li>Linter + formatter (ESLint, Prettier)</li>
-          <li>TypeScript for type safety</li>
-          <li>Small, focused functions</li>
-          <li>Meaningful variable names</li>
-          <li>No commented-out code in PRs</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="arch-box" style="margin-top:24px;">
-      <h3 style="color:#000;">🔄 Development Cycle (Per Feature)</h3>
-      <div class="arch-flow">
-        <div class="arch-node" style="border-color:var(--gh-blue);min-width:100px;">
-          <span class="icon">📝</span>
-          <span class="label">Issue</span>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-orange);">
+          <h3 style="color:#000;">🧱 Breaking Stories → Tasks</h3>
+          <p style="margin-top:8px;">Each user story becomes 3–6 tasks:</p>
+          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
+            <span class="comment">## Story: "User can search groups by course"</span><br><br>
+            <span class="tag">□</span> Design search UI (input + results list)<br>
+            <span class="tag">□</span> Create database table for groups<br>
+            <span class="tag">□</span> Build API endpoint: GET /groups?course=X<br>
+            <span class="tag">□</span> Connect frontend to API<br>
+            <span class="tag">□</span> Handle empty state ("No groups yet")<br>
+            <span class="tag">□</span> Test with sample data
+          </div>
         </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--gh-purple);min-width:100px;">
-          <span class="icon">🌿</span>
-          <span class="label">Branch</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--gh-green);min-width:100px;">
-          <span class="icon">💻</span>
-          <span class="label">Code</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--gh-orange);min-width:100px;">
-          <span class="icon">🧪</span>
-          <span class="label">Test</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--gh-red);min-width:100px;">
-          <span class="icon">🔍</span>
-          <span class="label">PR Review</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--gh-pink);min-width:100px;">
-          <span class="icon">✅</span>
-          <span class="label">Merge</span>
+        <div class="card" style="margin-top:16px;border-left:3px solid var(--gh-green);">
+          <h3 style="color:#000;">⏰ Time Estimation Trick</h3>
+          <p style="margin-top:8px;">Think how long it'll take. <strong style="color:var(--gh-red);">Now multiply by 2.</strong> That's closer to reality. First-time estimates are always optimistic.</p>
         </div>
       </div>
     </div>
@@ -979,56 +738,104 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 12: SHIP & MEASURE -->
+<!-- SLIDE 12: ACTIVITY — PLAN YOUR SPRINT 1 -->
 <!-- ============================================ -->
-<section class="slide" id="slide-11">
+<section class="slide activity-slide" id="slide-11">
   <div class="slide-content">
-    <span class="section-num">11</span>
-    <h1>Step 9: Ship, Measure, Iterate</h1>
+    <span class="activity-badge">✍️ Activity · 8 min</span>
+    <h1>Your Turn: Plan Your Week 1</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
+
+    <div class="prompt-box" style="max-width:900px;margin:0 auto;">
+      <h3>📝 What will YOUR Week 1 look like?</h3>
+      <div style="margin-top:20px;">
+        <p style="font-weight:600;color:var(--gh-text);">Week 1 Goal (one sentence):</p>
+        <input class="fill-in" placeholder='e.g., "A user can sign up and see a list of available study groups"' readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:16px;">Tech Stack Choice (pick what you know!):</p>
+        <input class="fill-in" placeholder="Frontend: ___ | Backend: ___ | Database: ___ | Hosting: ___" readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:16px;">Tasks (list 5–8 things to do in Week 1):</p>
+        <input class="fill-in" placeholder="1. Set up project + repo..." readonly>
+        <input class="fill-in" placeholder="2. ..." readonly>
+        <input class="fill-in" placeholder="3. ..." readonly>
+        <input class="fill-in" placeholder="4. ..." readonly>
+        <input class="fill-in" placeholder="5. ..." readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:16px;">How will you know Week 1 is DONE?</p>
+        <input class="fill-in" placeholder='e.g., "I can show someone a deployed URL where they can sign up"' readonly>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;max-width:900px;margin:20px auto 0;flex-wrap:wrap;">
+      <div class="timer-box">⏱️ 6 min write + 2 min group review</div>
+      <div class="discussion-prompt" style="flex:1;margin:0;">
+        <h3>💬 Ask your group: "Is my Week 1 realistic? What am I forgetting?"</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 13: HOW TO VALIDATE -->
+<!-- ============================================ -->
+<section class="slide" id="slide-12">
+  <div class="slide-content">
+    <span class="section-num">06</span>
+    <h1>How to Know If It's Working</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">Launching is not the end — it's the beginning of learning.</p>
+    <p class="subtitle">Ship it. Watch what happens. Talk to users. Repeat.</p>
 
     <div class="two-col">
       <div>
-        <div class="card" style="border-top:3px solid var(--gh-green);margin-bottom:16px;">
-          <h3 style="color:#000;">🚀 Launch Checklist</h3>
-          <ul class="checklist">
-            <li>All MVP features working end-to-end</li>
-            <li>Basic error handling & loading states</li>
-            <li>Mobile responsive</li>
-            <li>Analytics tracking installed</li>
-            <li>Error monitoring (Sentry free tier)</li>
-            <li>Feedback mechanism (even a Google Form)</li>
-            <li>Share with 10 beta users first</li>
-          </ul>
+        <div class="arch-box">
+          <h3 style="color:#000;">📊 Define Success BEFORE You Build</h3>
+          <p style="margin-top:8px;">If you don't decide what "working" means upfront, you'll never know if you succeeded.</p>
+          <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
+            <span class="comment">// Pick 2–3 metrics that matter:</span><br><br>
+            <span class="keyword">Metric 1:</span> <span class="string">Do users sign up?</span><br>
+            <span class="func">Target:</span> <span class="tag">20 signups in first week</span><br><br>
+            <span class="keyword">Metric 2:</span> <span class="string">Do they DO the thing?</span><br>
+            <span class="func">Target:</span> <span class="tag">50% create/join a group</span><br><br>
+            <span class="keyword">Metric 3:</span> <span class="string">Do they come back?</span><br>
+            <span class="func">Target:</span> <span class="tag">30% return within 7 days</span>
+          </div>
         </div>
       </div>
       <div>
-        <div class="arch-box" style="margin-bottom:16px;">
-          <h3 style="color:#000;">📊 Success Metrics</h3>
-          <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);">
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-blue);">DAU</div>
-              <div class="metric-label">Daily Active Users</div>
+        <div class="card" style="border-top:3px solid var(--gh-green);margin-bottom:16px;">
+          <h3 style="color:#000;">🔄 The Feedback Loop</h3>
+          <div class="arch-flow" style="padding:12px 0;">
+            <div class="arch-node" style="border-color:var(--gh-blue);min-width:90px;padding:10px;">
+              <span class="icon">🚀</span>
+              <span class="label" style="font-size:0.8rem;">Ship</span>
             </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-green);">Retention</div>
-              <div class="metric-label">% back after 7 days</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" style="border-color:var(--gh-green);min-width:90px;padding:10px;">
+              <span class="icon">👀</span>
+              <span class="label" style="font-size:0.8rem;">Observe</span>
             </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-purple);">Groups</div>
-              <div class="metric-label">Created per week</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" style="border-color:var(--gh-purple);min-width:90px;padding:10px;">
+              <span class="icon">🗣️</span>
+              <span class="label" style="font-size:0.8rem;">Ask</span>
             </div>
-            <div class="metric-box">
-              <div class="metric-value" style="color:var(--gh-orange);">NPS</div>
-              <div class="metric-label">Would you recommend?</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" style="border-color:var(--gh-orange);min-width:90px;padding:10px;">
+              <span class="icon">🔧</span>
+              <span class="label" style="font-size:0.8rem;">Improve</span>
             </div>
           </div>
         </div>
         <div class="card" style="border-top:3px solid var(--gh-purple);">
-          <h3 style="color:#000;">🔄 Feedback Loop</h3>
-          <p style="margin-top:8px;">Ship → Observe → Interview → Prioritize → Ship again</p>
-          <p style="margin-top:8px;font-size:0.9rem;font-style:italic;color:var(--gh-text);">Talk to users weekly. Watch what they DO, not just what they SAY.</p>
+          <h3 style="color:#000;">🗣️ 5 Questions for Beta Users</h3>
+          <ol style="padding-left:20px;margin-top:12px;font-size:0.9rem;">
+            <li style="margin-bottom:6px;">What did you expect to happen?</li>
+            <li style="margin-bottom:6px;">What confused you?</li>
+            <li style="margin-bottom:6px;">Would you use this again? Why/why not?</li>
+            <li style="margin-bottom:6px;">What's the ONE thing you'd change?</li>
+            <li>Would you recommend this to a friend?</li>
+          </ol>
         </div>
       </div>
     </div>
@@ -1036,133 +843,111 @@
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 13: COMMON MISTAKES -->
+<!-- SLIDE 14: ACTIVITY — SUCCESS METRICS -->
 <!-- ============================================ -->
-<section class="slide" id="slide-12">
+<section class="slide activity-slide" id="slide-13">
   <div class="slide-content">
-    <span class="section-num">12</span>
-    <h1>Common Mistakes to Avoid</h1>
-    <div class="slide-divider"></div>
-    <p class="subtitle">Learn from others' failures — it's cheaper.</p>
+    <span class="activity-badge">✍️ Activity · 5 min</span>
+    <h1>Your Turn: Define YOUR Success</h1>
+    <div class="slide-divider" style="background:var(--gh-orange);"></div>
 
-    <div class="card-grid" style="grid-template-columns:repeat(2,1fr);margin-top:20px;">
-      <div class="card" style="border-left:3px solid var(--gh-red);">
-        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Over-engineering for Day 1</strong></p>
-        <p>"Let's add microservices, Kubernetes, event sourcing..."</p>
+    <div class="prompt-box" style="max-width:900px;margin:0 auto;">
+      <h3>📝 How will you know your project is working?</h3>
+      <div style="margin-top:20px;">
+        <p style="font-weight:600;color:var(--gh-text);">In ONE sentence, what does success look like?</p>
+        <input class="fill-in" placeholder='e.g., "Students are forming study groups and coming back weekly"' readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:16px;">Metric 1 (Do they sign up?)</p>
+        <input class="fill-in" placeholder="Target: ___ users in first ___" readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">Metric 2 (Do they use the core feature?)</p>
+        <input class="fill-in" placeholder="Target: ___% of users do ___" readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:12px;">Metric 3 (Do they come back?)</p>
+        <input class="fill-in" placeholder="Target: ___% return within ___" readonly>
+
+        <p style="font-weight:600;color:var(--gh-text);margin-top:16px;">Who are your first 5 beta testers? (Name them!)</p>
+        <input class="fill-in" placeholder="1. ___ 2. ___ 3. ___ 4. ___ 5. ___" readonly>
       </div>
-      <div class="card" style="border-left:3px solid var(--gh-green);">
-        <h3 style="color:var(--gh-green);">✅ Instead</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Start with a monolith</strong></p>
-        <p>A Next.js app + Supabase handles 90% of use cases to 10K users.</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-red);">
-        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Building in stealth for 6 months</strong></p>
-        <p>"We'll launch when it's perfect..."</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-green);">
-        <h3 style="color:var(--gh-green);">✅ Instead</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Ship in 2–4 weeks</strong></p>
-        <p>Get real feedback. Course-correct early. Perfect is the enemy of done.</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-red);">
-        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">No version control discipline</strong></p>
-        <p>"I'll just commit everything to main..."</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-green);">
-        <h3 style="color:var(--gh-green);">✅ Instead</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Branch + PR + Review</strong></p>
-        <p>Even for solo projects. Future you will thank present you.</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-red);">
-        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Skipping user research</strong></p>
-        <p>"I know what users want, I AM a user..."</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-green);">
-        <h3 style="color:var(--gh-green);">✅ Instead</h3>
-        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Talk to 5 people minimum</strong></p>
-        <p>You are not your user. Even 5 conversations reveal blind spots.</p>
-      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <div class="timer-box">⏱️ 5 min</div>
     </div>
   </div>
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 14: YOUR ACTION PLAN -->
+<!-- SLIDE 15: FINAL RECAP — YOUR FULL PLAN -->
 <!-- ============================================ -->
-<section class="slide" id="slide-13">
+<section class="slide" id="slide-14">
   <div class="slide-content">
-    <span class="section-num">13</span>
-    <h1>Your Action Plan Template</h1>
+    <span class="section-num">07</span>
+    <h1>Your Complete Project Plan</h1>
     <div class="slide-divider"></div>
-    <p class="subtitle">Copy this framework for your next project.</p>
+    <p class="subtitle">Everything you've built today — in one view.</p>
 
-    <div class="arch-box" style="margin-top:20px;">
-      <div class="code-block" style="font-size:0.85rem;">
-        <span class="comment"># 🚀 Project: [Your Project Name]</span><br><br>
-        <span class="keyword">## Problem Statement</span><br>
-        <span class="string">[Who] has [problem] when [context], which causes [impact].</span><br><br>
-        <span class="keyword">## Target Users</span><br>
-        <span class="string">Primary: [Persona 1 — name, role, pain]</span><br>
-        <span class="string">Secondary: [Persona 2 — name, role, pain]</span><br><br>
-        <span class="keyword">## MVP Scope (2-week target)</span><br>
-        <span class="tag">Must:</span> <span class="string">[3-5 core features]</span><br>
-        <span class="tag">Won't:</span> <span class="string">[things explicitly excluded]</span><br><br>
+    <div class="arch-box">
+      <div class="code-block" style="font-size:0.9rem;">
+        <span class="comment"># 🚀 MY PROJECT PLAN</span><br><br>
+        <span class="keyword">## Problem</span><br>
+        <span class="string">[Your problem statement from Slide 3]</span><br><br>
+        <span class="keyword">## My User</span><br>
+        <span class="string">[Your persona from Slide 5]</span><br><br>
         <span class="keyword">## User Stories (Top 5)</span><br>
-        <span class="string">1. As a [user], I want to [action], so that [benefit]</span><br>
-        <span class="string">2. ...</span><br><br>
-        <span class="keyword">## Tech Stack</span><br>
-        <span class="string">Frontend: [choice] | Backend: [choice] | DB: [choice]</span><br><br>
-        <span class="keyword">## Sprint Plan</span><br>
-        <span class="string">Week 1: [Goal + tasks]</span><br>
-        <span class="string">Week 2: [Goal + tasks]</span><br><br>
+        <span class="string">[Your stories from Slide 7]</span><br><br>
+        <span class="keyword">## MVP Scope</span><br>
+        <span class="tag">Must Have:</span> <span class="string">[Your 2–3 must-haves from Slide 9]</span><br>
+        <span class="tag">Won't Have:</span> <span class="string">[What you're saving for later]</span><br><br>
+        <span class="keyword">## Week 1 Plan</span><br>
+        <span class="string">[Your sprint plan from Slide 11]</span><br><br>
         <span class="keyword">## Success Metrics</span><br>
-        <span class="string">- [Metric 1]: [Target by when]</span><br>
-        <span class="string">- [Metric 2]: [Target by when]</span>
+        <span class="string">[Your metrics from Slide 13]</span><br><br>
+        <span class="keyword">## First 5 Beta Testers</span><br>
+        <span class="string">[Names from Slide 13]</span>
       </div>
+    </div>
+
+    <div class="discussion-prompt" style="margin-top:20px;">
+      <h3>💬 Final Share: Read your problem statement + Week 1 goal to the group in 30 seconds. Everyone gives a 👍 or one piece of advice.</h3>
     </div>
   </div>
 </section>
 
 <!-- ============================================ -->
-<!-- SLIDE 15: KEY TAKEAWAYS -->
+<!-- SLIDE 16: TAKEAWAYS & NEXT STEPS -->
 <!-- ============================================ -->
-<section class="slide hero" id="slide-14">
+<section class="slide hero" id="slide-15">
   <div class="slide-content" style="text-align:center;">
-    <h1>Key Takeaways</h1>
+    <h1>You Have a Plan. Now Execute.</h1>
     <div class="slide-divider" style="margin:12px auto 30px;"></div>
 
     <div class="card-grid" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));text-align:left;">
       <div class="card" style="border-left:3px solid var(--gh-blue);">
-        <h3 style="color:var(--gh-blue);">🎯 Start with WHY</h3>
-        <p>Problem first, solution second. Validate before you build.</p>
+        <h3 style="color:var(--gh-blue);">📅 This Week</h3>
+        <p>Set up your repo. Get your first screen deployed. Share the URL with ONE person.</p>
       </div>
       <div class="card" style="border-left:3px solid var(--gh-purple);">
-        <h3 style="color:var(--gh-purple);">👥 Users Are Everything</h3>
-        <p>Talk to them. Build personas. Test with real people early.</p>
+        <h3 style="color:var(--gh-purple);">🗣️ Talk to Users</h3>
+        <p>Show your plan to 3 people who have the problem. Ask: "Would you use this?"</p>
       </div>
       <div class="card" style="border-left:3px solid var(--gh-green);">
-        <h3 style="color:var(--gh-green);">📋 Requirements = Clarity</h3>
-        <p>Write it down. If it's not written, it's not agreed upon.</p>
+        <h3 style="color:var(--gh-green);">🏃 Ship Ugly</h3>
+        <p>Your first version WILL be embarrassing. Ship it anyway. Feedback > perfection.</p>
       </div>
       <div class="card" style="border-left:3px solid var(--gh-orange);">
-        <h3 style="color:var(--gh-orange);">🏃 Ship Small, Ship Fast</h3>
-        <p>2-week MVP > 6-month masterpiece. Learn from real usage.</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--gh-red);">
-        <h3 style="color:var(--gh-red);">🔄 Iterate Forever</h3>
-        <p>Launch is Day 1, not the finish line. Keep learning.</p>
+        <h3 style="color:var(--gh-orange);">🔄 Iterate Weekly</h3>
+        <p>Every week: What worked? What didn't? What do users actually want?</p>
       </div>
     </div>
 
     <div style="margin-top:50px;padding:30px;border-radius:12px;background:var(--gh-bg-secondary);border:1px solid var(--gh-border);">
-      <p style="font-size:1.3rem;color:var(--gh-text);font-style:italic;">"The best software is built by teams who talk to users more than they talk to computers."</p>
+      <p style="font-size:1.3rem;color:var(--gh-text);font-style:italic;">"The biggest risk is building something nobody wants. The cure is talking to users before, during, and after you build."</p>
     </div>
 
-    <p style="margin-top:40px;font-size:1.5rem;">Now go build something! 🚀</p>
+    <div style="margin-top:40px;">
+      <p style="font-size:1.3rem;color:var(--gh-text);font-weight:700;">Your homework: Have your Week 1 DONE by next session. 🚀</p>
+    </div>
   </div>
 </section>
 
