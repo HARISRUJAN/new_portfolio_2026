@@ -27,7 +27,7 @@ const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hey! I'm Srujan's Digital Twin — an intelligent extension of his knowledge and personality. Ask me anything about his work, projects, or mentorship opportunities.",
+      text: "Hey! I'm Srujan — well, a digital version of me. Ask me about my work, what I'm building, or if you wanna learn GenAI together. Let's chat! 🤙",
       isBot: true,
       timestamp: new Date(),
     },
@@ -62,7 +62,7 @@ const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
     const lowerMessage = userMessage.toLowerCase();
 
     if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
-      return "I've worked as a Thesis Worker at GPT-Lab (Tampere University) building multi-agent SRS validation systems, and previously as a Data Science Engineer at Ignitz Solutions where I built AI-powered HR tech solutions. My expertise spans NLP, RAG, and multi-agent architectures. Currently also mentoring 50+ professionals in GenAI.";
+      return "So right now I'm doing my thesis at GPT-Lab in Tampere University — building multi-agent systems that validate software requirements automatically. Before that I was at Ignitz Solutions as a Data Science Engineer, building AI for HR tech. I love NLP, RAG, and multi-agent stuff. Also been mentoring 50+ people in GenAI on the side!";
     }
     
     if (lowerMessage.includes('project')) {
@@ -70,7 +70,7 @@ const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
     }
     
     if (lowerMessage.includes('book') || lowerMessage.includes('mentor')) {
-      return "I offer hands-on GenAI mentorship! I've trained 50+ professionals and helped 5+ transition into AI PM roles. Topics include prompt engineering, model fine-tuning, RAG, multi-agent systems, and AI product strategy. Reach out at harisrujan2605@gmail.com to book a session.";
+      return "Yeah I do mentorship! I've worked with 50+ people so far and helped 5+ transition into AI PM roles. I cover prompt engineering, fine-tuning, RAG, multi-agent systems, AI product strategy — basically the full GenAI stack. Hit me up at harisrujan2605@gmail.com if you wanna chat about it!";
     }
     
     if (lowerMessage.includes('skill') || lowerMessage.includes('tool') || lowerMessage.includes('tech')) {
@@ -82,10 +82,10 @@ const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
     }
 
     if (lowerMessage.includes('education') || lowerMessage.includes('study') || lowerMessage.includes('university')) {
-      return "I'm currently pursuing my Master's at Tampere University (Finland), working on my thesis at GPT-Lab on multi-agent SRS validation systems. My research combines LLMs, RAG, and digital twins for automated software requirement reviews.";
+      return "I'm doing my Master's in Data Science at Tampere University in Finland. My thesis is at GPT-Lab — I'm building multi-agent systems that automatically validate software requirements using LLMs, RAG, and digital twins. Pretty cool stuff honestly.";
     }
 
-    return "Great question! I can tell you about Srujan's experience, projects, technical skills, mentorship programs, or how to get in touch. What interests you most?";
+    return "Hmm I'm not sure what you mean — but try asking me about my projects, my experience, my tech stack, mentorship, or how to reach me. I'll hook you up with the details!";
   };
 
   const handleSend = (text?: string) => {
@@ -174,8 +174,8 @@ const ChatbotWidget = forwardRef<ChatbotRef>((_, ref) => {
                     <img src={profileImage} alt="Srujan" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground text-sm">Srujan's Digital Twin</h3>
-                    <p className="text-xs text-text-muted">Ask me anything about Harisrujan</p>
+                    <h3 className="font-semibold text-foreground text-sm">Srujan</h3>
+                    <p className="text-xs text-text-muted">AI Engineer · ask me anything</p>
                   </div>
                 </div>
                 <button
