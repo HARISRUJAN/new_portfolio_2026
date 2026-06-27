@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generative AI & Best Practices</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --gh-bg: #ffffff;
+    --gh-bg-secondary: #f6f8fa;
+    --gh-bg-tertiary: #eaeef2;
+    --gh-border: #d0d7de;
+    --gh-text: #1f2328;
+    --gh-text-muted: #656d76;
+    --gh-green: #1a7f37;
+    --gh-green-bg: #1a7f37;
+    --gh-blue: #0969da;
+    --gh-purple: #8250df;
+    --gh-red: #cf222e;
+    --gh-orange: #9a6700;
+    --gh-yellow: #9a6700;
+    --gh-pink: #bf3989;
+    --gh-cyan: #0550ae;
+    --gh-gradient: linear-gradient(135deg, #0969da 0%, #8250df 50%, #bf3989 100%);
+    --gh-gradient-green: linear-gradient(135deg, #1a7f37 0%, #0550ae 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gh-bg);
+    color: var(--gh-text);
+    overflow-x: hidden;
+  }
+
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(9,105,218,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .slide.hero {
+    background: linear-gradient(180deg, var(--gh-bg) 0%, var(--gh-bg-secondary) 100%);
+  }
+
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    z-index: 1;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gh-blue);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 1.3rem;
+    color: var(--gh-text-muted);
+    margin-bottom: 40px;
+  }
+
+  p, li {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--gh-text-muted);
+  }
+
+  .section-num {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gh-blue);
+    background: rgba(9,105,218,0.08);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .slide-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--gh-gradient);
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  /* Navigation */
+  .nav-dots {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+  }
+
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gh-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .nav-dot.active {
+    background: var(--gh-blue);
+    transform: scale(1.3);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--gh-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--gh-blue);
+    box-shadow: 0 4px 12px rgba(9,105,218,0.08);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* Two column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+
+  /* Code blocks */
+  .code-block {
+    background: #161b22;
+    color: #e6edf3;
+    padding: 20px 24px;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #8b949e; }
+  .code-block .keyword { color: #ff7b72; }
+  .code-block .string { color: #a5d6ff; }
+  .code-block .func { color: #d2a8ff; }
+  .code-block .tag { color: #7ee787; }
+
+  /* Architecture */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+  }
+
+  .arch-node {
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    background: var(--gh-bg);
+    min-width: 120px;
+  }
+
+  .arch-node .icon { font-size: 1.5rem; display: block; }
+  .arch-node .label { font-weight: 600; font-size: 0.9rem; display: block; margin-top: 4px; color: var(--gh-text); }
+  .arch-node .sub { font-size: 0.75rem; color: var(--gh-text-muted); display: block; margin-top: 2px; }
+
+  .arch-arrow {
+    font-size: 1.5rem;
+    color: var(--gh-border);
+    font-weight: bold;
+  }
+
+  .arch-box {
+    background: var(--gh-bg-secondary);
+    border: 1px solid var(--gh-border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  /* Metrics */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .metric-box {
+    text-align: center;
+    padding: 16px;
+    background: var(--gh-bg);
+    border-radius: 8px;
+    border: 1px solid var(--gh-border);
+  }
+
+  .metric-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--gh-blue);
+  }
+
+  .metric-label {
+    font-size: 0.8rem;
+    color: var(--gh-text-muted);
+    margin-top: 4px;
+  }
+
+  /* Tool grid */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .tool-item {
+    text-align: center;
+    padding: 20px 12px;
+    background: var(--gh-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+
+  .tool-item:hover {
+    border-color: var(--gh-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(9,105,218,0.1);
+  }
+
+  .tool-item .tool-icon {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .tool-item .tool-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gh-text);
+  }
+
+  .tool-item .tool-desc {
+    font-size: 0.75rem;
+    color: var(--gh-text-muted);
+    margin-top: 4px;
+  }
+
+  /* Workflow */
+  .workflow-steps {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 30px 0;
+  }
+
+  .workflow-step {
+    flex: 1;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    border-top: 3px solid var(--gh-border);
+  }
+
+  .workflow-step.active {
+    border-top-color: var(--gh-blue);
+    background: rgba(9,105,218,0.03);
+  }
+
+  .workflow-step .step-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    background: var(--gh-blue);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .workflow-step h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gh-text);
+    margin-bottom: 4px;
+  }
+
+  .workflow-step p {
+    font-size: 0.8rem;
+    color: var(--gh-text-muted);
+  }
+
+  /* Glow effects */
+  .glow-blue { border-left: 3px solid var(--gh-blue); }
+  .glow-purple { border-left: 3px solid var(--gh-purple); }
+  .glow-green { border-left: 3px solid var(--gh-green); }
+  .glow-red { border-left: 3px solid var(--gh-red); }
+  .glow-orange { border-left: 3px solid var(--gh-orange); }
+
+  /* Compare table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gh-border);
+    font-size: 0.9rem;
+  }
+
+  .compare-table td:first-child {
+    width: 140px;
+    font-weight: 600;
+    color: var(--gh-text);
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-blue { background: rgba(9,105,218,0.1); color: var(--gh-blue); }
+  .badge-green { background: rgba(26,127,55,0.1); color: var(--gh-green); }
+  .badge-purple { background: rgba(130,80,223,0.1); color: var(--gh-purple); }
+  .badge-red { background: rgba(207,34,46,0.1); color: var(--gh-red); }
+  .badge-orange { background: rgba(154,103,0,0.1); color: var(--gh-orange); }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    padding: 8px 0;
+    padding-left: 28px;
+    position: relative;
+    border-bottom: 1px solid var(--gh-bg-tertiary);
+  }
+
+  .checklist li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--gh-green);
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .two-col, .tool-grid { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2.2rem; }
+    .slide { padding: 40px 20px; }
+    .workflow-steps { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-dots" id="navDots"></div>
+
+<!-- ============================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================ -->
+<section class="slide hero" id="slide-title">
+  <div class="slide-content" style="text-align:center;">
+    <span class="section-num">Presentation</span>
+    <h1 style="font-size:3.8rem;background:var(--gh-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Generative AI<br>& Best Practices</h1>
+    <div class="slide-divider" style="margin:20px auto 30px;"></div>
+    <p class="subtitle" style="max-width:600px;margin:0 auto;">A comprehensive guide to understanding, implementing, and responsibly deploying Generative AI in modern software development.</p>
+    <div style="margin-top:50px;">
+      <span class="badge badge-blue" style="font-size:0.9rem;padding:8px 16px;">🤖 LLMs</span>
+      <span class="badge badge-purple" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🔗 RAG</span>
+      <span class="badge badge-green" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🛡️ Responsible AI</span>
+      <span class="badge badge-orange" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">⚡ Agents</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 2: WHAT IS GENERATIVE AI -->
+<!-- ============================================ -->
+<section class="slide" id="slide-1">
+  <div class="slide-content">
+    <span class="section-num">01</span>
+    <h1>What is Generative AI?</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">AI systems that create new content — code, text, images, audio — by learning patterns from massive datasets.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">Traditional AI vs Generative AI</h3>
+          <div class="code-block" style="margin-top:16px;">
+            <span class="comment">// Traditional AI (Discriminative)</span><br>
+            Input: "Is this email spam?" → <span class="tag">Yes / No</span><br>
+            Input: "What's in this image?" → <span class="tag">Cat / Dog</span><br><br>
+            <span class="comment">// Generative AI (Creative)</span><br>
+            Input: "Write an email to..." → <span class="tag">Full email</span><br>
+            Input: "Build a REST API" → <span class="tag">Working code</span><br>
+            Input: "Design a logo" → <span class="tag">New image</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:#000;">Types of Generative Models</h3>
+        <div style="margin-top:12px;">
+          <div class="card" style="margin-bottom:12px;padding:16px;">
+            <strong style="color:#000;">🧠 Large Language Models (LLMs)</strong>
+            <p>GPT-4o, Claude, Gemini, LLaMA — generate text & code</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;padding:16px;">
+            <strong style="color:#000;">🎨 Image Generation</strong>
+            <p>DALL-E 3, Midjourney, Stable Diffusion — text to image</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;padding:16px;">
+            <strong style="color:#000;">🎵 Audio & Video</strong>
+            <p>Sora, ElevenLabs, MusicGen — multimodal generation</p>
+          </div>
+          <div class="card" style="padding:16px;">
+            <strong style="color:#000;">🔀 Multimodal</strong>
+            <p>GPT-4o, Gemini — understand & generate across modalities</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 3: HOW LLMs WORK -->
+<!-- ============================================ -->
+<section class="slide" id="slide-2">
+  <div class="slide-content">
+    <span class="section-num">02</span>
+    <h1>How LLMs Work</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">The Transformer architecture — the engine behind modern AI</p>
+
+    <div class="arch-flow">
+      <div class="arch-node" style="border-color:var(--gh-blue);">
+        <span class="icon">📚</span>
+        <span class="label">Training Data</span>
+        <span class="sub">Internet, books, code</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-purple);">
+        <span class="icon">🧠</span>
+        <span class="label">Transformer</span>
+        <span class="sub">Self-attention layers</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-green);">
+        <span class="icon">🎯</span>
+        <span class="label">Fine-Tuning</span>
+        <span class="sub">RLHF / Instructions</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-red);">
+        <span class="icon">💬</span>
+        <span class="label">Inference</span>
+        <span class="sub">Token-by-token</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:20px;">
+      <div class="arch-box">
+        <h3 style="color:#000;">🔑 Key Concepts</h3>
+        <table class="compare-table" style="margin:0;">
+          <tbody>
+            <tr><td><strong>Tokens</strong></td><td>Words/subwords (~4 chars each) the model processes</td></tr>
+            <tr><td><strong>Context Window</strong></td><td>How much text the model sees (128K–1M+ tokens)</td></tr>
+            <tr><td><strong>Temperature</strong></td><td>0 = deterministic, 1 = creative, 2 = chaotic</td></tr>
+            <tr><td><strong>Hallucination</strong></td><td>Confidently generating incorrect information</td></tr>
+            <tr><td><strong>Embeddings</strong></td><td>Dense vector representations of text meaning</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="arch-box">
+        <h3 style="color:#000;">📊 Scale of Modern LLMs</h3>
+        <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);">
+          <div class="metric-box">
+            <div class="metric-value">1.8T</div>
+            <div class="metric-label">Parameters (GPT-4)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">13T+</div>
+            <div class="metric-label">Training tokens</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">1M+</div>
+            <div class="metric-label">Context (Gemini)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">$100M+</div>
+            <div class="metric-label">Training cost</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 4: TOOLS LANDSCAPE -->
+<!-- ============================================ -->
+<section class="slide" id="slide-3">
+  <div class="slide-content">
+    <span class="section-num">03</span>
+    <h1>GenAI Tools Landscape</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">The ecosystem of tools powering AI-assisted development</p>
+
+    <div class="tool-grid">
+      <div class="tool-item">
+        <span class="tool-icon">🤖</span>
+        <span class="tool-name">GitHub Copilot</span>
+        <span class="tool-desc">AI pair programmer</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">💬</span>
+        <span class="tool-name">ChatGPT</span>
+        <span class="tool-desc">General-purpose AI</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🟣</span>
+        <span class="tool-name">Claude</span>
+        <span class="tool-desc">Long-context reasoning</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">💎</span>
+        <span class="tool-name">Gemini</span>
+        <span class="tool-desc">Multimodal AI</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">⚡</span>
+        <span class="tool-name">Cursor</span>
+        <span class="tool-desc">AI-first IDE</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🦜</span>
+        <span class="tool-name">LangChain</span>
+        <span class="tool-desc">LLM orchestration</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🤗</span>
+        <span class="tool-name">Hugging Face</span>
+        <span class="tool-desc">Model hub & hosting</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🎨</span>
+        <span class="tool-name">Midjourney</span>
+        <span class="tool-desc">Image generation</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🔍</span>
+        <span class="tool-name">Perplexity</span>
+        <span class="tool-desc">AI-powered search</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🌲</span>
+        <span class="tool-name">Pinecone</span>
+        <span class="tool-desc">Vector database</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">📊</span>
+        <span class="tool-name">Weights & Biases</span>
+        <span class="tool-desc">ML experiment tracking</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-icon">🚀</span>
+        <span class="tool-name">Vercel AI SDK</span>
+        <span class="tool-desc">AI app framework</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 5: PROMPT ENGINEERING -->
+<!-- ============================================ -->
+<section class="slide" id="slide-4">
+  <div class="slide-content">
+    <span class="section-num">04</span>
+    <h1>Prompt Engineering Best Practices</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">The art and science of communicating effectively with LLMs</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card glow-blue" style="margin-bottom:16px;">
+          <h3 style="color:#000;">📝 Be Specific & Structured</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
+            <span class="comment">// ❌ Bad prompt</span><br>
+            "<span class="string">Write me some code</span>"<br><br>
+            <span class="comment">// ✅ Good prompt</span><br>
+            "<span class="string">Write a TypeScript function that<br>validates email addresses using regex.<br>Include error handling and JSDoc.<br>Return { valid: boolean, error?: string }</span>"
+          </div>
+        </div>
+        <div class="card glow-purple" style="margin-bottom:16px;">
+          <h3 style="color:#000;">🎭 Role-Based Prompting</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
+            <span class="comment">// System prompt</span><br>
+            "<span class="string">You are a senior backend engineer<br>who specializes in Node.js microservices<br>and follows 12-factor app principles.</span>"
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card glow-green" style="margin-bottom:16px;">
+          <h3 style="color:#000;">🔗 Chain-of-Thought</h3>
+          <p style="margin-top:8px;">Ask the model to think step-by-step for complex reasoning tasks.</p>
+          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
+            "<span class="string">Think through this step by step:<br>1. Identify the data flow<br>2. Find potential bottlenecks<br>3. Suggest optimizations</span>"
+          </div>
+        </div>
+        <div class="card glow-orange" style="margin-bottom:16px;">
+          <h3 style="color:#000;">📋 Few-Shot Examples</h3>
+          <p style="margin-top:8px;">Provide input/output examples to guide format and style.</p>
+        </div>
+        <div class="card glow-red">
+          <h3 style="color:#000;">🎯 Constraints & Output Format</h3>
+          <p style="margin-top:8px;">Define limits: "Respond in JSON", "Max 100 words", "Use only stdlib".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: RAG ARCHITECTURE -->
+<!-- ============================================ -->
+<section class="slide" id="slide-5">
+  <div class="slide-content">
+    <span class="section-num">05</span>
+    <h1>RAG Architecture</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Retrieval-Augmented Generation — grounding AI in your data</p>
+
+    <div class="arch-box" style="margin-top:20px;">
+      <svg width="100%" height="280" viewBox="0 0 900 280">
+        <!-- Knowledge Base -->
+        <rect x="350" y="10" width="140" height="50" rx="8" fill="rgba(26,127,55,0.08)" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="4"/>
+        <text x="370" y="35" fill="#1a7f37" font-family="JetBrains Mono, monospace" font-size="11">📚 Knowledge Base</text>
+        <text x="370" y="52" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">Docs, Code, PDFs, APIs</text>
+        <line x1="420" y1="60" x2="420" y2="95" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="4"/>
+
+        <!-- User -->
+        <rect x="20" y="110" width="100" height="55" rx="8" fill="none" stroke="#0969da" stroke-width="2"/>
+        <text x="35" y="135" fill="#0969da" font-family="JetBrains Mono, monospace" font-size="11">👤 User</text>
+        <text x="35" y="153" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">Natural query</text>
+
+        <line x1="120" y1="137" x2="175" y2="137" stroke="#d0d7de" stroke-width="2"/>
+        <polygon points="175,133 185,137 175,141" fill="#d0d7de"/>
+
+        <!-- Embedding -->
+        <rect x="190" y="110" width="120" height="55" rx="8" fill="none" stroke="#8250df" stroke-width="2"/>
+        <text x="205" y="135" fill="#8250df" font-family="JetBrains Mono, monospace" font-size="11">🔢 Embedding</text>
+        <text x="205" y="153" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">text → vector</text>
+
+        <line x1="310" y1="137" x2="355" y2="137" stroke="#d0d7de" stroke-width="2"/>
+        <polygon points="355,133 365,137 355,141" fill="#d0d7de"/>
+
+        <!-- Vector DB -->
+        <rect x="370" y="100" width="130" height="75" rx="8" fill="none" stroke="#1a7f37" stroke-width="2"/>
+        <text x="385" y="128" fill="#1a7f37" font-family="JetBrains Mono, monospace" font-size="11">🗄️ Vector DB</text>
+        <text x="385" y="148" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">Similarity search</text>
+        <text x="385" y="165" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">Top-K retrieval</text>
+
+        <line x1="500" y1="137" x2="545" y2="137" stroke="#d0d7de" stroke-width="2"/>
+        <polygon points="545,133 555,137 545,141" fill="#d0d7de"/>
+
+        <!-- LLM -->
+        <rect x="560" y="95" width="140" height="85" rx="8" fill="none" stroke="#cf222e" stroke-width="2"/>
+        <text x="580" y="122" fill="#cf222e" font-family="JetBrains Mono, monospace" font-size="11">🧠 LLM</text>
+        <text x="580" y="142" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">Query + Context</text>
+        <text x="580" y="158" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">→ Grounded answer</text>
+        <text x="580" y="174" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">with citations</text>
+
+        <line x1="700" y1="137" x2="745" y2="137" stroke="#d0d7de" stroke-width="2"/>
+        <polygon points="745,133 755,137 745,141" fill="#d0d7de"/>
+
+        <!-- Response -->
+        <rect x="760" y="110" width="110" height="55" rx="8" fill="none" stroke="#0969da" stroke-width="2"/>
+        <text x="775" y="135" fill="#0969da" font-family="JetBrains Mono, monospace" font-size="11">💬 Response</text>
+        <text x="775" y="153" fill="#656d76" font-family="JetBrains Mono, monospace" font-size="9">+ Sources</text>
+
+        <!-- Benefits -->
+        <text x="200" y="240" fill="#656d76" font-family="Open Sans, sans-serif" font-size="13">✅ Reduces hallucinations &nbsp;&nbsp; ✅ Uses your data &nbsp;&nbsp; ✅ No fine-tuning needed &nbsp;&nbsp; ✅ Always up-to-date</text>
+      </svg>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
+      <div class="card" style="text-align:center;border-top:3px solid var(--gh-green);">
+        <h3 style="color:#000;">🌲 Vector Stores</h3>
+        <p>Pinecone, Weaviate, Chroma, Qdrant, pgvector</p>
+      </div>
+      <div class="card" style="text-align:center;border-top:3px solid var(--gh-purple);">
+        <h3 style="color:#000;">🔗 Orchestrators</h3>
+        <p>LangChain, LlamaIndex, Semantic Kernel</p>
+      </div>
+      <div class="card" style="text-align:center;border-top:3px solid var(--gh-blue);">
+        <h3 style="color:#000;">📐 Chunking Strategies</h3>
+        <p>Fixed-size, semantic, recursive, document-aware</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: AI AGENTS & WORKFLOWS -->
+<!-- ============================================ -->
+<section class="slide" id="slide-6">
+  <div class="slide-content">
+    <span class="section-num">06</span>
+    <h1>AI Agents & Workflows</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Autonomous AI systems that plan, reason, and act</p>
+
+    <div class="arch-flow" style="margin:20px 0;">
+      <div class="arch-node" style="border-color:var(--gh-blue);">
+        <span class="icon">🎯</span>
+        <span class="label">Goal</span>
+        <span class="sub">User task</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-purple);">
+        <span class="icon">🧠</span>
+        <span class="label">Plan</span>
+        <span class="sub">Break into steps</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-orange);">
+        <span class="icon">🔧</span>
+        <span class="label">Act</span>
+        <span class="sub">Use tools</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-green);">
+        <span class="icon">👁️</span>
+        <span class="label">Observe</span>
+        <span class="sub">Check results</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-red);">
+        <span class="icon">🔁</span>
+        <span class="label">Iterate</span>
+        <span class="sub">Refine & repeat</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:20px;">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">🛠️ Agent Components</h3>
+          <ul class="checklist">
+            <li><strong style="color:var(--gh-text);">LLM Core</strong> — reasoning & decision making</li>
+            <li><strong style="color:var(--gh-text);">Tools</strong> — APIs, code execution, web search</li>
+            <li><strong style="color:var(--gh-text);">Memory</strong> — short-term (context) & long-term (vector store)</li>
+            <li><strong style="color:var(--gh-text);">Planning</strong> — ReAct, Tree-of-Thought, reflection</li>
+            <li><strong style="color:var(--gh-text);">Guardrails</strong> — input/output validation & safety</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">⚡ Agent Frameworks</h3>
+          <div class="card-grid" style="grid-template-columns:1fr 1fr;margin-top:12px;">
+            <div class="card" style="padding:12px;text-align:center;">
+              <strong style="color:#000;">🦜 LangGraph</strong>
+              <p style="font-size:0.8rem;">Stateful agents</p>
+            </div>
+            <div class="card" style="padding:12px;text-align:center;">
+              <strong style="color:#000;">🔄 CrewAI</strong>
+              <p style="font-size:0.8rem;">Multi-agent teams</p>
+            </div>
+            <div class="card" style="padding:12px;text-align:center;">
+              <strong style="color:#000;">🤖 AutoGen</strong>
+              <p style="font-size:0.8rem;">Microsoft agents</p>
+            </div>
+            <div class="card" style="padding:12px;text-align:center;">
+              <strong style="color:#000;">🧩 OpenAI SDK</strong>
+              <p style="font-size:0.8rem;">Function calling</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 8: GENAI IN SOFTWARE DEVELOPMENT -->
+<!-- ============================================ -->
+<section class="slide" id="slide-7">
+  <div class="slide-content">
+    <span class="section-num">07</span>
+    <h1>GenAI in Software Development</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">How AI copilots are transforming the developer workflow</p>
+
+    <div class="workflow-steps">
+      <div class="workflow-step active">
+        <span class="step-num">1</span>
+        <h4>💡 Ideation</h4>
+        <p>Brainstorm features, architecture, API design</p>
+      </div>
+      <div class="workflow-step active">
+        <span class="step-num">2</span>
+        <h4>💻 Coding</h4>
+        <p>AI autocomplete, generate functions, refactor</p>
+      </div>
+      <div class="workflow-step active">
+        <span class="step-num">3</span>
+        <h4>🧪 Testing</h4>
+        <p>Generate test cases, edge cases, mocks</p>
+      </div>
+      <div class="workflow-step active">
+        <span class="step-num">4</span>
+        <h4>🔍 Review</h4>
+        <p>AI code review, security scanning</p>
+      </div>
+      <div class="workflow-step active">
+        <span class="step-num">5</span>
+        <h4>📚 Docs</h4>
+        <p>Auto-generate docs, changelogs, READMEs</p>
+      </div>
+      <div class="workflow-step active">
+        <span class="step-num">6</span>
+        <h4>🐛 Debug</h4>
+        <p>Explain errors, suggest fixes, trace issues</p>
+      </div>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
+      <div class="card glow-blue">
+        <span class="card-icon">🤖</span>
+        <h3 style="color:#000;">Code Generation</h3>
+        <p>Write entire functions from descriptions. Copilot, Cursor, Codeium, Tabnine.</p>
+      </div>
+      <div class="card glow-green">
+        <span class="card-icon">🧪</span>
+        <h3 style="color:#000;">Test Generation</h3>
+        <p>Generate unit, integration, and e2e tests with edge cases automatically.</p>
+      </div>
+      <div class="card glow-purple">
+        <span class="card-icon">📖</span>
+        <h3 style="color:#000;">Documentation</h3>
+        <p>Auto-generate JSDoc, README, API docs, and inline comments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: RESPONSIBLE AI -->
+<!-- ============================================ -->
+<section class="slide" id="slide-8">
+  <div class="slide-content">
+    <span class="section-num">08</span>
+    <h1>Best Practices: Responsible AI</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Building AI systems that are fair, transparent, and trustworthy</p>
+
+    <div class="card-grid" style="grid-template-columns:repeat(2,1fr);margin-top:20px;">
+      <div class="card glow-red">
+        <span class="card-icon">🎭</span>
+        <h3 style="color:#000;">Bias & Fairness</h3>
+        <ul class="checklist">
+          <li>Audit training data for representation gaps</li>
+          <li>Test outputs across demographics</li>
+          <li>Use fairness metrics (demographic parity, equalized odds)</li>
+          <li>Implement bias detection in CI/CD pipeline</li>
+        </ul>
+      </div>
+      <div class="card glow-orange">
+        <span class="card-icon">🌫️</span>
+        <h3 style="color:#000;">Hallucination Mitigation</h3>
+        <ul class="checklist">
+          <li>Use RAG to ground responses in real data</li>
+          <li>Add confidence scores to outputs</li>
+          <li>Implement fact-checking pipelines</li>
+          <li>Set temperature low for factual tasks</li>
+        </ul>
+      </div>
+      <div class="card glow-green">
+        <span class="card-icon">👤</span>
+        <h3 style="color:#000;">Human-in-the-Loop</h3>
+        <ul class="checklist">
+          <li>AI suggests, human approves critical actions</li>
+          <li>Escalation paths for low-confidence outputs</li>
+          <li>Regular human review of AI decisions</li>
+          <li>Easy override mechanisms</li>
+        </ul>
+      </div>
+      <div class="card glow-blue">
+        <span class="card-icon">📋</span>
+        <h3 style="color:#000;">Transparency</h3>
+        <ul class="checklist">
+          <li>Disclose when content is AI-generated</li>
+          <li>Explain AI decision reasoning</li>
+          <li>Publish model cards & data sheets</li>
+          <li>Log all AI interactions for audit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 10: SECURITY & PRIVACY -->
+<!-- ============================================ -->
+<section class="slide" id="slide-9">
+  <div class="slide-content">
+    <span class="section-num">09</span>
+    <h1>Best Practices: Security & Privacy</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Protecting your data and systems when using AI</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-red);margin-bottom:16px;">
+          <h3 style="color:var(--gh-red);">⚠️ Threats</h3>
+          <table class="compare-table">
+            <tbody>
+              <tr><td><span class="badge badge-red">Critical</span></td><td><strong>Prompt Injection</strong> — malicious inputs hijacking AI behavior</td></tr>
+              <tr><td><span class="badge badge-red">Critical</span></td><td><strong>Data Leakage</strong> — sensitive info in training/context</td></tr>
+              <tr><td><span class="badge badge-orange">High</span></td><td><strong>PII Exposure</strong> — personal data in prompts/outputs</td></tr>
+              <tr><td><span class="badge badge-orange">High</span></td><td><strong>Model Theft</strong> — extracting proprietary models</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-green);">
+          <h3 style="color:var(--gh-green);">🛡️ Mitigations</h3>
+          <ul class="checklist">
+            <li><strong style="color:var(--gh-text);">Input sanitization</strong> — filter & validate all prompts</li>
+            <li><strong style="color:var(--gh-text);">Output filtering</strong> — detect PII, secrets, harmful content</li>
+            <li><strong style="color:var(--gh-text);">Data classification</strong> — never send sensitive data to external APIs</li>
+            <li><strong style="color:var(--gh-text);">Access controls</strong> — RBAC for AI features</li>
+            <li><strong style="color:var(--gh-text);">Audit logging</strong> — track all AI interactions</li>
+            <li><strong style="color:var(--gh-text);">Self-hosted models</strong> — keep data on-premise when needed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: PRODUCTION DEPLOYMENT -->
+<!-- ============================================ -->
+<section class="slide" id="slide-10">
+  <div class="slide-content">
+    <span class="section-num">10</span>
+    <h1>Best Practices: Production Deployment</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Shipping AI features reliably and cost-effectively</p>
+
+    <div class="card-grid" style="grid-template-columns:repeat(2,1fr);margin-top:20px;">
+      <div class="arch-box">
+        <h3 style="color:#000;">📊 Evaluation & Monitoring</h3>
+        <ul class="checklist">
+          <li>Define metrics: accuracy, latency, cost per query</li>
+          <li>A/B test AI features vs traditional approaches</li>
+          <li>Monitor hallucination rate over time</li>
+          <li>Track user satisfaction & feedback loops</li>
+          <li>Set up alerts for model degradation</li>
+        </ul>
+      </div>
+      <div class="arch-box">
+        <h3 style="color:#000;">💰 Cost Optimization</h3>
+        <ul class="checklist">
+          <li>Cache frequent queries (semantic caching)</li>
+          <li>Use smaller models for simple tasks</li>
+          <li>Batch requests when possible</li>
+          <li>Implement token budgets per user/feature</li>
+          <li>Route: GPT-4 for hard, GPT-3.5 for easy tasks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="metric-grid" style="grid-template-columns:repeat(4,1fr);margin-top:24px;">
+      <div class="metric-box">
+        <div class="metric-value" style="color:var(--gh-green);">99.9%</div>
+        <div class="metric-label">Uptime SLA target</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value" style="color:var(--gh-blue);">&lt;2s</div>
+        <div class="metric-label">Response latency P95</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value" style="color:var(--gh-purple);">&lt;5%</div>
+        <div class="metric-label">Hallucination rate</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value" style="color:var(--gh-orange);">$0.01</div>
+        <div class="metric-label">Cost per request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 12: END-TO-END WORKFLOW -->
+<!-- ============================================ -->
+<section class="slide" id="slide-11">
+  <div class="slide-content">
+    <span class="section-num">11</span>
+    <h1>GenAI Development Workflow</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">End-to-end process for building AI-powered features</p>
+
+    <div class="workflow-steps" style="margin:30px 0;">
+      <div class="workflow-step active" style="border-top-color:var(--gh-blue);">
+        <span class="step-num" style="background:var(--gh-blue);">1</span>
+        <h4>🎯 Define</h4>
+        <p>Problem, success metrics, user need</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-purple);">
+        <span class="step-num" style="background:var(--gh-purple);">2</span>
+        <h4>🧪 Prototype</h4>
+        <p>Prompt engineering, model selection</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-green);">
+        <span class="step-num" style="background:var(--gh-green);">3</span>
+        <h4>📊 Evaluate</h4>
+        <p>Benchmarks, human eval, edge cases</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-orange);">
+        <span class="step-num" style="background:var(--gh-orange);">4</span>
+        <h4>🛡️ Guard</h4>
+        <p>Safety, security, bias checks</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-red);">
+        <span class="step-num" style="background:var(--gh-red);">5</span>
+        <h4>🚀 Deploy</h4>
+        <p>Canary release, monitor, iterate</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:20px;">
+      <div class="arch-box">
+        <h3 style="color:#000;">🔄 Continuous Improvement Loop</h3>
+        <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
+          <span class="keyword">while</span> (feature.isLive()) {<br>
+          &nbsp;&nbsp;metrics = <span class="func">collectFeedback</span>();<br>
+          &nbsp;&nbsp;<span class="keyword">if</span> (metrics.quality < threshold) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">updatePrompts</span>();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">addExamples</span>();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">expandRAGData</span>();<br>
+          &nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;<span class="func">reEvaluate</span>();<br>
+          }
+        </div>
+      </div>
+      <div class="arch-box">
+        <h3 style="color:#000;">📋 Pre-Launch Checklist</h3>
+        <ul class="checklist">
+          <li>Eval dataset with 100+ test cases</li>
+          <li>Fallback path when AI fails</li>
+          <li>Rate limiting & cost caps configured</li>
+          <li>PII/security scan on all I/O</li>
+          <li>Human escalation path defined</li>
+          <li>Monitoring & alerting live</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 13: MODEL SELECTION GUIDE -->
+<!-- ============================================ -->
+<section class="slide" id="slide-12">
+  <div class="slide-content">
+    <span class="section-num">12</span>
+    <h1>Model Selection Guide</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Choosing the right model for the right task</p>
+
+    <div class="arch-box" style="margin-top:20px;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <td style="font-weight:700;color:#000;">Use Case</td>
+            <td style="font-weight:700;color:#000;">Recommended Model</td>
+            <td style="font-weight:700;color:#000;">Why</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>🧠 Complex reasoning</td><td><span class="badge badge-purple">GPT-4o / Claude Opus</span></td><td>Best accuracy on hard tasks</td></tr>
+          <tr><td>💻 Code generation</td><td><span class="badge badge-blue">Claude Sonnet / GPT-4o</span></td><td>Strong coding benchmarks</td></tr>
+          <tr><td>⚡ Fast responses</td><td><span class="badge badge-green">GPT-4o-mini / Haiku</span></td><td>Low latency, low cost</td></tr>
+          <tr><td>📄 Long documents</td><td><span class="badge badge-orange">Gemini 1.5 / Claude</span></td><td>1M+ token context</td></tr>
+          <tr><td>🔒 On-premise</td><td><span class="badge badge-red">LLaMA / Mistral</span></td><td>Open-source, self-hosted</td></tr>
+          <tr><td>🎨 Image generation</td><td><span class="badge badge-purple">DALL-E 3 / Midjourney</span></td><td>High quality outputs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);margin-top:24px;">
+      <div class="metric-box" style="border-top:3px solid var(--gh-blue);">
+        <div class="metric-value" style="font-size:1.2rem;">Accuracy First</div>
+        <div class="metric-label">Use GPT-4o / Opus for critical tasks</div>
+      </div>
+      <div class="metric-box" style="border-top:3px solid var(--gh-green);">
+        <div class="metric-value" style="font-size:1.2rem;">Speed First</div>
+        <div class="metric-label">Use mini/haiku for real-time UX</div>
+      </div>
+      <div class="metric-box" style="border-top:3px solid var(--gh-purple);">
+        <div class="metric-value" style="font-size:1.2rem;">Cost First</div>
+        <div class="metric-label">Route by complexity dynamically</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 14: KEY TAKEAWAYS -->
+<!-- ============================================ -->
+<section class="slide hero" id="slide-13">
+  <div class="slide-content" style="text-align:center;">
+    <h1>Key Takeaways</h1>
+    <div class="slide-divider" style="margin:12px auto 30px;"></div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));text-align:left;">
+      <div class="card" style="border-left:3px solid var(--gh-blue);">
+        <h3 style="color:var(--gh-blue);">Prompt Engineering</h3>
+        <p>The #1 skill — <strong style="color:var(--gh-text);">specific, structured, constrained</strong> prompts yield better results</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">RAG over Fine-tuning</h3>
+        <p>Start with RAG — it's <strong style="color:var(--gh-text);">cheaper, faster, and easier</strong> to maintain</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-purple);">
+        <h3 style="color:var(--gh-purple);">Human-in-the-Loop</h3>
+        <p>AI suggests, <strong style="color:var(--gh-text);">humans decide</strong> — especially for critical actions</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">Security First</h3>
+        <p>Never trust AI output blindly — <strong style="color:var(--gh-text);">validate, sanitize, audit</strong></p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-orange);">
+        <h3 style="color:var(--gh-orange);">Evaluate Continuously</h3>
+        <p>AI quality drifts — <strong style="color:var(--gh-text);">measure, monitor, iterate</strong> always</p>
+      </div>
+    </div>
+
+    <div style="margin-top:50px;">
+      <h2 style="margin-bottom:20px;">📚 Resources</h2>
+      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);text-align:left;">
+        <div class="card">
+          <p><strong style="color:var(--gh-text);">Prompt Engineering Guide</strong></p>
+          <p>promptingguide.ai — comprehensive techniques</p>
+        </div>
+        <div class="card">
+          <p><strong style="color:var(--gh-text);">LangChain Docs</strong></p>
+          <p>Build RAG & agents with production patterns</p>
+        </div>
+        <div class="card">
+          <p><strong style="color:var(--gh-text);">AI Engineering (Chip Huyen)</strong></p>
+          <p>End-to-end guide to shipping AI products</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:50px;padding:30px;border-radius:12px;background:var(--gh-bg-secondary);border:1px solid var(--gh-border);">
+      <p style="font-size:1.3rem;color:var(--gh-text);font-style:italic;">"The best AI systems augment human intelligence — they don't replace human judgment."</p>
+    </div>
+
+    <p style="margin-top:40px;font-size:1.5rem;">Thank you! 🚀</p>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const navDots = document.getElementById('navDots');
+
+  slides.forEach((slide, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.title = `Slide ${i + 1}`;
+    dot.onclick = () => slide.scrollIntoView({ behavior: 'smooth' });
+    navDots.appendChild(dot);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = [...slides].indexOf(entry.target);
+        document.querySelectorAll('.nav-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
