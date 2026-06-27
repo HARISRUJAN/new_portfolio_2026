@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Idea to Execution — Building Software That Users Love</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --gh-bg: #ffffff;
+    --gh-bg-secondary: #f6f8fa;
+    --gh-bg-tertiary: #eaeef2;
+    --gh-border: #d0d7de;
+    --gh-text: #1f2328;
+    --gh-text-muted: #656d76;
+    --gh-green: #1a7f37;
+    --gh-blue: #0969da;
+    --gh-purple: #8250df;
+    --gh-red: #cf222e;
+    --gh-orange: #9a6700;
+    --gh-pink: #bf3989;
+    --gh-cyan: #0550ae;
+    --gh-gradient: linear-gradient(135deg, #0969da 0%, #8250df 50%, #bf3989 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+  body {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gh-bg);
+    color: var(--gh-text);
+    overflow-x: hidden;
+  }
+
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(9,105,218,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .slide.hero {
+    background: linear-gradient(180deg, var(--gh-bg) 0%, var(--gh-bg-secondary) 100%);
+  }
+
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    z-index: 1;
+  }
+
+  h1 { font-size: 3.2rem; font-weight: 800; color: #000; margin-bottom: 16px; line-height: 1.2; }
+  h2 { font-size: 2rem; font-weight: 700; color: #000; margin-bottom: 12px; }
+  h3 { font-size: 1.3rem; font-weight: 600; color: var(--gh-blue); margin-bottom: 8px; }
+  .subtitle { font-size: 1.3rem; color: var(--gh-text-muted); margin-bottom: 40px; }
+  p, li { font-size: 1.05rem; line-height: 1.7; color: var(--gh-text-muted); }
+
+  .section-num {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--gh-blue);
+    background: rgba(9,105,218,0.08);
+    padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .slide-divider {
+    width: 60px; height: 4px;
+    background: var(--gh-gradient);
+    border-radius: 2px; margin-bottom: 24px;
+  }
+
+  .nav-dots {
+    position: fixed; right: 24px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 1000;
+  }
+
+  .nav-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gh-border); border: none;
+    cursor: pointer; transition: all 0.3s;
+  }
+
+  .nav-dot.active { background: var(--gh-blue); transform: scale(1.3); }
+
+  .card {
+    background: var(--gh-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 12px; padding: 24px;
+    transition: all 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--gh-blue);
+    box-shadow: 0 4px 12px rgba(9,105,218,0.08);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card-icon { font-size: 2rem; display: block; margin-bottom: 12px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; align-items: start;
+  }
+
+  .code-block {
+    background: #161b22; color: #e6edf3;
+    padding: 20px 24px; border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem; line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #8b949e; }
+  .code-block .keyword { color: #ff7b72; }
+  .code-block .string { color: #a5d6ff; }
+  .code-block .func { color: #d2a8ff; }
+  .code-block .tag { color: #7ee787; }
+
+  .arch-flow {
+    display: flex; align-items: center;
+    justify-content: center; gap: 8px;
+    flex-wrap: wrap; padding: 20px 0;
+  }
+
+  .arch-node {
+    border: 2px solid; border-radius: 12px;
+    padding: 16px 20px; text-align: center;
+    background: var(--gh-bg); min-width: 120px;
+  }
+
+  .arch-node .icon { font-size: 1.5rem; display: block; }
+  .arch-node .label { font-weight: 600; font-size: 0.9rem; display: block; margin-top: 4px; color: var(--gh-text); }
+  .arch-node .sub { font-size: 0.75rem; color: var(--gh-text-muted); display: block; margin-top: 2px; }
+  .arch-arrow { font-size: 1.5rem; color: var(--gh-border); font-weight: bold; }
+
+  .arch-box {
+    background: var(--gh-bg-secondary);
+    border: 1px solid var(--gh-border);
+    border-radius: 12px; padding: 24px;
+  }
+
+  .workflow-steps {
+    display: flex; align-items: stretch;
+    gap: 0; margin: 30px 0;
+  }
+
+  .workflow-step {
+    flex: 1; padding: 20px 16px;
+    text-align: center; position: relative;
+    border-top: 3px solid var(--gh-border);
+  }
+
+  .workflow-step.active { border-top-color: var(--gh-blue); background: rgba(9,105,218,0.03); }
+
+  .workflow-step .step-num {
+    display: inline-block; width: 28px; height: 28px;
+    line-height: 28px; border-radius: 50%;
+    background: var(--gh-blue); color: white;
+    font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;
+  }
+
+  .workflow-step h4 { font-size: 0.9rem; font-weight: 700; color: var(--gh-text); margin-bottom: 4px; }
+  .workflow-step p { font-size: 0.8rem; color: var(--gh-text-muted); }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 8px 0; padding-left: 28px;
+    position: relative; border-bottom: 1px solid var(--gh-bg-tertiary);
+  }
+  .checklist li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--gh-green); font-weight: 700;
+  }
+
+  .badge {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-blue { background: rgba(9,105,218,0.1); color: var(--gh-blue); }
+  .badge-green { background: rgba(26,127,55,0.1); color: var(--gh-green); }
+  .badge-purple { background: rgba(130,80,223,0.1); color: var(--gh-purple); }
+  .badge-red { background: rgba(207,34,46,0.1); color: var(--gh-red); }
+  .badge-orange { background: rgba(154,103,0,0.1); color: var(--gh-orange); }
+
+  .glow-blue { border-left: 3px solid var(--gh-blue); }
+  .glow-purple { border-left: 3px solid var(--gh-purple); }
+  .glow-green { border-left: 3px solid var(--gh-green); }
+  .glow-red { border-left: 3px solid var(--gh-red); }
+  .glow-orange { border-left: 3px solid var(--gh-orange); }
+
+  .compare-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .compare-table td { padding: 10px 14px; border-bottom: 1px solid var(--gh-border); font-size: 0.9rem; }
+  .compare-table td:first-child { width: 160px; font-weight: 600; color: var(--gh-text); }
+
+  .persona-card {
+    background: var(--gh-bg); border: 1px solid var(--gh-border);
+    border-radius: 12px; padding: 24px; text-align: center;
+  }
+
+  .persona-card .avatar {
+    font-size: 3rem; margin-bottom: 12px; display: block;
+  }
+
+  .persona-card .name {
+    font-weight: 700; font-size: 1.1rem; color: var(--gh-text);
+  }
+
+  .persona-card .role {
+    font-size: 0.85rem; color: var(--gh-blue); font-weight: 600; margin-top: 4px;
+  }
+
+  .timeline { margin-top: 24px; }
+  .timeline-item {
+    display: flex; align-items: flex-start;
+    gap: 16px; margin-bottom: 20px;
+  }
+
+  .timeline-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 3px solid; margin-top: 6px; flex-shrink: 0;
+  }
+
+  .timeline-content {
+    flex: 1; padding: 12px 16px;
+    border-left: 3px solid var(--gh-border);
+    background: var(--gh-bg-secondary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .metric-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; margin-top: 20px;
+  }
+
+  .metric-box {
+    text-align: center; padding: 16px;
+    background: var(--gh-bg); border-radius: 8px;
+    border: 1px solid var(--gh-border);
+  }
+
+  .metric-value { font-size: 1.8rem; font-weight: 800; color: var(--gh-blue); }
+  .metric-label { font-size: 0.8rem; color: var(--gh-text-muted); margin-top: 4px; }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2.2rem; }
+    .slide { padding: 40px 20px; }
+    .workflow-steps { flex-direction: column; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-dots" id="navDots"></div>
+
+<!-- ============================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================ -->
+<section class="slide hero" id="slide-title">
+  <div class="slide-content" style="text-align:center;">
+    <span class="section-num">Workshop · 1 Hour</span>
+    <h1 style="font-size:3.5rem;background:var(--gh-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">From Idea to Execution</h1>
+    <p class="subtitle" style="margin-top:8px;">Building Software That Users Actually Love</p>
+    <div class="slide-divider" style="margin:20px auto 30px;"></div>
+
+    <div class="arch-flow" style="margin-top:40px;">
+      <div class="arch-node" style="border-color:var(--gh-blue);">
+        <span class="icon">💡</span>
+        <span class="label">Idea</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-purple);">
+        <span class="icon">👥</span>
+        <span class="label">Users</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-green);">
+        <span class="icon">📋</span>
+        <span class="label">Requirements</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-orange);">
+        <span class="icon">🏗️</span>
+        <span class="label">Design</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-red);">
+        <span class="icon">💻</span>
+        <span class="label">Build</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node" style="border-color:var(--gh-pink);">
+        <span class="icon">🚀</span>
+        <span class="label">Ship</span>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <span class="badge badge-blue" style="font-size:0.9rem;padding:8px 16px;">📝 Requirements</span>
+      <span class="badge badge-purple" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">👤 User Thinking</span>
+      <span class="badge badge-green" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🎯 Execution</span>
+      <span class="badge badge-orange" style="font-size:0.9rem;padding:8px 16px;margin-left:8px;">🔄 Iteration</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 2: THE PROBLEM WITH MOST PROJECTS -->
+<!-- ============================================ -->
+<section class="slide" id="slide-1">
+  <div class="slide-content">
+    <span class="section-num">01</span>
+    <h1>Why Most Projects Fail</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">It's not the code — it's the foundation.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card glow-red" style="margin-bottom:16px;">
+          <span class="card-icon">💀</span>
+          <h3 style="color:var(--gh-red);">Common Failure Modes</h3>
+          <ul class="checklist" style="margin-top:12px;">
+            <li style="border-bottom-color:rgba(207,34,46,0.1);">Building something nobody asked for</li>
+            <li style="border-bottom-color:rgba(207,34,46,0.1);">Vague requirements → scope creep</li>
+            <li style="border-bottom-color:rgba(207,34,46,0.1);">Never talked to actual users</li>
+            <li style="border-bottom-color:rgba(207,34,46,0.1);">Jumped to code before thinking</li>
+            <li style="border-bottom-color:rgba(207,34,46,0.1);">No success metrics defined</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📊 The Reality</h3>
+          <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-red);">70%</div>
+              <div class="metric-label">of software projects fail or are challenged</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-orange);">45%</div>
+              <div class="metric-label">of features built are never used</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-purple);">5×</div>
+              <div class="metric-label">cost to fix a requirements error in production</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-blue);">#1</div>
+              <div class="metric-label">cause of failure: poor requirements</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;border-top:3px solid var(--gh-green);">
+          <p style="font-style:italic;color:var(--gh-text);">"Weeks of coding can save you hours of planning."</p>
+          <p style="font-size:0.85rem;margin-top:4px;">— Every senior engineer ever</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 3: THE JOURNEY OVERVIEW -->
+<!-- ============================================ -->
+<section class="slide" id="slide-2">
+  <div class="slide-content">
+    <span class="section-num">02</span>
+    <h1>The Journey: Idea → Shipped Product</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">A practical framework you can use for any project</p>
+
+    <div class="workflow-steps">
+      <div class="workflow-step active" style="border-top-color:var(--gh-blue);">
+        <span class="step-num" style="background:var(--gh-blue);">1</span>
+        <h4>💡 Ideation</h4>
+        <p>Problem discovery & validation</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-purple);">
+        <span class="step-num" style="background:var(--gh-purple);">2</span>
+        <h4>👥 Users</h4>
+        <p>Who are you building for?</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-green);">
+        <span class="step-num" style="background:var(--gh-green);">3</span>
+        <h4>📋 Requirements</h4>
+        <p>What exactly to build</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-orange);">
+        <span class="step-num" style="background:var(--gh-orange);">4</span>
+        <h4>🏗️ Design</h4>
+        <p>Architecture & UX</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-red);">
+        <span class="step-num" style="background:var(--gh-red);">5</span>
+        <h4>💻 Build</h4>
+        <p>Sprint execution</p>
+      </div>
+      <div class="workflow-step active" style="border-top-color:var(--gh-pink);">
+        <span class="step-num" style="background:var(--gh-pink);">6</span>
+        <h4>🚀 Ship & Learn</h4>
+        <p>Deploy, measure, iterate</p>
+      </div>
+    </div>
+
+    <div class="arch-box" style="margin-top:24px;text-align:center;">
+      <p style="font-size:1.1rem;color:var(--gh-text);"><strong>Today's Workshop:</strong> We'll walk through this entire journey using a real example project — building a <strong style="color:var(--gh-blue);">Student Study Group Finder App</strong></p>
+      <p style="margin-top:8px;font-size:0.9rem;">By the end, you'll have a complete requirements doc & execution plan you can actually use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 4: IDEATION — FINDING THE PROBLEM -->
+<!-- ============================================ -->
+<section class="slide" id="slide-3">
+  <div class="slide-content">
+    <span class="section-num">03</span>
+    <h1>Step 1: Find a Real Problem</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Don't start with a solution — start with a pain point.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card glow-red" style="margin-bottom:16px;">
+          <h3 style="color:var(--gh-red);">❌ Solution-First (Bad)</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
+            <span class="comment">// "I want to build an app that uses<br>// AI and blockchain to..."</span><br><br>
+            <span class="keyword">Problem:</span> <span class="string">???</span><br>
+            <span class="keyword">Users:</span> <span class="string">???</span><br>
+            <span class="keyword">Why:</span> <span class="string">Because it sounds cool</span>
+          </div>
+        </div>
+        <div class="card glow-green">
+          <h3 style="color:var(--gh-green);">✅ Problem-First (Good)</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
+            <span class="comment">// "Students can't find study partners<br>// for the same course & schedule..."</span><br><br>
+            <span class="keyword">Problem:</span> <span class="tag">Isolation in large classes</span><br>
+            <span class="keyword">Users:</span> <span class="tag">University students</span><br>
+            <span class="keyword">Why:</span> <span class="tag">Better grades + social connection</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">🔍 Problem Discovery Techniques</h3>
+          <div class="timeline" style="margin-top:16px;">
+            <div class="timeline-item">
+              <div class="timeline-dot" style="border-color:var(--gh-blue);"></div>
+              <div class="timeline-content" style="border-left-color:var(--gh-blue);">
+                <h3 style="font-size:1rem;">👂 Listen</h3>
+                <p>What do people complain about daily?</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="border-color:var(--gh-purple);"></div>
+              <div class="timeline-content" style="border-left-color:var(--gh-purple);">
+                <h3 style="font-size:1rem;">🔎 Observe</h3>
+                <p>What workarounds do people use? (spreadsheets, WhatsApp groups, sticky notes)</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="border-color:var(--gh-green);"></div>
+              <div class="timeline-content" style="border-left-color:var(--gh-green);">
+                <h3 style="font-size:1rem;">❓ Ask "Why?" 5 Times</h3>
+                <p>Dig to the root cause, not the symptom</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="border-color:var(--gh-orange);"></div>
+              <div class="timeline-content" style="border-left-color:var(--gh-orange);">
+                <h3 style="font-size:1rem;">📊 Validate</h3>
+                <p>Talk to 5+ potential users. Do they have this problem?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 5: THINK ABOUT YOUR USERS -->
+<!-- ============================================ -->
+<section class="slide" id="slide-4">
+  <div class="slide-content">
+    <span class="section-num">04</span>
+    <h1>Step 2: Know Your Users</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">If you don't know WHO you're building for, you'll build for nobody.</p>
+
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
+      <div class="persona-card">
+        <span class="avatar">👩‍💻</span>
+        <span class="name">Sarah</span>
+        <span class="role">2nd Year CS Student</span>
+        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
+          • Struggles with Data Structures<br>
+          • Wants study partners for exam prep<br>
+          • Available evenings & weekends<br>
+          • Prefers in-person study groups<br>
+          • <strong style="color:var(--gh-red);">Pain:</strong> "I don't know anyone in my 200-person lecture"
+        </p>
+      </div>
+      <div class="persona-card">
+        <span class="avatar">👨‍🎓</span>
+        <span class="name">Marcus</span>
+        <span class="role">3rd Year, Working Part-Time</span>
+        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
+          • Limited schedule (works 20hrs/week)<br>
+          • Needs flexible, async study options<br>
+          • Strong in some subjects, weak in others<br>
+          • Would tutor in exchange for help<br>
+          • <strong style="color:var(--gh-red);">Pain:</strong> "My schedule never matches anyone else's"
+        </p>
+      </div>
+      <div class="persona-card">
+        <span class="avatar">👩‍🏫</span>
+        <span class="name">Prof. Chen</span>
+        <span class="role">Course Instructor</span>
+        <p style="margin-top:12px;font-size:0.85rem;text-align:left;">
+          • Wants students to collaborate more<br>
+          • Can't manually matchmake 200 students<br>
+          • Needs to see engagement metrics<br>
+          • Would promote tool if it works<br>
+          • <strong style="color:var(--gh-red);">Pain:</strong> "I know groups help, but I can't facilitate them"
+        </p>
+      </div>
+    </div>
+
+    <div class="arch-box" style="margin-top:24px;">
+      <h3 style="color:#000;">🎯 User Persona Template</h3>
+      <div class="code-block" style="margin-top:12px;font-size:0.85rem;">
+        <span class="keyword">Name:</span> <span class="string">[Give them a real name]</span><br>
+        <span class="keyword">Role:</span> <span class="string">[Who are they?]</span><br>
+        <span class="keyword">Goal:</span> <span class="string">[What are they trying to achieve?]</span><br>
+        <span class="keyword">Pain:</span> <span class="string">[What frustrates them today?]</span><br>
+        <span class="keyword">Context:</span> <span class="string">[When/where/how do they encounter this problem?]</span><br>
+        <span class="keyword">Quote:</span> <span class="string">"[Something they'd actually say]"</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: USER STORIES -->
+<!-- ============================================ -->
+<section class="slide" id="slide-5">
+  <div class="slide-content">
+    <span class="section-num">05</span>
+    <h1>Step 3: Write User Stories</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Describe features from the user's perspective — not the developer's.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📝 User Story Format</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.9rem;">
+            <span class="keyword">As a</span> <span class="string">[type of user]</span><br>
+            <span class="keyword">I want to</span> <span class="string">[do something]</span><br>
+            <span class="keyword">So that</span> <span class="string">[I get this benefit]</span>
+          </div>
+
+          <div style="margin-top:20px;">
+            <p style="margin-bottom:12px;"><strong style="color:var(--gh-text);">Examples for our Study Group App:</strong></p>
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-blue);">
+              <p style="font-size:0.9rem;"><strong>As a</strong> student, <strong>I want to</strong> search for study groups by course, <strong>so that</strong> I can find people studying the same material.</p>
+            </div>
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-purple);">
+              <p style="font-size:0.9rem;"><strong>As a</strong> student, <strong>I want to</strong> see available time slots, <strong>so that</strong> I can join groups that fit my schedule.</p>
+            </div>
+            <div class="card" style="padding:12px;border-left:3px solid var(--gh-green);">
+              <p style="font-size:0.9rem;"><strong>As an</strong> instructor, <strong>I want to</strong> see how many students formed groups, <strong>so that</strong> I know the tool is helping my class.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-orange);margin-bottom:16px;">
+          <h3 style="color:#000;">✅ Acceptance Criteria</h3>
+          <p style="margin-top:8px;margin-bottom:12px;">How do you know a story is DONE?</p>
+          <div class="code-block" style="font-size:0.8rem;">
+            <span class="comment">// Story: Search for study groups by course</span><br><br>
+            <span class="keyword">GIVEN</span> <span class="string">I'm logged in</span><br>
+            <span class="keyword">WHEN</span> <span class="string">I type "CS201" in the search bar</span><br>
+            <span class="keyword">THEN</span> <span class="string">I see all groups for CS201</span><br>
+            <span class="keyword">AND</span> <span class="string">results show group name, members, time</span><br>
+            <span class="keyword">AND</span> <span class="string">I can filter by day of week</span><br>
+            <span class="keyword">AND</span> <span class="string">empty state shows "No groups yet"</span>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-red);">
+          <h3 style="color:#000;">🚫 What's NOT a User Story</h3>
+          <ul class="checklist">
+            <li style="color:var(--gh-red);">"Use React and PostgreSQL" — that's a tech choice</li>
+            <li style="color:var(--gh-red);">"Make it fast" — too vague, no criteria</li>
+            <li style="color:var(--gh-red);">"Add a database" — that's an implementation task</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: REQUIREMENTS DOCUMENT -->
+<!-- ============================================ -->
+<section class="slide" id="slide-6">
+  <div class="slide-content">
+    <span class="section-num">06</span>
+    <h1>Step 4: Requirements Document</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">The blueprint before you write a single line of code.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📄 Requirements Doc Structure</h3>
+          <table class="compare-table">
+            <tbody>
+              <tr><td>🎯 Problem Statement</td><td>What pain are we solving?</td></tr>
+              <tr><td>👥 Target Users</td><td>Personas & their needs</td></tr>
+              <tr><td>✅ Functional Reqs</td><td>What the system DOES</td></tr>
+              <tr><td>⚡ Non-Functional Reqs</td><td>Performance, security, scale</td></tr>
+              <tr><td>🚫 Out of Scope</td><td>What we're NOT building (v1)</td></tr>
+              <tr><td>📊 Success Metrics</td><td>How we measure success</td></tr>
+              <tr><td>📅 Timeline</td><td>Milestones & deadlines</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="card glow-blue" style="margin-bottom:16px;">
+          <h3 style="color:#000;">✅ Functional Requirements (Example)</h3>
+          <ul class="checklist" style="font-size:0.9rem;">
+            <li>Students can create an account with university email</li>
+            <li>Students can create or join study groups</li>
+            <li>Groups are linked to specific courses</li>
+            <li>Schedule matching shows compatible times</li>
+            <li>In-app messaging for group members</li>
+          </ul>
+        </div>
+        <div class="card glow-purple">
+          <h3 style="color:#000;">⚡ Non-Functional Requirements</h3>
+          <ul class="checklist" style="font-size:0.9rem;">
+            <li>Page load < 2 seconds</li>
+            <li>Support 1,000 concurrent users</li>
+            <li>Mobile-responsive design</li>
+            <li>Data encrypted at rest & in transit</li>
+            <li>99.9% uptime during exam season</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 8: MVP & PRIORITIZATION -->
+<!-- ============================================ -->
+<section class="slide" id="slide-7">
+  <div class="slide-content">
+    <span class="section-num">07</span>
+    <h1>Step 5: Define Your MVP</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">The smallest thing you can build to test your idea with real users.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">🎯 MoSCoW Prioritization</h3>
+          <table class="compare-table" style="margin-top:8px;">
+            <tbody>
+              <tr>
+                <td><span class="badge badge-red">Must Have</span></td>
+                <td>Without this, the product doesn't work</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-orange">Should Have</span></td>
+                <td>Important but app works without it</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">Could Have</span></td>
+                <td>Nice to have, if time allows</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">Won't Have</span></td>
+                <td>Explicitly not in this version</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="margin-top:16px;border-top:3px solid var(--gh-green);">
+          <h3 style="color:#000;">💡 MVP Mindset</h3>
+          <p style="margin-top:8px;font-style:italic;color:var(--gh-text);">"If you're not embarrassed by the first version of your product, you've launched too late."</p>
+          <p style="font-size:0.85rem;margin-top:4px;">— Reid Hoffman, LinkedIn founder</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:#000;margin-bottom:12px;">Study Group App: MVP vs Full Product</h3>
+        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-red);">
+          <strong style="color:var(--gh-red);">Must Have (MVP - Week 1–2)</strong>
+          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
+            <li>Sign up / log in</li>
+            <li>Browse groups by course</li>
+            <li>Create a group</li>
+            <li>Join a group</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-orange);">
+          <strong style="color:var(--gh-orange);">Should Have (Week 3–4)</strong>
+          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
+            <li>Schedule matching</li>
+            <li>Group messaging</li>
+            <li>Notifications</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--gh-blue);">
+          <strong style="color:var(--gh-blue);">Could Have (Week 5+)</strong>
+          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
+            <li>AI-powered matching</li>
+            <li>Instructor dashboard</li>
+            <li>Rating system</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:16px;border-left:3px solid var(--gh-purple);">
+          <strong style="color:var(--gh-purple);">Won't Have (v1)</strong>
+          <ul style="margin-top:8px;padding-left:16px;font-size:0.85rem;">
+            <li>Video chat integration</li>
+            <li>Payment system for tutors</li>
+            <li>Multi-university support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: ARCHITECTURE & DESIGN -->
+<!-- ============================================ -->
+<section class="slide" id="slide-8">
+  <div class="slide-content">
+    <span class="section-num">08</span>
+    <h1>Step 6: Architecture & Tech Choices</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Choose technology based on requirements — not hype.</p>
+
+    <div class="arch-flow" style="margin:20px 0;">
+      <div class="arch-node" style="border-color:var(--gh-blue);">
+        <span class="icon">🌐</span>
+        <span class="label">Frontend</span>
+        <span class="sub">React / Next.js</span>
+      </div>
+      <span class="arch-arrow">↔</span>
+      <div class="arch-node" style="border-color:var(--gh-purple);">
+        <span class="icon">⚡</span>
+        <span class="label">API</span>
+        <span class="sub">REST / GraphQL</span>
+      </div>
+      <span class="arch-arrow">↔</span>
+      <div class="arch-node" style="border-color:var(--gh-green);">
+        <span class="icon">🗄️</span>
+        <span class="label">Database</span>
+        <span class="sub">PostgreSQL</span>
+      </div>
+      <span class="arch-arrow">↔</span>
+      <div class="arch-node" style="border-color:var(--gh-orange);">
+        <span class="icon">🔐</span>
+        <span class="label">Auth</span>
+        <span class="sub">OAuth / JWT</span>
+      </div>
+      <span class="arch-arrow">↔</span>
+      <div class="arch-node" style="border-color:var(--gh-red);">
+        <span class="icon">☁️</span>
+        <span class="label">Deploy</span>
+        <span class="sub">Vercel / Railway</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:20px;">
+      <div class="arch-box">
+        <h3 style="color:#000;">🤔 Decision Framework</h3>
+        <table class="compare-table">
+          <tbody>
+            <tr><td>Team knows it?</td><td>Don't pick tech nobody knows for a deadline</td></tr>
+            <tr><td>Fits scale needs?</td><td>Don't over-engineer for 100 users</td></tr>
+            <tr><td>Community/docs?</td><td>Good docs = faster development</td></tr>
+            <tr><td>Cost?</td><td>Students budget ≈ free tier friendly</td></tr>
+            <tr><td>Hiring pool?</td><td>Can future team members use this?</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="arch-box">
+        <h3 style="color:#000;">🆓 Free-Tier Stack (Student Friendly)</h3>
+        <ul class="checklist">
+          <li><strong style="color:var(--gh-text);">Vercel</strong> — Frontend hosting + serverless functions</li>
+          <li><strong style="color:var(--gh-text);">Supabase</strong> — PostgreSQL + Auth + Realtime</li>
+          <li><strong style="color:var(--gh-text);">GitHub</strong> — Version control + CI/CD actions</li>
+          <li><strong style="color:var(--gh-text);">Resend</strong> — Transactional emails (free tier)</li>
+          <li><strong style="color:var(--gh-text);">Figma</strong> — UI/UX design (free for students)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 10: EXECUTION — SPRINT PLANNING -->
+<!-- ============================================ -->
+<section class="slide" id="slide-9">
+  <div class="slide-content">
+    <span class="section-num">09</span>
+    <h1>Step 7: Sprint Planning & Execution</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Break it down. Ship in small increments. Get feedback fast.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="arch-box">
+          <h3 style="color:#000;">📅 2-Week Sprint Example</h3>
+          <div style="margin-top:12px;">
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-blue);">
+              <strong style="color:#000;">Sprint 1: Foundation</strong>
+              <p style="font-size:0.85rem;">Auth + basic UI + database schema + deploy pipeline</p>
+              <span class="badge badge-green" style="margin-top:6px;">Goal: User can sign up & see empty dashboard</span>
+            </div>
+            <div class="card" style="padding:12px;margin-bottom:8px;border-left:3px solid var(--gh-purple);">
+              <strong style="color:#000;">Sprint 2: Core Feature</strong>
+              <p style="font-size:0.85rem;">Create group + browse groups + join group</p>
+              <span class="badge badge-green" style="margin-top:6px;">Goal: User can find & join a study group</span>
+            </div>
+            <div class="card" style="padding:12px;border-left:3px solid var(--gh-green);">
+              <strong style="color:#000;">Sprint 3: Polish & Launch</strong>
+              <p style="font-size:0.85rem;">Schedule matching + notifications + testing + launch</p>
+              <span class="badge badge-green" style="margin-top:6px;">Goal: MVP live with 10 beta users</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-orange);margin-bottom:16px;">
+          <h3 style="color:#000;">📋 Task Breakdown (Sprint 1)</h3>
+          <div class="code-block" style="margin-top:12px;font-size:0.8rem;">
+            <span class="comment">## Sprint 1 Tasks (GitHub Issues)</span><br><br>
+            <span class="tag">□</span> Set up Next.js project + Tailwind<br>
+            <span class="tag">□</span> Configure Supabase + schema<br>
+            <span class="tag">□</span> Implement OAuth login (Google)<br>
+            <span class="tag">□</span> Build navigation component<br>
+            <span class="tag">□</span> Create dashboard page (empty state)<br>
+            <span class="tag">□</span> Set up CI/CD with GitHub Actions<br>
+            <span class="tag">□</span> Deploy to Vercel<br>
+            <span class="tag">□</span> Write README with setup instructions<br><br>
+            <span class="comment">Estimated: 15 story points (~2 weeks)</span>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-green);">
+          <h3 style="color:#000;">🏃 Daily Standup (2 min each)</h3>
+          <p style="margin-top:8px;font-size:0.9rem;">1. What did I finish yesterday?</p>
+          <p style="font-size:0.9rem;">2. What am I doing today?</p>
+          <p style="font-size:0.9rem;">3. Any blockers?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: BUILDING & BEST PRACTICES -->
+<!-- ============================================ -->
+<section class="slide" id="slide-10">
+  <div class="slide-content">
+    <span class="section-num">10</span>
+    <h1>Step 8: Building — Best Practices</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Ship code you won't hate in 3 months.</p>
+
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
+      <div class="card glow-blue">
+        <span class="card-icon">🌿</span>
+        <h3 style="color:#000;">Git Workflow</h3>
+        <ul class="checklist" style="font-size:0.85rem;">
+          <li>Feature branches per task</li>
+          <li>Pull requests for all changes</li>
+          <li>At least 1 code review</li>
+          <li>Meaningful commit messages</li>
+          <li>Never commit to main directly</li>
+        </ul>
+      </div>
+      <div class="card glow-green">
+        <span class="card-icon">🧪</span>
+        <h3 style="color:#000;">Testing</h3>
+        <ul class="checklist" style="font-size:0.85rem;">
+          <li>Write tests before complex features</li>
+          <li>Unit tests for business logic</li>
+          <li>Integration tests for APIs</li>
+          <li>Manual testing for UI flows</li>
+          <li>Tests run on every PR (CI)</li>
+        </ul>
+      </div>
+      <div class="card glow-purple">
+        <span class="card-icon">📐</span>
+        <h3 style="color:#000;">Code Quality</h3>
+        <ul class="checklist" style="font-size:0.85rem;">
+          <li>Linter + formatter (ESLint, Prettier)</li>
+          <li>TypeScript for type safety</li>
+          <li>Small, focused functions</li>
+          <li>Meaningful variable names</li>
+          <li>No commented-out code in PRs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="arch-box" style="margin-top:24px;">
+      <h3 style="color:#000;">🔄 Development Cycle (Per Feature)</h3>
+      <div class="arch-flow">
+        <div class="arch-node" style="border-color:var(--gh-blue);min-width:100px;">
+          <span class="icon">📝</span>
+          <span class="label">Issue</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--gh-purple);min-width:100px;">
+          <span class="icon">🌿</span>
+          <span class="label">Branch</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--gh-green);min-width:100px;">
+          <span class="icon">💻</span>
+          <span class="label">Code</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--gh-orange);min-width:100px;">
+          <span class="icon">🧪</span>
+          <span class="label">Test</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--gh-red);min-width:100px;">
+          <span class="icon">🔍</span>
+          <span class="label">PR Review</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--gh-pink);min-width:100px;">
+          <span class="icon">✅</span>
+          <span class="label">Merge</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 12: SHIP & MEASURE -->
+<!-- ============================================ -->
+<section class="slide" id="slide-11">
+  <div class="slide-content">
+    <span class="section-num">11</span>
+    <h1>Step 9: Ship, Measure, Iterate</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Launching is not the end — it's the beginning of learning.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card" style="border-top:3px solid var(--gh-green);margin-bottom:16px;">
+          <h3 style="color:#000;">🚀 Launch Checklist</h3>
+          <ul class="checklist">
+            <li>All MVP features working end-to-end</li>
+            <li>Basic error handling & loading states</li>
+            <li>Mobile responsive</li>
+            <li>Analytics tracking installed</li>
+            <li>Error monitoring (Sentry free tier)</li>
+            <li>Feedback mechanism (even a Google Form)</li>
+            <li>Share with 10 beta users first</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="arch-box" style="margin-bottom:16px;">
+          <h3 style="color:#000;">📊 Success Metrics</h3>
+          <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-blue);">DAU</div>
+              <div class="metric-label">Daily Active Users</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-green);">Retention</div>
+              <div class="metric-label">% back after 7 days</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-purple);">Groups</div>
+              <div class="metric-label">Created per week</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-value" style="color:var(--gh-orange);">NPS</div>
+              <div class="metric-label">Would you recommend?</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gh-purple);">
+          <h3 style="color:#000;">🔄 Feedback Loop</h3>
+          <p style="margin-top:8px;">Ship → Observe → Interview → Prioritize → Ship again</p>
+          <p style="margin-top:8px;font-size:0.9rem;font-style:italic;color:var(--gh-text);">Talk to users weekly. Watch what they DO, not just what they SAY.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 13: COMMON MISTAKES -->
+<!-- ============================================ -->
+<section class="slide" id="slide-12">
+  <div class="slide-content">
+    <span class="section-num">12</span>
+    <h1>Common Mistakes to Avoid</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Learn from others' failures — it's cheaper.</p>
+
+    <div class="card-grid" style="grid-template-columns:repeat(2,1fr);margin-top:20px;">
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Over-engineering for Day 1</strong></p>
+        <p>"Let's add microservices, Kubernetes, event sourcing..."</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">✅ Instead</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Start with a monolith</strong></p>
+        <p>A Next.js app + Supabase handles 90% of use cases to 10K users.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Building in stealth for 6 months</strong></p>
+        <p>"We'll launch when it's perfect..."</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">✅ Instead</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Ship in 2–4 weeks</strong></p>
+        <p>Get real feedback. Course-correct early. Perfect is the enemy of done.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">No version control discipline</strong></p>
+        <p>"I'll just commit everything to main..."</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">✅ Instead</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Branch + PR + Review</strong></p>
+        <p>Even for solo projects. Future you will thank present you.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">❌ Mistake</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Skipping user research</strong></p>
+        <p>"I know what users want, I AM a user..."</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">✅ Instead</h3>
+        <p style="margin-top:8px;"><strong style="color:var(--gh-text);">Talk to 5 people minimum</strong></p>
+        <p>You are not your user. Even 5 conversations reveal blind spots.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 14: YOUR ACTION PLAN -->
+<!-- ============================================ -->
+<section class="slide" id="slide-13">
+  <div class="slide-content">
+    <span class="section-num">13</span>
+    <h1>Your Action Plan Template</h1>
+    <div class="slide-divider"></div>
+    <p class="subtitle">Copy this framework for your next project.</p>
+
+    <div class="arch-box" style="margin-top:20px;">
+      <div class="code-block" style="font-size:0.85rem;">
+        <span class="comment"># 🚀 Project: [Your Project Name]</span><br><br>
+        <span class="keyword">## Problem Statement</span><br>
+        <span class="string">[Who] has [problem] when [context], which causes [impact].</span><br><br>
+        <span class="keyword">## Target Users</span><br>
+        <span class="string">Primary: [Persona 1 — name, role, pain]</span><br>
+        <span class="string">Secondary: [Persona 2 — name, role, pain]</span><br><br>
+        <span class="keyword">## MVP Scope (2-week target)</span><br>
+        <span class="tag">Must:</span> <span class="string">[3-5 core features]</span><br>
+        <span class="tag">Won't:</span> <span class="string">[things explicitly excluded]</span><br><br>
+        <span class="keyword">## User Stories (Top 5)</span><br>
+        <span class="string">1. As a [user], I want to [action], so that [benefit]</span><br>
+        <span class="string">2. ...</span><br><br>
+        <span class="keyword">## Tech Stack</span><br>
+        <span class="string">Frontend: [choice] | Backend: [choice] | DB: [choice]</span><br><br>
+        <span class="keyword">## Sprint Plan</span><br>
+        <span class="string">Week 1: [Goal + tasks]</span><br>
+        <span class="string">Week 2: [Goal + tasks]</span><br><br>
+        <span class="keyword">## Success Metrics</span><br>
+        <span class="string">- [Metric 1]: [Target by when]</span><br>
+        <span class="string">- [Metric 2]: [Target by when]</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 15: KEY TAKEAWAYS -->
+<!-- ============================================ -->
+<section class="slide hero" id="slide-14">
+  <div class="slide-content" style="text-align:center;">
+    <h1>Key Takeaways</h1>
+    <div class="slide-divider" style="margin:12px auto 30px;"></div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));text-align:left;">
+      <div class="card" style="border-left:3px solid var(--gh-blue);">
+        <h3 style="color:var(--gh-blue);">🎯 Start with WHY</h3>
+        <p>Problem first, solution second. Validate before you build.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-purple);">
+        <h3 style="color:var(--gh-purple);">👥 Users Are Everything</h3>
+        <p>Talk to them. Build personas. Test with real people early.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-green);">
+        <h3 style="color:var(--gh-green);">📋 Requirements = Clarity</h3>
+        <p>Write it down. If it's not written, it's not agreed upon.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-orange);">
+        <h3 style="color:var(--gh-orange);">🏃 Ship Small, Ship Fast</h3>
+        <p>2-week MVP > 6-month masterpiece. Learn from real usage.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gh-red);">
+        <h3 style="color:var(--gh-red);">🔄 Iterate Forever</h3>
+        <p>Launch is Day 1, not the finish line. Keep learning.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:50px;padding:30px;border-radius:12px;background:var(--gh-bg-secondary);border:1px solid var(--gh-border);">
+      <p style="font-size:1.3rem;color:var(--gh-text);font-style:italic;">"The best software is built by teams who talk to users more than they talk to computers."</p>
+    </div>
+
+    <p style="margin-top:40px;font-size:1.5rem;">Now go build something! 🚀</p>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const navDots = document.getElementById('navDots');
+
+  slides.forEach((slide, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.title = `Slide ${i + 1}`;
+    dot.onclick = () => slide.scrollIntoView({ behavior: 'smooth' });
+    navDots.appendChild(dot);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = [...slides].indexOf(entry.target);
+        document.querySelectorAll('.nav-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
