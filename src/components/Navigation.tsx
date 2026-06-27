@@ -48,6 +48,7 @@ const Navigation = () => {
     { name: 'Blog', href: '#blog' },
     { name: 'Mentorship', href: '#speaking' },
     { name: 'Contact', href: '#contact' },
+    { name: 'My Story', href: '/story' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -84,6 +85,17 @@ const Navigation = () => {
               {navItems.map((item) => {
                 const sectionId = item.href.replace('#', '');
                 const isActive = activeSection === sectionId;
+                if (item.href.startsWith('/')) {
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="relative px-3 py-2 text-sm font-medium transition-colors duration-300 rounded-lg text-text-secondary hover:text-primary"
+                    >
+                      {item.name}
+                    </a>
+                  );
+                }
                 return (
                   <button
                     key={item.name}
@@ -130,6 +142,17 @@ const Navigation = () => {
               {navItems.map((item) => {
                 const sectionId = item.href.replace('#', '');
                 const isActive = activeSection === sectionId;
+                if (item.href.startsWith('/')) {
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="w-full text-left px-4 py-3 text-base font-medium rounded-xl transition-all duration-300 text-text-secondary hover:text-primary hover:bg-surface"
+                    >
+                      {item.name}
+                    </a>
+                  );
+                }
                 return (
                   <button
                     key={item.name}
