@@ -2,6 +2,51 @@ import { Brain, Search, Tag, Bot, BarChart3, MessageSquare } from 'lucide-react'
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
+type WorkflowStage = [string, string];
+
+const WorkflowDiagram = ({ name, stages }: { name: string; stages: WorkflowStage[] }) => {
+  const markerId = `arrow-${name.replace(/\W/g, '').toLowerCase()}`;
+
+  return (
+    <div className="mb-5 overflow-x-auto rounded-xl border border-border bg-background/60 p-3">
+      <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+        <span>System workflow</span>
+        <span>Architecture / v1</span>
+      </div>
+      <svg viewBox="0 0 720 132" className="min-w-[620px] w-full" role="img" aria-labelledby={`${markerId}-title`}>
+        <title id={`${markerId}-title`}>{name} technical workflow</title>
+        <defs>
+          <marker id={markerId} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--accent-blue))" />
+          </marker>
+        </defs>
+        {stages.map((stage, index) => {
+          const x = 8 + index * 120;
+          return (
+            <g key={stage.join('-')}>
+              {index < stages.length - 1 && (
+                <line x1={x + 102} y1="70" x2={x + 116} y2="70" stroke="hsl(var(--accent-blue))" strokeWidth="1.5" markerEnd={`url(#${markerId})`} />
+              )}
+              <text x={x + 6} y="24" fill="hsl(var(--text-muted))" fontSize="9" fontFamily="monospace">
+                {String(index + 1).padStart(2, '0')}
+              </text>
+              <rect x={x} y="38" width="102" height="64" rx="6" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border))" />
+              <circle cx={x + 14} cy="51" r="3" fill="hsl(var(--accent-green))" />
+              <text x={x + 51} y="68" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" fontFamily="monospace" fontWeight="600">
+                <tspan x={x + 51}>{stage[0]}</tspan>
+                <tspan x={x + 51} dy="15">{stage[1]}</tspan>
+              </text>
+              <text x={x + 51} y="119" textAnchor="middle" fill="hsl(var(--text-muted))" fontSize="8" fontFamily="monospace">
+                NODE_{String(index + 1).padStart(2, '0')}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
 const Projects = () => {
   const projects = [
     {
@@ -14,6 +59,7 @@ const Projects = () => {
       status: 'Active Research',
       features: ['ISO/IEC/IEEE-based assessment', 'Automated scoring system', 'Real-time Streamlit dashboard'],
       techStack: 'LangChain, LangGraph, Streamlit, Azure OpenAI, Qdrant',
+      workflow: [['SRS', 'INGEST'], ['CHUNK +', 'EMBED'], ['QDRANT', 'RETRIEVAL'], ['AGENT', 'ORCHESTRATOR'], ['3-PERSONA', 'REVIEW'], ['SCORE +', 'DASHBOARD']] as WorkflowStage[],
       highlight: true
     },
     {
@@ -26,6 +72,7 @@ const Projects = () => {
       status: 'Production',
       features: ['Semantic similarity matching', 'Natural language queries', 'Rule-based filtering'],
       techStack: 'Python, SpaCy, SQL, Power BI',
+      workflow: [['CV + JOB', 'INGEST'], ['SPACY', 'NLP'], ['SKILL', 'VECTORS'], ['WEIGHTED', 'MATCH'], ['RANK +', 'EXPLAIN'], ['RECRUITER', 'UI']] as WorkflowStage[],
       highlight: true
     },
     {
@@ -37,6 +84,7 @@ const Projects = () => {
       metrics: 'Cross-functional impact',
       status: 'Production',
       features: ['Real-time metrics tracking', 'Interactive visualizations', 'Automated reporting'],
+      workflow: [['DATA', 'SOURCES'], ['ETL +', 'VALIDATE'], ['SEMANTIC', 'MODEL'], ['KPI', 'COMPUTE'], ['STREAMLIT', '+ POWER BI'], ['DECISION', 'LAYER']] as WorkflowStage[],
     },
     {
       name: 'GenAI Product Consulting',
@@ -47,6 +95,7 @@ const Projects = () => {
       metrics: '5+ companies transformed',
       status: 'Consulting',
       features: ['Chatbot development', 'Content generation pipelines', 'Agent-oriented systems'],
+      workflow: [['USE-CASE', 'DISCOVERY'], ['DATA', 'READINESS'], ['RAG / AGENT', 'PROTOTYPE'], ['EVAL +', 'GUARDRAILS'], ['API', 'INTEGRATION'], ['MONITOR +', 'ITERATE']] as WorkflowStage[],
     }
   ];
 
@@ -96,6 +145,8 @@ const Projects = () => {
                     {/* Content */}
                     <h3 className="text-xl font-display font-bold text-foreground mb-2">{project.name}</h3>
                     <p className="text-text-secondary text-sm mb-4 leading-relaxed">{project.longDescription}</p>
+
+                    <WorkflowDiagram name={project.name} stages={project.workflow} />
 
                     {/* Metrics */}
                     {project.highlight && (
