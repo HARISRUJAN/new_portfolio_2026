@@ -14,6 +14,7 @@ import ChatbotWidget, { ChatbotRef } from "../components/ChatbotWidget";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import helsinkiFooterGradient from "../assets/helsinki-footer-gradient.png";
 
 const Index = () => {
   const chatbotRef = useRef<ChatbotRef>(null);
@@ -56,60 +57,59 @@ const Index = () => {
         <Contact />
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 py-16 border-t border-border">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-8 mb-10">
-              {/* Brand */}
-              <div>
-                <h3 className="text-lg font-display font-bold text-foreground mb-2">Harisrujan C</h3>
-                <p className="text-sm text-text-muted leading-relaxed">
-                  AI Product Architect helping teams build responsibly with Generative AI.
-                </p>
-              </div>
-              {/* Quick Links */}
-              <div>
-                <h4 className="text-sm font-semibold text-foreground mb-3">Quick Links</h4>
-                <div className="space-y-2">
-                  {['About', 'Projects', 'Blog', 'Contact'].map((link) => (
-                    <a
-                      key={link}
-                      href={`#${link.toLowerCase()}`}
-                      className="block text-sm text-text-muted hover:text-primary transition-colors"
-                    >
-                      {link}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              {/* Social */}
-              <div>
-                <h4 className="text-sm font-semibold text-foreground mb-3">Connect</h4>
-                <div className="flex gap-3">
-                  <a href="https://www.linkedin.com/in/harisrujan2605/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-surface hover:bg-hover text-text-muted hover:text-primary transition-all">
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                  <a href="https://github.com/HARISRUJAN" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-surface hover:bg-hover text-text-muted hover:text-primary transition-all">
-                    <Github className="w-4 h-4" />
-                  </a>
-                  <a href="https://twitter.com/bannu2605" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-surface hover:bg-hover text-text-muted hover:text-primary transition-all">
-                    <Twitter className="w-4 h-4" />
-                  </a>
-                  <a href="mailto:harisrujan2605@gmail.com" className="p-2 rounded-lg bg-surface hover:bg-hover text-text-muted hover:text-primary transition-all">
-                    <Mail className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="pt-8 border-t border-border text-center">
-              <p className="text-text-muted text-sm">
-                © 2026 Harisrujan C. Crafted with passion for AI and product excellence.
+      <footer
+        aria-labelledby="footer-title"
+        className="relative z-10 overflow-hidden border-t border-primary/20 bg-gradient-to-br from-primary via-accent-cyan to-accent-blue text-white"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_15%_20%,hsl(var(--accent-gold)/0.45),transparent_28%),radial-gradient(circle_at_85%_80%,hsl(var(--accent-blue)/0.55),transparent_30%)]"
+        />
+
+        <div className="container relative mx-auto px-6 pt-16 sm:pt-20">
+          <div className="flex flex-col gap-8 pb-12 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl text-left">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                Helsinki · Finland
               </p>
-              <p className="text-xs text-text-muted/60 mt-1">
-                I use AI as a copilot, not autopilot
+              <h2 id="footer-title" className="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                Let&apos;s build something useful.
+              </h2>
+              <p className="mt-4 max-w-lg text-sm leading-6 text-white/70 sm:text-base">
+                AI products, thoughtful engineering, and systems that hold up beyond the demo.
               </p>
             </div>
+
+            <a
+              href="#contact"
+              className="inline-flex w-fit items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-semibold text-primary shadow-lg shadow-black/10 transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+            >
+              Start a conversation
+              <span aria-hidden="true" className="text-base">↗</span>
+            </a>
+          </div>
+
+          <div className="overflow-hidden rounded-t-[2rem] border border-white/20 bg-white/95 shadow-2xl shadow-black/10">
+            <img
+              src={helsinkiFooterGradient}
+              alt="Helsinki skyline"
+              className="block h-auto w-full"
+            />
+          </div>
+
+          <div className="flex flex-col gap-4 border-t border-white/15 py-6 text-left text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Harisrujan C.</p>
+            <nav aria-label="Footer links" className="flex flex-wrap gap-x-5 gap-y-2">
+              <a className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" href="https://github.com/HARISRUJAN" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              <a className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" href="https://www.linkedin.com/in/harisrujan2605/" target="_blank" rel="noreferrer">
+                LinkedIn
+              </a>
+              <a className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" href="mailto:harisrujan2605@gmail.com">
+                Email
+              </a>
+            </nav>
           </div>
         </div>
       </footer>
