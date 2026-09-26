@@ -67,7 +67,7 @@ const Index = () => {
 
       <footer
         aria-labelledby="footer-title"
-        className="relative isolate z-10 overflow-hidden bg-gradient-to-b from-background via-background to-accent-blue/10 text-foreground"
+        className="relative isolate z-10 overflow-hidden border-0 bg-gradient-to-b from-background via-background to-accent-blue/10 text-foreground"
       >
         <div
           aria-hidden="true"
@@ -97,7 +97,7 @@ const Index = () => {
             </a>
           </div>
 
-          <div className="flex flex-col gap-4 pt-5 text-left text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 border-0 pt-5 text-left text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} Harisrujan C.</p>
             <nav aria-label="Footer links" className="flex flex-wrap gap-x-5 gap-y-2">
               <a className="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" href="https://github.com/HARISRUJAN" target="_blank" rel="noreferrer">
@@ -120,7 +120,7 @@ const Index = () => {
           height={380}
           loading="lazy"
           decoding="async"
-          className="relative z-0 -mt-2 block h-auto w-full max-w-none mix-blend-multiply"
+          className="relative z-0 -mt-2 block h-auto w-full max-w-none opacity-80 mix-blend-multiply"
         />
       </footer>
 
