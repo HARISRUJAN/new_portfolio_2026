@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check system preference or saved preference
+    // Keep the site light unless the visitor explicitly saved dark mode.
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    const shouldBeDark = savedTheme === 'dark';
     setIsDark(shouldBeDark);
     
     if (shouldBeDark) {
