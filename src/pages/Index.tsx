@@ -12,13 +12,14 @@ import Contact from "../components/Contact";
 import FloatingParticles from "../components/FloatingParticles";
 import ChatbotWidget, { ChatbotRef } from "../components/ChatbotWidget";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Github, Linkedin, Mail, Twitter } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import helsinkiFooterGradient from "../assets/helsinki-footer-gradient.png";
 
 const Index = () => {
   const chatbotRef = useRef<ChatbotRef>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -41,10 +42,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        Skip to content
+      </a>
       <FloatingParticles />
       
       <Navigation />
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10">
         <Hero onOpenChat={handleOpenChat} />
         <AboutMe />
         <Experience />
@@ -93,6 +100,10 @@ const Index = () => {
             <img
               src={helsinkiFooterGradient}
               alt="Helsinki skyline"
+              width={1847}
+              height={851}
+              loading="lazy"
+              decoding="async"
               className="block h-auto w-full"
             />
           </div>
@@ -118,11 +129,13 @@ const Index = () => {
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 left-6 z-50 p-3 rounded-full bg-surface border border-border text-text-muted hover:text-primary hover:border-primary/30 shadow-lg transition-all"
+            exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+            transition={shouldReduceMotion ? { duration: 0 } : undefined}
+            onClick={() => window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' })}
+            aria-label="Back to top"
+            className="fixed bottom-6 left-6 z-50 rounded-full border border-border bg-surface p-3 text-text-muted shadow-lg transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>

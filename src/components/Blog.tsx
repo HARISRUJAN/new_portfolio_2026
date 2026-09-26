@@ -13,27 +13,42 @@ interface BlogPost {
   categories: string[];
 }
 
+interface MediumFeedItem {
+  title: string;
+  link: string;
+  pubDate: string;
+  thumbnail?: string;
+  content: string;
+  description: string;
+  categories?: string[];
+}
+
+interface MediumFeedResponse {
+  status: string;
+  items?: MediumFeedItem[];
+}
+
+const MEDIUM_USERNAME = 'srujanreddy26';
+const RSS_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`;
+
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const MEDIUM_USERNAME = 'srujanreddy26';
-  const RSS_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`;
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(RSS_API_URL);
-        const data = await response.json();
+        const data = (await response.json()) as MediumFeedResponse;
         
         if (data.status === 'ok' && data.items) {
-          const formattedPosts = data.items.slice(0, 6).map((item: any) => ({
+          const formattedPosts = data.items.slice(0, 6).map((item) => ({
             title: item.title,
             link: item.link,
             pubDate: item.pubDate,
             thumbnail: item.thumbnail || extractImageFromContent(item.content),
-            description: stripHtml(item.description).substring(0, 150) + '...',
+            description: `${stripHtml(item.description).substring(0, 150)}…`,
             categories: item.categories?.slice(0, 2) || []
           }));
           setPosts(formattedPosts);
