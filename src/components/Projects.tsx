@@ -1,4 +1,4 @@
-import { Brain, Search, Tag, Bot, BarChart3, MessageSquare } from 'lucide-react';
+import { Search, Tag, Bot, BarChart3, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
