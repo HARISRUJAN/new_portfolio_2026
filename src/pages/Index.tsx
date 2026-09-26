@@ -14,7 +14,7 @@ import ChatbotWidget, { ChatbotRef } from "../components/ChatbotWidget";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import helsinkiFooterBorder from "../assets/helsinki-footer-border.png";
+import helsinkiFooterEdge from "../assets/helsinki-footer-edge.png";
 
 const Index = () => {
   const chatbotRef = useRef<ChatbotRef>(null);
@@ -114,10 +114,10 @@ const Index = () => {
         </div>
 
         <img
-          src={helsinkiFooterBorder}
+          src={helsinkiFooterEdge}
           alt="Helsinki skyline"
           width={2171}
-          height={724}
+          height={430}
           loading="lazy"
           decoding="async"
           className="relative z-0 block h-auto w-full max-w-none mix-blend-multiply"
